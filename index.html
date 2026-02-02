@@ -3,47 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ApexiA Mentor - Oficial</title>
+    <title>ApexiA Mentor | Inteligência de Growth</title>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
-        :root { --primary: #ff0000; --bg: #0f0f0f; --text: #ffffff; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; flex-direction: column; height: 100vh; }
-        #landing { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; text-align: center; background: radial-gradient(circle, #330000, #0f0f0f); }
-        #app { display: none; flex-direction: column; height: 100vh; max-width: 800px; margin: 0 auto; width: 100%; border-left: 1px solid #333; }
-        header { padding: 20px; border-bottom: 1px solid #333; font-weight: bold; font-size: 1.5rem; text-align: center; }
-        header span { color: var(--primary); }
-        #chat { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
-        .msg { padding: 12px 18px; border-radius: 15px; max-width: 85%; line-height: 1.5; }
-        .ai { align-self: flex-start; background: #222; }
-        .user { align-self: flex-end; background: var(--primary); }
-        .debug-error { background: rgba(255,0,0,0.2); color: #ff5555; padding: 15px; border-radius: 8px; font-size: 0.8rem; border: 1px solid #ff000044; margin: 10px; }
-        .input-area { padding: 20px; display: flex; gap: 10px; border-top: 1px solid #333; }
-        input { flex: 1; padding: 12px; border-radius: 25px; border: 1px solid #444; background: #222; color: #fff; outline: none; }
-        button { padding: 10px 25px; border-radius: 25px; border: none; background: var(--primary); color: #fff; font-weight: bold; cursor: pointer; }
+        :root { --primary: #ff0000; --bg: #0b0b0b; --card: #161616; --text: #ffffff; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+        #landing { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; text-align: center; background: radial-gradient(circle, #330000, #0b0b0b); }
+        .logo { font-size: 4rem; font-weight: 900; letter-spacing: -2px; }
+        .logo span { color: var(--primary); }
+        #app { display: none; flex-direction: column; height: 100vh; max-width: 900px; margin: 0 auto; width: 100%; border-left: 1px solid #222; border-right: 1px solid #222; }
+        header { padding: 20px; border-bottom: 1px solid #222; background: #0b0b0b; display: flex; justify-content: space-between; align-items: center; }
+        #chat { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; background: #0b0b0b; }
+        .msg { padding: 14px 20px; border-radius: 20px; max-width: 80%; line-height: 1.5; font-size: 1rem; }
+        .ai { align-self: flex-start; background: #1e1e1e; color: #eee; border-bottom-left-radius: 2px; }
+        .user { align-self: flex-end; background: var(--primary); color: #fff; border-bottom-right-radius: 2px; }
+        .diag { background: rgba(255,255,255,0.05); color: #888; padding: 10px; border-radius: 8px; font-size: 0.75rem; text-align: center; margin: 5px; }
+        .input-area { padding: 20px; display: flex; gap: 10px; background: #161616; border-top: 1px solid #222; }
+        input { flex: 1; padding: 14px 20px; border-radius: 30px; border: 1px solid #333; background: #0b0b0b; color: #fff; outline: none; }
+        button { padding: 10px 25px; border-radius: 30px; border: none; background: var(--primary); color: #fff; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        button:hover { transform: scale(1.05); }
     </style>
 </head>
 <body>
 
     <div id="landing">
-        <h1 style="font-size: 3rem;">APEX<span>IA</span></h1>
-        <p>A IA que vai explodir seu canal.</p>
+        <div class="logo">APEX<span>IA</span></div>
+        <p style="color: #888; margin-bottom: 30px;">Growth Mentoring System v2.0</p>
         <div id="g_id_onload" data-client_id="145100322345-70nlh619s577puk5c75u19trip13nkme.apps.googleusercontent.com" data-callback="onLogin"></div>
         <div class="g_id_signin" data-type="standard" data-theme="filled_black" data-shape="pill"></div>
     </div>
 
     <div id="app">
-        <header>APEX<span>IA</span> MENTOR</header>
+        <header>
+            <div style="font-weight: 900; letter-spacing: -1px;">APEX<span>IA</span> MENTOR</div>
+            <div id="status-tag" style="font-size: 0.6rem; background: #00ff0022; color: #00ff00; padding: 4px 8px; border-radius: 4px;">SISTEMA ONLINE</div>
+        </header>
         <div id="chat">
-            <div class="msg ai">O motor da IA está ativo! Mande suas métricas (CTR, Retenção) para eu analisar.</div>
+            <div class="msg ai">Olá! Sou o Mentor ApexiA. Analisarei seu CTR e Retenção para dominarmos o algoritmo. O que deseja revisar hoje?</div>
         </div>
         <div class="input-area">
-            <input type="text" id="user-input" placeholder="Pergunte algo...">
+            <input type="text" id="user-input" placeholder="Cole suas métricas ou faça uma pergunta...">
             <button onclick="enviar()">Analisar</button>
         </div>
     </div>
 
     <script>
-        // COLOQUE A CHAVE NOVA QUE VOCÊ GEROU NO AI STUDIO AQUI DENTRO
+        // USE A CHAVE NOVA E SECRETA AQUI
         const CHAVE_MESTRA = "AIzaSyDe8_P2lTS1ecQRvCTjVCsv-CjoiGGM9DA"; 
 
         function onLogin() {
@@ -60,29 +65,48 @@
             addMsg('user', texto);
             input.value = '';
 
-            // Usando v1beta que é a versão que aceita o modelo flash em projetos novos
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${CHAVE_MESTRA}`;
+            // TENTATIVAS AUTOMÁTICAS DE MODELOS E VERSÕES
+            // O erro 404 acontece porque o nome do modelo varia por região
+            const configuracoes = [
+                { url: "v1beta", model: "gemini-1.5-flash" },
+                { url: "v1", model: "gemini-1.5-flash" },
+                { url: "v1beta", model: "gemini-pro" },
+                { url: "v1", model: "gemini-pro" }
+            ];
 
-            try {
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: "Você é o Mentor ApexiA. Responda: " + texto }] }] })
-                });
+            let sucesso = false;
+            let erroAcumulado = "";
 
-                const data = await response.json();
+            for (let config of configuracoes) {
+                try {
+                    const endpoint = `https://generativelanguage.googleapis.com/${config.url}/models/${config.model}:generateContent?key=${CHAVE_MESTRA}`;
+                    
+                    const response = await fetch(endpoint, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ contents: [{ parts: [{ text: "Responda como Mentor ApexiA especializado em YouTube Growth: " + texto }] }] })
+                    });
 
-                if (response.ok) {
-                    addMsg('ai', data.candidates[0].content.parts[0].text);
-                } else {
-                    // DIAGNÓSTICO REAL
-                    const div = document.createElement('div');
-                    div.className = 'debug-error';
-                    div.innerHTML = `<b>ALERTA DO GOOGLE:</b><br>Status: ${response.status}<br>Mensagem: ${data.error.message}`;
-                    chat.appendChild(div);
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        addMsg('ai', data.candidates[0].content.parts[0].text);
+                        sucesso = true;
+                        break; // Sai do loop se funcionar
+                    } else {
+                        erroAcumulado = data.error.message;
+                        console.warn(`Tentativa falhou (${config.model} - ${config.url}): ${erroAcumulado}`);
+                    }
+                } catch (e) {
+                    erroAcumulado = e.message;
                 }
-            } catch (e) {
-                alert("Erro de conexão. Verifique sua internet.");
+            }
+
+            if (!sucesso) {
+                const div = document.createElement('div');
+                div.className = 'diag';
+                div.innerHTML = `<b>Diagnóstico de Erro:</b> ${erroAcumulado}<br>Verifique se a 'Generative Language API' está ENABLED no Google Cloud.`;
+                chat.appendChild(div);
             }
             chat.scrollTop = chat.scrollHeight;
         }
