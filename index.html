@@ -3,259 +3,233 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ApexiA | Mentor IA de Elite</title>
+    <title>ApexiA Mentor Pro | Growth YouTube</title>
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <script src="https://accounts.google.com/gsi/client" async defer></script>
-
+    
     <style>
         :root {
-            --primary: #FF0000;
-            --accent: #007AFF;
-            --bg: #050505;
-            --glass: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --text: #F5F5F7;
+            --primary: #ff0000;
+            --dark-bg: #0f0f0f;
+            --text-main: #ffffff;
+            --text-dim: #aaaaaa;
+            --ai-bubble: #1e1e1e;
         }
-
-        * { box-sizing: border-box; transition: all 0.2s ease-in-out; }
 
         body, html {
             margin: 0; padding: 0;
-            font-family: 'Inter', -apple-system, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-main);
             height: 100vh; overflow: hidden;
-            -webkit-font-smoothing: antialiased;
         }
 
-        /* --- TELA INICIAL --- */
         #landing-page {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            height: 100vh; text-align: center;
-            background: radial-gradient(circle at 50% -20%, #3a0000 0%, #050505 80%);
+            height: 100vh; text-align: center; padding: 20px;
+            background: radial-gradient(circle at center, #2b0000 0%, #0f0f0f 100%);
         }
 
-        .hero-title {
-            font-size: clamp(3rem, 10vw, 5.5rem);
-            font-weight: 800; letter-spacing: -3px;
-            margin: 0; background: linear-gradient(180deg, #fff 0%, #888 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        .logo-apexia { font-size: 3.5rem; font-weight: 900; letter-spacing: -2px; margin-bottom: 20px; text-transform: uppercase; }
+        .logo-apexia span { color: var(--primary); }
+
+        .btn-google {
+            background: white; color: black; padding: 15px 35px; border-radius: 40px;
+            border: none; font-weight: bold; cursor: pointer; display: flex; align-items: center;
+            gap: 12px; font-size: 1.1rem; transition: 0.3s;
         }
-        .hero-title span { color: var(--primary); -webkit-text-fill-color: var(--primary); }
+        .btn-google:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(255,0,0,0.4); }
 
-        .tagline { font-size: 1.1rem; color: #86868b; max-width: 550px; margin: 20px 0 40px 0; line-height: 1.6; }
-
-        .btn-connect {
-            background: #fff; color: #000; padding: 18px 45px;
-            border-radius: 40px; border: none; font-weight: 700;
-            font-size: 1rem; cursor: pointer; display: flex; align-items: center; gap: 12px;
-            box-shadow: 0 10px 30px rgba(255,255,255,0.1);
-        }
-
-        /* --- DASHBOARD --- */
-        #app-container { display: none; flex-direction: column; height: 100vh; max-width: 1100px; margin: 0 auto; padding: 20px; }
-
-        header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 25px; }
-        .header-logo { font-weight: 800; font-size: 1.5rem; letter-spacing: -1px; }
-        .header-logo span { color: var(--primary); }
-
-        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 25px; }
-        .card { background: var(--glass); border: 1px solid var(--glass-border); padding: 25px; border-radius: 24px; backdrop-filter: blur(25px); }
-        .card label { color: #86868b; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
-        .card .value { font-size: 2rem; font-weight: 700; margin-top: 8px; display: block; }
-        .card .trend { font-size: 0.8rem; color: #00ff00; margin-top: 5px; display: block; }
-
-        #chat-section {
-            flex: 1; background: var(--glass); border: 1px solid var(--glass-border);
-            border-radius: 28px; display: flex; flex-direction: column; overflow: hidden;
+        #app-container {
+            display: none; flex-direction: column; height: 100vh;
+            max-width: 1000px; margin: 0 auto; background: var(--dark-bg);
+            border-left: 1px solid #333; border-right: 1px solid #333;
         }
 
-        #chat-window { flex: 1; overflow-y: auto; padding: 25px; display: flex; flex-direction: column; gap: 20px; }
+        header { padding: 15px 25px; border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; }
+        #chat-window { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
 
-        .msg { max-width: 80%; padding: 16px 22px; border-radius: 22px; line-height: 1.6; font-size: 1rem; animation: slideUp 0.3s ease; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .msg { max-width: 80%; padding: 15px 20px; border-radius: 18px; line-height: 1.5; font-size: 1rem; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; } }
 
-        .ai { align-self: flex-start; background: #1c1c1e; border: 1px solid var(--glass-border); color: #f5f5f7; }
-        .user { align-self: flex-end; background: linear-gradient(135deg, #ff0000, #990000); color: white; }
+        .ai { align-self: flex-start; background-color: var(--ai-bubble); color: white; border-bottom-left-radius: 2px; white-space: pre-wrap; }
+        .user { align-self: flex-end; background-color: var(--primary); color: white; border-bottom-right-radius: 2px; }
 
-        .input-bar { padding: 20px; background: rgba(0,0,0,0.3); display: flex; gap: 12px; border-top: 1px solid var(--glass-border); }
-        input { flex: 1; background: #1c1c1e; border: 1px solid var(--glass-border); padding: 16px 25px; border-radius: 100px; color: white; outline: none; font-size: 1rem; }
-        input:focus { border-color: var(--accent); }
+        .data-chip { background: rgba(0, 255, 0, 0.1); color: #00ff00; padding: 15px; border-radius: 12px; font-size: 0.9rem; border: 1px solid rgba(0, 255, 0, 0.2); margin-bottom: 10px; }
 
-        .send-btn { background: #fff; border: none; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; }
-        
-        .loading-dots { font-size: 0.8rem; color: #86868b; margin-left: 25px; margin-bottom: 10px; display: none; }
+        .input-box { padding: 20px; background: #1a1a1a; display: flex; gap: 10px; border-top: 1px solid #333; }
+        input { flex: 1; background: #2a2a2a; border: 1px solid #444; padding: 12px 20px; border-radius: 30px; color: white; outline: none; }
+        button#send-btn { background: var(--primary); color: white; border: none; padding: 10px 25px; border-radius: 30px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <!-- LANDING -->
+    <!-- TELA INICIAL -->
     <div id="landing-page">
-        <h1 class="hero-title">APEX<span>IA</span></h1>
-        <p class="tagline">A inteligência artificial que disseca seu canal e te entrega o roteiro para o sucesso. Growth levado a sério.</p>
-        <button class="btn-connect" onclick="conectarCanal()">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_Color_Icon.svg" width="20">
-            Conectar Canal ApexiA
+        <div class="logo-apexia">APEX<span>IA</span></div>
+        <p style="color: var(--text-dim); margin-bottom: 30px;">O ápice do seu canal começa aqui.</p>
+        <button class="btn-google" onclick="solicitarAcesso()">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" width="22">
+            Entrar com Google e YouTube
         </button>
     </div>
 
-    <!-- DASHBOARD -->
+    <!-- APP PRINCIPAL -->
     <div id="app-container">
         <header>
-            <div class="header-logo">APEX<span>IA</span> MENTOR PRO</div>
-            <div id="user-display" style="font-size: 0.8rem; color: #86868b; font-weight: 600;">
-                <span id="chan-name">Canal Conectado</span> | <a href="#" onclick="fazerLogout()" style="color:red; text-decoration:none;">Sair</a>
+            <div style="font-weight: bold; font-size: 1.4rem;">APEX<span>IA</span> PRO</div>
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <div id="model-tag" style="color: #888; font-size: 0.6rem;">MOTOR: BUSCANDO...</div>
+                <button onclick="logout()" style="background:#333; color:white; border:none; padding:5px 12px; border-radius:15px; cursor:pointer; font-size:0.7rem;">Sair</button>
             </div>
         </header>
-
-        <div class="metrics-grid">
-            <div class="card">
-                <label>Inscritos</label>
-                <span class="value" id="val-subs">0</span>
-                <span class="trend">Total Real</span>
-            </div>
-            <div class="card">
-                <label>Views (30 dias)</label>
-                <span class="value" id="val-views">0</span>
-                <span class="trend" id="view-status" style="color: #86868b;">Analytics API</span>
-            </div>
-            <div class="card">
-                <label>Mentoria</label>
-                <span class="value" style="color: var(--accent);">Estratégica</span>
-                <span class="trend">Ativada</span>
-            </div>
+        <div id="chat-window">
+            <div id="stats-area"></div>
+            <div class="msg ai">Conectado! Estou buscando seu relatório de performance...</div>
         </div>
-
-        <div id="chat-section">
-            <div id="chat-window">
-                <div class="msg ai">ApexiA Mentor Pro ativado. Já analisei seu canal. Qual a sua meta de crescimento hoje?</div>
-            </div>
-            <div id="loading" class="loading-dots">ApexiA está analisando...</div>
-            <div class="input-bar">
-                <input type="text" id="user-input" placeholder="Mande sua dúvida ou peça uma análise...">
-                <button class="send-btn" onclick="perguntarIA()">→</button>
-            </div>
+        <div class="input-area">
+            <input type="text" id="user-input" placeholder="Mande sua dúvida estratégica...">
+            <button id="send-btn" onclick="askGemini()">Analisar</button>
         </div>
     </div>
 
     <script>
+        // CONFIGURAÇÕES
         const CLIENT_ID = "145100322345-70nlh619s577puk5c75u19trip13nkme.apps.googleusercontent.com";
-        const GEMINI_KEY = "AIzaSyBEVXS7pylb_-DJaWaBgPSiNEN3UM_7Hls"; // <-- COLOQUE A CHAVE NOVA DO AI STUDIO AQUI
+        const GEMINI_KEY = "AIzaSyBEVXS7pylb_-DJaWaBgPSiNEN3UM_7Hls"; // <--- COLOQUE SUA CHAVE DO AI STUDIO AQUI
 
+        let accessToken = localStorage.getItem('apexia_token');
         let tokenClient;
-        let accessToken = localStorage.getItem('apexia_pro_token');
-        let dadosCanal = { nome: "Criador", subs: 0, views: 0 };
+        let modeloEncontrado = "models/gemini-1.5-flash";
+        let contextoCanalGlobal = "Dados básicos.";
 
-        window.onload = () => {
-            if (typeof google !== 'undefined') {
-                tokenClient = google.accounts.oauth2.initTokenClient({
-                    client_id: CLIENT_ID,
-                    scope: 'https://www.googleapis.com/auth/youtube.readonly https://www.googleapis.com/auth/yt-analytics.readonly',
-                    callback: (res) => {
-                        if (res.access_token) {
-                            accessToken = res.access_token;
-                            localStorage.setItem('apexia_pro_token', res.access_token);
-                            iniciarApp();
-                        }
-                    },
-                });
-            }
-            if (accessToken) iniciarApp();
+        window.onload = function() {
+            tokenClient = google.accounts.oauth2.initTokenClient({
+                client_id: CLIENT_ID,
+                scope: 'https://www.googleapis.com/auth/youtube.readonly https://www.googleapis.com/auth/yt-analytics.readonly',
+                callback: (tokenResponse) => {
+                    if (tokenResponse && tokenResponse.access_token) {
+                        accessToken = tokenResponse.access_token;
+                        localStorage.setItem('apexia_token', accessToken);
+                        entrarNoApp();
+                    }
+                },
+            });
+            if (accessToken) entrarNoApp();
         };
 
-        function conectarCanal() {
-            if (!tokenClient) return alert("Google indisponível.");
-            // prompt: 'consent' obriga o Google a mostrar as caixinhas de permissão
-            tokenClient.requestAccessToken({ prompt: 'consent' });
+        function solicitarAcesso() {
+            tokenClient.requestAccessToken({prompt: 'consent'});
         }
 
-        function fazerLogout() {
-            localStorage.clear();
+        function logout() {
+            localStorage.removeItem('apexia_token');
             location.reload();
         }
 
-        function iniciarApp() {
+        async function entrarNoApp() {
             document.getElementById('landing-page').style.display = 'none';
             document.getElementById('app-container').style.display = 'flex';
-            puxarDadosYouTube();
+            await configurarIA();
+            await puxarDadosCanal();
         }
 
-        async function puxarDadosYouTube() {
+        async function configurarIA() {
             try {
-                // Nome e Subs
-                const r1 = await fetch('https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&mine=true', {
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${GEMINI_KEY}`);
+                const data = await res.json();
+                const pref = data.models.find(m => m.name.includes("1.5-flash")) || data.models[0];
+                modeloEncontrado = pref.name;
+                document.getElementById('model-tag').innerText = "MOTOR: " + modeloEncontrado.split('/')[1].toUpperCase();
+            } catch (e) { console.error("Erro IA"); }
+        }
+
+        async function puxarDadosCanal() {
+            let nomeCanal = "Criador";
+            let inscritos = "0";
+
+            // 1. Dados Básicos
+            try {
+                const resB = await fetch('https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&mine=true', {
                     headers: { 'Authorization': `Bearer ${accessToken}` }
                 });
-                const d1 = await r1.json();
-                const canal = d1.items[0];
-                dadosCanal.nome = canal.snippet.title;
-                dadosCanal.subs = canal.statistics.subscriberCount;
-
-                document.getElementById('val-subs').innerText = Number(dadosCanal.subs).toLocaleString();
-                document.getElementById('chan-name').innerText = "Canal: " + dadosCanal.nome;
-
-                // Views reais (Analytics)
-                const hoje = new Date().toISOString().split('T')[0];
-                const trinta = new Date(new Date().setDate(new Date().getDate() - 30)).toISOString().split('T')[0];
-                const r2 = await fetch(`https://youtubeanalytics.googleapis.com/v1/reports?ids=channel==MINE&startDate=${trinta}&endDate=${hoje}&metrics=views&dimensions=day`, {
-                    headers: { 'Authorization': `Bearer ${accessToken}` }
-                });
-                const d2 = await r2.json();
+                const dataB = await resB.json();
+                nomeCanal = dataB.items[0].snippet.title;
+                inscritos = dataB.items[0].statistics.subscriberCount;
                 
-                let totalV = 0;
-                if(d2.rows) d2.rows.forEach(r => totalV += r[1]);
-                dadosCanal.views = totalV;
-                document.getElementById('val-views').innerText = totalV.toLocaleString();
-                document.getElementById('view-status').innerText = "Vistas nos últimos 30d";
+                document.getElementById('stats-area').innerHTML = `
+                    <div class="data-chip">📊 Canal: <b>${nomeCanal}</b> | Inscritos: <b>${Number(inscritos).toLocaleString()}</b></div>
+                `;
+            } catch (e) { console.error(e); }
+
+            // 2. Analytics com Diagnóstico
+            try {
+                const hoje = new Date().toISOString().split('T')[0];
+                const trintaDias = new Date(new Date().setDate(new Date().getDate() - 30)).toISOString().split('T')[0];
+                
+                const urlA = `https://youtubeanalytics.googleapis.com/v1/reports?ids=channel==MINE&startDate=${trintaDias}&endDate=${hoje}&metrics=views,estimatedMinutesWatched,averageViewDuration&dimensions=day`;
+                
+                const resA = await fetch(urlA, {
+                    headers: { 'Authorization': `Bearer ${accessToken}` }
+                });
+                
+                const analytics = await resA.json();
+
+                if (analytics.error) {
+                    addMsg('ai', `Atenção José! O Google recusou o Analytics. \nMotivo: ${analytics.error.message} \nCódigo: ${analytics.error.code}. \nDICA: Clique em 'Sair' e ao entrar novamente, MARQUE a caixa de permissão de Analytics.`);
+                    return;
+                }
+
+                let viewsTotais = 0;
+                if(analytics.rows) analytics.rows.forEach(r => viewsTotais += r[1]);
+
+                contextoCanalGlobal = `Canal: ${nomeCanal}. Inscritos: ${inscritos}. Views (30 dias): ${viewsTotais}.`;
+                
+                document.getElementById('stats-area').innerHTML += `
+                    <div class="data-chip" style="background:rgba(0,150,255,0.1); color:#00aaff; border-color:#00aaff44;">📈 Views (30d): <b>${viewsTotais.toLocaleString()}</b></div>
+                `;
+                addMsg('ai', `Relatório carregado! Analisei seu canal **${nomeCanal}**. Como vamos crescer hoje?`);
 
             } catch (e) {
-                document.getElementById('view-status').innerText = "Erro: Marque as caixas no login";
-                document.getElementById('view-status').style.color = "red";
+                addMsg('ai', "Erro de conexão com o Analytics. Tente fazer login novamente.");
             }
         }
 
-        async function perguntarIA() {
+        async function askGemini() {
             const input = document.getElementById('user-input');
-            const txt = input.value.trim();
-            if (!txt) return;
+            const btn = document.getElementById('send-btn');
+            const texto = input.value.trim();
+            if (!texto) return;
 
-            addMsg('user', txt);
-            input.value = "";
-            document.getElementById('loading').style.display = 'block';
+            addMsg('user', texto);
+            input.value = '';
+            btn.disabled = true;
 
-            // O MESTRE: O prompt agora injeta os dados reais para a IA
-            const promptFinal = `Você é o Mentor Pro da ApexiA. 
-            DADOS REAIS DO CANAL AGORA: Nome: ${dadosCanal.nome}, Inscritos: ${dadosCanal.subs}, Visualizações (30d): ${dadosCanal.views}.
-            Analise a dúvida do usuário com base nesses números reais. Fale como um estrategista.
-            Dúvida: ${txt}`;
+            const prompt = `Você é o Mentor ApexiA. Contexto: ${contextoCanalGlobal}. Pergunta: ${texto}`;
 
             try {
-              const response = await fetch(
-  `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${GEMINI_KEY}`,
- {
+                const url = `https://generativelanguage.googleapis.com/v1beta/${modeloEncontrado}:generateContent?key=${GEMINI_KEY}`;
+                const response = await fetch(url, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: promptFinal }] }] })
+                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
                 });
                 const data = await response.json();
                 addMsg('ai', data.candidates[0].content.parts[0].text);
-            } catch (e) {
-                addMsg('ai', "Erro de conexão. Certifique-se que sua VPN está ligada no Brasil ou EUA.");
-            } finally {
-                document.getElementById('loading').style.display = 'none';
-            }
+            } catch (e) { addMsg('ai', "Erro na IA. Verifique sua conexão e VPN."); }
+            finally { btn.disabled = false; }
         }
 
-        function addMsg(role, text) {
-            const win = document.getElementById('chat-window');
+        function addMsg(role, content) {
+            const chat = document.getElementById('chat-window');
             const div = document.createElement('div');
             div.className = `msg ${role}`;
-            div.innerText = text;
-            win.appendChild(div);
-            win.scrollTop = win.scrollHeight;
+            div.innerText = content;
+            chat.appendChild(div);
+            chat.scrollTop = chat.scrollHeight;
         }
+
+        document.getElementById('user-input').addEventListener('keypress', (e) => { if (e.key === 'Enter') askGemini(); });
     </script>
 </body>
 </html>
