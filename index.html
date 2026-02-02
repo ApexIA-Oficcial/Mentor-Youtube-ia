@@ -1,31 +1,234 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <title>Mentor YouTube IA</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mentor YouTube IA - Growth Strategist</title>
+    
+    <!-- Google Identity Services -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    
+    <style>
+        :root {
+            --primary-color: #ff0000; /* YouTube Red */
+            --bg-color: #f9f9f9;
+            --chat-bg: #ffffff;
+            --user-msg: #e3efff;
+            --ai-msg: #f1f1f1;
+        }
 
-  <!-- Google Identity Services -->
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        /* Área de Login */
+        #login-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        /* Interface do Chat (Escondida inicialmente) */
+        #main-container {
+            display: none;
+            flex-direction: column;
+            height: 100vh;
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+            background: var(--chat-bg);
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        header {
+            padding: 15px;
+            background: var(--primary-color);
+            color: white;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        #chat-window {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            padding: 10px 15px;
+            border-radius: 15px;
+            max-width: 80% ;
+            line-height: 1.4;
+        }
+
+        .user-message {
+            align-self: flex-end;
+            background-color: var(--user-msg);
+            color: #222;
+        }
+
+        .ai-message {
+            align-self: flex-start;
+            background-color: var(--ai-msg);
+            color: #333;
+            white-space: pre-wrap;
+        }
+
+        .input-area {
+            padding: 20px;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 10px;
+        }
+
+        input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:disabled { background: #ccc; }
+
+        .status-bar {
+            font-size: 0.8em;
+            color: #666;
+            padding: 5px 20px;
+            background: #eee;
+        }
+    </style>
 </head>
 <body>
 
-  <h1>Mentor do meu Canal do YouTube</h1>
-  <p>Esta plataforma vai analisar meu canal e dar mentoria.</p>
+    <!-- TELA DE LOGIN -->
+    <div id="login-container">
+        <h1>Mentor IA para YouTube</h1>
+        <p>Conecte sua conta para receber análises estratégicas do seu canal.</p>
+        
+        <div id="g_id_onload"
+             data-client_id="145100322345-70nlh619s577puk5c75u19trip13nkme.apps.googleusercontent.com"
+             data-callback="handleCredentialResponse">
+        </div>
+        <div class="g_id_signin" data-type="standard"></div>
+    </div>
 
-  <!-- Botão Google -->
-  <div id="g_id_onload"
-       data-client_id="145100322345-70nlh619s577puk5c75u19trip13nkme.apps.googleusercontent.com"
-       data-callback="handleCredentialResponse">
-  </div>
+    <!-- TELA PRINCIPAL (CHAT) -->
+    <div id="main-container">
+        <header>Mentor Digital YouTube - Estratégia e Growth</header>
+        
+        <div class="status-bar" id="user-info">Conectado como: Visitante</div>
 
-  <div class="g_id_signin"></div>
+        <div id="chat-window">
+            <div class="message ai-message">Olá! Sou seu Mentor de IA. Posso analisar seus dados de visualizações, CTR e retenção. Como posso ajudar seu canal hoje?</div>
+        </div>
 
-  <script>
-    function handleCredentialResponse(response) {
-      alert("Login feito com sucesso!");
-      console.log(response);
-    }
-  </script>
+        <div class="input-area">
+            <input type="text" id="user-input" placeholder="Pergunte sobre seu canal (ex: Por que meu CTR caiu?)...">
+            <button id="send-btn" onclick="sendMessage()">Enviar</button>
+        </div>
+    </div>
 
+    <script>
+        // CONFIGURAÇÕES - INSIRA SUA CHAVE AQUI
+        const GEMINI_API_KEY = "AIzaSyB1eKzNZxbj-5cVUgf8VFuciwDjVmhgZt4"; 
+        const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+
+        // 1. Lógica de Autenticação
+        function handleCredentialResponse(response) {
+            console.log("Encoded JWT ID token: " + response.credential);
+            
+            // Simula a decodificação do nome (em um app real usaríamos uma biblioteca JWT)
+            document.getElementById('user-info').innerText = "Canal Autenticado via Google";
+            
+            // Troca de telas
+            document.getElementById('login-container').style.display = 'none';
+            document.getElementById('main-container').style.display = 'flex';
+        }
+
+        // 2. Lógica do Chat e IA
+        async function sendMessage() {
+            const inputField = document.getElementById('user-input');
+            const chatWindow = document.getElementById('chat-window');
+            const sendBtn = document.getElementById('send-btn');
+            const userText = inputField.value.trim();
+
+            if (!userText) return;
+
+            // Adicionar mensagem do usuário na tela
+            appendMessage('user', userText);
+            inputField.value = '';
+            sendBtn.disabled = true;
+
+            // Prompt do Sistema (Contexto de Mentor YouTube)
+            // Aqui simularemos os dados que futuramente virão da API do YouTube
+            const youtubeContext = `
+                Você é um Mentor Especialista em Growth de YouTube. 
+                Sua missão é analisar dados de visualizações, retenção, inscritos e CTR.
+                Regras: 
+                - Seja direto e focado em resultados.
+                - Use termos como "Taxa de Cliques", "Retenção de Público" e "Thumbnail".
+                - Não sugira criar vídeos, foque em ESTRATÉGIA e ANÁLISE de dados existentes.
+                Contexto atual do canal (Simulado): CTR médio 5%, Retenção 40%, Inscritos subindo 2% ao mês.
+            `;
+
+            try {
+                const response = await fetch(GEMINI_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{ text: `${youtubeContext} \n\n Pergunta do usuário: ${userText}` }]
+                        }]
+                    })
+                });
+
+                const data = await response.json();
+                const aiResponse = data.candidates[0].content.parts[0].text;
+                
+                appendMessage('ai', aiResponse);
+            } catch (error) {
+                console.error("Erro na API Gemini:", error);
+                appendMessage('ai', "Ops, tive um erro ao processar sua análise. Verifique sua chave de API.");
+            } finally {
+                sendBtn.disabled = false;
+            }
+        }
+
+        function appendMessage(sender, text) {
+            const chatWindow = document.getElementById('chat-window');
+            const msgDiv = document.createElement('div');
+            msgDiv.classList.add('message');
+            msgDiv.classList.add(sender === 'user' ? 'user-message' : 'ai-message');
+            msgDiv.innerText = text;
+            chatWindow.appendChild(msgDiv);
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
+
+        // Permitir Enter para enviar
+        document.getElementById('user-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+    </script>
 </body>
 </html>
