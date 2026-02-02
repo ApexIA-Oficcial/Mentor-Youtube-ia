@@ -16,20 +16,19 @@
         header { padding: 15px 25px; border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; }
         #chat-window { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
         .msg { max-width: 85%; padding: 14px 20px; border-radius: 18px; line-height: 1.5; font-size: 1rem; }
-        .ai { align-self: flex-start; background: var(--bubble); }
+        .ai { align-self: flex-start; background: var(--bubble); white-space: pre-wrap; }
         .user { align-self: flex-end; background: var(--primary); }
         .data-chip { background: rgba(0, 255, 0, 0.1); color: #00ff00; padding: 12px; border-radius: 10px; font-size: 0.85rem; border: 1px solid rgba(0, 255, 0, 0.2); margin-bottom: 10px; }
         .input-box { padding: 20px; background: #1a1a1a; display: flex; gap: 10px; border-top: 1px solid #333; }
         input { flex: 1; background: #2a2a2a; border: 1px solid #444; padding: 12px 20px; border-radius: 30px; color: white; outline: none; }
         button { background: var(--primary); color: white; border: none; padding: 10px 25px; border-radius: 30px; font-weight: bold; cursor: pointer; }
-        .diag { font-size: 0.7rem; color: #555; text-align: center; padding: 5px; }
     </style>
 </head>
 <body>
 
     <div id="landing-page">
         <div class="logo">APEX<span>IA</span></div>
-        <p style="color: #aaa; margin-bottom: 30px;">A IA que lê o seu canal e cria sua estratégia.</p>
+        <p style="color: #aaa; margin-bottom: 30px;">A IA que analisa seu canal e cria sua estratégia.</p>
         <button class="btn-google" onclick="iniciarLogin()">
             <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" width="20">
             Entrar com Canal do YouTube
@@ -39,30 +38,31 @@
     <div id="app-container">
         <header>
             <div style="font-weight: bold; font-size: 1.2rem;">APEX<span>IA</span> PRO</div>
-            <div id="model-tag" style="font-size: 0.6rem; color: #888;">MOTOR: BUSCANDO...</div>
+            <div id="model-tag" style="font-size: 0.6rem; color: #888;">MOTOR: CARREGANDO...</div>
         </header>
         <div id="chat-window">
             <div id="stats-area"></div>
-            <div class="msg ai">Conectado! Aguarde um segundo enquanto configuro o melhor motor de IA para você...</div>
+            <div class="msg ai">Conectado! Estou preparando seu relatório de performance...</div>
         </div>
         <div class="input-box">
-            <input type="text" id="user-input" placeholder="Pergunte sobre CTR, Retenção ou Ideias...">
+            <input type="text" id="user-input" placeholder="Pergunte sobre sua performance...">
             <button onclick="askGemini()">Analisar</button>
         </div>
     </div>
 
     <script>
         const CLIENT_ID = "145100322345-70nlh619s577puk5c75u19trip13nkme.apps.googleusercontent.com";
-        const GEMINI_KEY = "AIzaSyAz-4miGzuQkFtzNi4UWIZABTjolKzDcUQ"; // <-- GERE UMA NOVA NO AI STUDIO
+        const GEMINI_KEY = "AIzaSyAz-4miGzuQkFtzNi4UWIZABTjolKzDcUQ"; 
         
         let accessToken = localStorage.getItem('apexia_token');
         let tokenClient;
-        let modeloEncontrado = "";
+        let modeloEncontrado = "models/gemini-1.5-flash";
+        let contextoCanalGlobal = "Dados ainda não carregados.";
 
         window.onload = function() {
             tokenClient = google.accounts.oauth2.initTokenClient({
                 client_id: CLIENT_ID,
-                scope: 'https://www.googleapis.com/auth/youtube.readonly',
+                scope: 'https://www.googleapis.com/auth/youtube.readonly https://www.googleapis.com/auth/yt-analytics.readonly',
                 callback: (tokenResponse) => { if (tokenResponse.access_token) saveLogin(tokenResponse.access_token); },
             });
             if (accessToken) entrarNoApp();
@@ -79,66 +79,98 @@
         async function entrarNoApp() {
             document.getElementById('landing-page').style.display = 'none';
             document.getElementById('app-container').style.display = 'flex';
-            await puxarDadosCanal();
             await configurarMelhorModelo();
+            await puxarDadosEAnalytics();
         }
 
-        // --- BUSCA O MODELO DISPONÍVEL NA SUA CONTA ---
         async function configurarMelhorModelo() {
             try {
                 const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${GEMINI_KEY}`);
                 const data = await res.json();
-                // Filtra modelos que aceitam gerar conteúdo e prefere o "flash" ou "pro"
-                const lista = data.models.filter(m => m.supportedGenerationMethods.includes("generateContent"));
-                const preferido = lista.find(m => m.name.includes("1.5-flash")) || lista[0];
-                
-                modeloEncontrado = preferido.name; // Isso vira "models/gemini-1.5-flash"
+                const preferido = data.models.find(m => m.name.includes("1.5-flash")) || data.models[0];
+                modeloEncontrado = preferido.name;
                 document.getElementById('model-tag').innerText = "MOTOR: " + modeloEncontrado.split('/')[1].toUpperCase();
-            } catch (e) {
-                addMsg('ai', "Erro ao configurar IA. Verifique sua chave e a VPN.");
-            }
+            } catch (e) { console.error("Erro IA"); }
         }
 
-        async function puxarDadosCanal() {
+        async function puxarDadosEAnalytics() {
             try {
-                const res = await fetch('https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&mine=true', {
+                // 1. Dados Básicos
+                const resB = await fetch('https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&mine=true', {
                     headers: { 'Authorization': `Bearer ${accessToken}` }
                 });
-                const data = await res.json();
-                if(data.items) {
-                    const canal = data.items[0];
-                    document.getElementById('stats-area').innerHTML = `
-                        <div class="data-chip">📊 Canal: <b>${canal.snippet.title}</b> | Inscritos: <b>${Number(canal.statistics.subscriberCount).toLocaleString()}</b></div>
-                    `;
-                }
-            } catch (e) { localStorage.removeItem('apexia_token'); location.reload(); }
+                const dataB = await resB.json();
+                const canal = dataB.items[0];
+                const nome = canal.snippet.title;
+                const subs = canal.statistics.subscriberCount;
+
+                // 2. Dados de Performance Reais (Últimos 28 dias)
+                const hoje = new Date().toISOString().split('T')[0];
+                const trintaDiasAtras = new Date(new Date().setDate(new Date().getDate() - 30)).toISOString().split('T')[0];
+                
+                const resA = await fetch(`https://youtubeanalytics.googleapis.com/v1/reports?ids=channel==MINE&startDate=${trintaDiasAtras}&endDate=${hoje}&metrics=views,estimatedMinutesWatched,averageViewDuration,averageViewPercentage,subscribersGained&dimensions=day`, {
+                    headers: { 'Authorization': `Bearer ${accessToken}` }
+                });
+                const analytics = await resA.json();
+                
+                // Processar totais simples para a IA
+                let totalViews = 0;
+                analytics.rows.forEach(r => totalViews += r[1]);
+
+                contextoCanalGlobal = `
+                    O usuário está logado no canal: ${nome}.
+                    Total de Inscritos: ${subs}.
+                    Performance nos últimos 30 dias:
+                    - Total de Visualizações: ${totalViews}
+                    - Retenção Média (Segundos): ${analytics.rows[0][3] || "N/A"}
+                    - Inscritos ganhos no período: ${analytics.rows[0][5] || "N/A"}
+                `;
+
+                document.getElementById('stats-area').innerHTML = `
+                    <div class="data-chip">📊 Canal: <b>${nome}</b> | Inscritos: <b>${Number(subs).toLocaleString()}</b> | Views (30d): <b>${totalViews}</b></div>
+                `;
+                
+                addMsg('ai', `Relatório carregado! Analisei seu canal **${nome}**. Recebi seus dados de visualizações e retenção dos últimos 30 dias. Como posso ajudar na sua estratégia hoje?`);
+
+            } catch (e) { 
+                addMsg('ai', "Conectado! Mas não consegui puxar o Analytics. Verifique se a 'YouTube Analytics API' está ativa no Google Cloud.");
+            }
         }
 
         async function askGemini() {
             const input = document.getElementById('user-input');
             const texto = input.value.trim();
-            if (!texto || !modeloEncontrado) return;
+            if (!texto) return;
 
             addMsg('user', texto);
             input.value = '';
 
+            // O SEGREDO: Injetar os dados do canal em cada pergunta
+            const promptComDados = `
+                CONTEXTO DO CANAL DO USUÁRIO:
+                ${contextoCanalGlobal}
+
+                INSTRUÇÃO PARA VOCÊ (IA):
+                Você é o Mentor ApexiA. Você TEM acesso aos dados acima. 
+                Não diga que não consegue ler os dados. Use os números fornecidos para responder.
+                Seja direto e foque em Growth.
+
+                PERGUNTA DO USUÁRIO:
+                ${texto}
+            `;
+
             try {
-                // Usamos o modelo que o próprio Google nos disse que está disponível
                 const url = `https://generativelanguage.googleapis.com/v1beta/${modeloEncontrado}:generateContent?key=${GEMINI_KEY}`;
                 const response = await fetch(url, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: "Você é o Mentor ApexiA. Responda brevemente: " + texto }] }] })
+                    body: JSON.stringify({ contents: [{ parts: [{ text: promptComDados }] }] })
                 });
 
                 const data = await response.json();
-                if (data.candidates) {
-                    addMsg('ai', data.candidates[0].content.parts[0].text);
-                } else {
-                    addMsg('ai', "Erro: " + data.error.message);
-                }
+                addMsg('ai', data.candidates[0].content.parts[0].text);
             } catch (e) {
-                addMsg('ai', "Erro de conexão. A VPN está ligada?");
+                addMsg('ai', "Erro na comunicação com a IA.");
             }
         }
 
