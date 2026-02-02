@@ -3,29 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mentor YouTube IA - Oficial</title>
+    <title>Mentor YouTube IA - Growth</title>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
-        :root { --primary: #ff0000; --bg: #f0f2f5; --user: #dcf8c6; --ai: #ffffff; }
-        body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); margin: 0; display: flex; flex-direction: column; height: 100vh; }
+        :root { --primary: #ff0000; --bg: #f4f4f4; --user: #dcf8c6; --ai: #ffffff; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; display: flex; flex-direction: column; height: 100vh; }
         #login-container { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; text-align: center; }
-        #main-container { display: none; flex-direction: column; height: 100vh; max-width: 800px; margin: 0 auto; width: 100%; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        #main-container { display: none; flex-direction: column; height: 100vh; max-width: 800px; margin: 0 auto; width: 100%; background: #fff; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
         header { padding: 15px; background: var(--primary); color: white; text-align: center; font-weight: bold; }
-        #chat-window { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 10px; background: #e5ddd5; }
-        .msg { padding: 10px 15px; border-radius: 12px; max-width: 80%; font-size: 0.95rem; line-height: 1.4; }
-        .user { align-self: flex-end; background: var(--user); border-bottom-right-radius: 2px; }
-        .ai { align-self: flex-start; background: var(--ai); border-bottom-left-radius: 2px; white-space: pre-wrap; }
-        .error { align-self: center; background: #fee; color: #b00; font-size: 0.8rem; border: 1px solid #b00; }
-        .input-area { padding: 15px; display: flex; gap: 10px; background: white; border-top: 1px solid #ddd; }
+        #chat-window { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 10px; background: #e5ddd5; }
+        .msg { padding: 10px 15px; border-radius: 12px; max-width: 80%; font-size: 15px; }
+        .user { align-self: flex-end; background: var(--user); }
+        .ai { align-self: flex-start; background: var(--ai); white-space: pre-wrap; }
+        .error { align-self: center; background: #fee; color: #b00; font-size: 0.8rem; padding: 5px; border: 1px solid #b00; }
+        .input-area { padding: 15px; display: flex; gap: 10px; background: #fff; border-top: 1px solid #ddd; }
         input { flex: 1; padding: 12px; border: 1px solid #ccc; border-radius: 25px; outline: none; }
-        button { padding: 10px 20px; background: var(--primary); color: white; border: none; border-radius: 25px; cursor: pointer; font-weight: bold; }
+        button { padding: 10px 20px; background: var(--primary); color: white; border: none; border-radius: 25px; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <div id="login-container">
-        <h1 style="color: var(--primary);">Mentor YouTube IA</h1>
-        <p>Faça login para começar sua mentoria de growth.</p>
+        <h1>Mentor YouTube IA</h1>
+        <p>Conecte-se para receber mentoria estratégica.</p>
         <div id="g_id_onload" data-client_id="145100322345-70nlh619s577puk5c75u19trip13nkme.apps.googleusercontent.com" data-callback="handleLogin"></div>
         <div class="g_id_signin" data-type="standard"></div>
     </div>
@@ -33,7 +33,7 @@
     <div id="main-container">
         <header>Mentor Digital YouTube</header>
         <div id="chat-window">
-            <div class="msg ai">Olá! Estou pronto para analisar seu canal. Como posso te ajudar hoje?</div>
+            <div class="msg ai">Olá! Estou pronto. Como posso ajudar seu canal?</div>
         </div>
         <div class="input-area">
             <input type="text" id="user-input" placeholder="Pergunte algo...">
@@ -42,7 +42,8 @@
     </div>
 
     <script>
-        const MINHA_CHAVE = "AIzaSyBAGxYoZnUC8y7uHVwfhL7fKR2Cyn7ng2Q";
+        // Use a chave "MENTORIA ULTRA" que você configurou
+        const API_KEY = "AIzaSyBAGxYoZnUC8y7uHVwfhL7fKR2Cyn7ng2Q";
 
         function handleLogin() {
             document.getElementById('login-container').style.display = 'none';
@@ -51,51 +52,37 @@
 
         async function sendMessage() {
             const input = document.getElementById('user-input');
-            const btn = document.getElementById('send-btn');
             const text = input.value.trim();
             if (!text) return;
 
             addMsg('user', text);
             input.value = '';
-            btn.disabled = true;
 
-            // LISTA DE TENTATIVAS (Caminhos diferentes para contornar o erro de "Not Found")
-            const caminhos = [
-                { ver: "v1beta", mod: "gemini-1.5-flash" },
-                { ver: "v1", mod: "gemini-1.5-flash" },
-                { ver: "v1beta", mod: "gemini-pro" }
-            ];
-
+            // TENTAR DIFERENTES MODELOS (Caso o 1.5 dê "Not Found", ele tenta o 2.0)
+            const modelos = ["gemini-1.5-flash", "gemini-2.0-flash-exp", "gemini-pro"];
             let sucesso = false;
-            let ultimoErro = "";
 
-            for (let tentativa of caminhos) {
+            for (let modelo of modelos) {
                 try {
-                    const url = `https://generativelanguage.googleapis.com/${tentativa.ver}/models/${tentativa.mod}:generateContent?key=${MINHA_CHAVE}`;
+                    const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelo}:generateContent?key=${API_KEY}`;
                     const response = await fetch(url, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ contents: [{ parts: [{ text: "Você é um mentor de YouTube. Responda brevemente: " + text }] }] })
+                        body: JSON.stringify({ contents: [{ parts: [{ text: "Responda como mentor de YouTube: " + text }] }] })
                     });
 
                     const data = await response.json();
-                    
                     if (response.ok && data.candidates) {
                         addMsg('ai', data.candidates[0].content.parts[0].text);
                         sucesso = true;
-                        break; // Sai do laço se funcionar
-                    } else {
-                        ultimoErro = data.error ? data.error.message : "Erro desconhecido";
+                        break; 
                     }
-                } catch (e) {
-                    ultimoErro = e.message;
-                }
+                } catch (e) { console.error("Falhou com " + modelo); }
             }
 
             if (!sucesso) {
-                addMsg('error', "Não foi possível conectar com a IA. Motivo: " + ultimoErro);
+                addMsg('error', "A API ainda não ativou. Aguarde 5 minutos após clicar em 'SAVE' no Google Cloud.");
             }
-            btn.disabled = false;
         }
 
         function addMsg(tipo, texto) {
