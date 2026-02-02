@@ -94,13 +94,10 @@
     </div>
 
     <script>
-        // CONFIGURAÇÕES
         const CLIENT_ID = "145100322345-70nlh619s577puk5c75u19trip13nkme.apps.googleusercontent.com";
-        const GEMINI_KEY = "AIzaSyBEVXS7pylb_-DJaWaBgPSiNEN3UM_7Hls"; // <--- COLOQUE SUA CHAVE DO AI STUDIO AQUI
-
+        // NÃO COLOCAR GEMINI_KEY AQUI → Chave segura no backend Vercel
         let accessToken = localStorage.getItem('apexia_token');
         let tokenClient;
-        let modeloEncontrado = "models/gemini-1.5-flash";
         let contextoCanalGlobal = "Dados básicos.";
 
         window.onload = function() {
@@ -118,37 +115,19 @@
             if (accessToken) entrarNoApp();
         };
 
-        function solicitarAcesso() {
-            tokenClient.requestAccessToken({prompt: 'consent'});
-        }
-
-        function logout() {
-            localStorage.removeItem('apexia_token');
-            location.reload();
-        }
+        function solicitarAcesso() { tokenClient.requestAccessToken({prompt: 'consent'}); }
+        function logout() { localStorage.removeItem('apexia_token'); location.reload(); }
 
         async function entrarNoApp() {
             document.getElementById('landing-page').style.display = 'none';
             document.getElementById('app-container').style.display = 'flex';
-            await configurarIA();
             await puxarDadosCanal();
-        }
-
-        async function configurarIA() {
-            try {
-                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${GEMINI_KEY}`);
-                const data = await res.json();
-                const pref = data.models.find(m => m.name.includes("1.5-flash")) || data.models[0];
-                modeloEncontrado = pref.name;
-                document.getElementById('model-tag').innerText = "MOTOR: " + modeloEncontrado.split('/')[1].toUpperCase();
-            } catch (e) { console.error("Erro IA"); }
         }
 
         async function puxarDadosCanal() {
             let nomeCanal = "Criador";
             let inscritos = "0";
 
-            // 1. Dados Básicos
             try {
                 const resB = await fetch('https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&mine=true', {
                     headers: { 'Authorization': `Bearer ${accessToken}` }
@@ -156,27 +135,23 @@
                 const dataB = await resB.json();
                 nomeCanal = dataB.items[0].snippet.title;
                 inscritos = dataB.items[0].statistics.subscriberCount;
-                
+
                 document.getElementById('stats-area').innerHTML = `
                     <div class="data-chip">📊 Canal: <b>${nomeCanal}</b> | Inscritos: <b>${Number(inscritos).toLocaleString()}</b></div>
                 `;
             } catch (e) { console.error(e); }
 
-            // 2. Analytics com Diagnóstico
             try {
                 const hoje = new Date().toISOString().split('T')[0];
                 const trintaDias = new Date(new Date().setDate(new Date().getDate() - 30)).toISOString().split('T')[0];
-                
+
                 const urlA = `https://youtubeanalytics.googleapis.com/v1/reports?ids=channel==MINE&startDate=${trintaDias}&endDate=${hoje}&metrics=views,estimatedMinutesWatched,averageViewDuration&dimensions=day`;
-                
-                const resA = await fetch(urlA, {
-                    headers: { 'Authorization': `Bearer ${accessToken}` }
-                });
-                
+
+                const resA = await fetch(urlA, { headers: { 'Authorization': `Bearer ${accessToken}` } });
                 const analytics = await resA.json();
 
                 if (analytics.error) {
-                    addMsg('ai', `Atenção José! O Google recusou o Analytics. \nMotivo: ${analytics.error.message} \nCódigo: ${analytics.error.code}. \nDICA: Clique em 'Sair' e ao entrar novamente, MARQUE a caixa de permissão de Analytics.`);
+                    addMsg('ai', `Atenção José! O Google recusou o Analytics. \nMotivo: ${analytics.error.message} \nCódigo: ${analytics.error.code}. \nDICA: Clique em 'Sair' e marque a caixa de permissão de Analytics.`);
                     return;
                 }
 
@@ -184,15 +159,12 @@
                 if(analytics.rows) analytics.rows.forEach(r => viewsTotais += r[1]);
 
                 contextoCanalGlobal = `Canal: ${nomeCanal}. Inscritos: ${inscritos}. Views (30 dias): ${viewsTotais}.`;
-                
+
                 document.getElementById('stats-area').innerHTML += `
                     <div class="data-chip" style="background:rgba(0,150,255,0.1); color:#00aaff; border-color:#00aaff44;">📈 Views (30d): <b>${viewsTotais.toLocaleString()}</b></div>
                 `;
                 addMsg('ai', `Relatório carregado! Analisei seu canal **${nomeCanal}**. Como vamos crescer hoje?`);
-
-            } catch (e) {
-                addMsg('ai', "Erro de conexão com o Analytics. Tente fazer login novamente.");
-            }
+            } catch (e) { addMsg('ai', "Erro de conexão com o Analytics. Tente fazer login novamente."); }
         }
 
         async function askGemini() {
@@ -208,16 +180,19 @@
             const prompt = `Você é o Mentor ApexiA. Contexto: ${contextoCanalGlobal}. Pergunta: ${texto}`;
 
             try {
-                const url = `https://generativelanguage.googleapis.com/v1beta/${modeloEncontrado}:generateContent?key=${GEMINI_KEY}`;
-                const response = await fetch(url, {
+                // FETCH PARA O BACKEND VERCEL SEGURO
+                const response = await fetch('https://apexia-backend.vercel.app/api/mentor', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+                    body: JSON.stringify({ prompt: prompt })
                 });
                 const data = await response.json();
-                addMsg('ai', data.candidates[0].content.parts[0].text);
-            } catch (e) { addMsg('ai', "Erro na IA. Verifique sua conexão e VPN."); }
-            finally { btn.disabled = false; }
+                addMsg('ai', data.reply);
+            } catch (e) {
+                addMsg('ai', "Erro na IA. Verifique sua conexão e VPN.");
+            } finally {
+                btn.disabled = false;
+            }
         }
 
         function addMsg(role, content) {
