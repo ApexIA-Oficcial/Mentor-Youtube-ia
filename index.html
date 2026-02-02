@@ -10,7 +10,7 @@
     
     <style>
         :root {
-            --primary-color: #ff0000; /* YouTube Red */
+            --primary-color: #ff0000;
             --bg-color: #f4f4f4;
             --chat-bg: #ffffff;
             --user-msg: #dcf8c6;
@@ -26,7 +26,6 @@
             height: 100vh;
         }
 
-        /* Área de Login */
         #login-container {
             display: flex;
             flex-direction: column;
@@ -37,9 +36,8 @@
             padding: 20px;
         }
 
-        /* Interface do Chat (Escondida inicialmente) */
         #main-container {
-            display: none; /* Alterado via JS após login */
+            display: none;
             flex-direction: column;
             height: 100vh;
             max-width: 900px;
@@ -116,11 +114,7 @@
             border-radius: 25px;
             cursor: pointer;
             font-weight: bold;
-            transition: 0.3s;
         }
-
-        button:hover { background: #cc0000; }
-        button:disabled { background: #ccc; }
 
         .status-bar {
             font-size: 0.85em;
@@ -128,18 +122,14 @@
             padding: 8px 20px;
             background: #f8f8f8;
             border-bottom: 1px solid #eee;
-            display: flex;
-            justify-content: space-between;
         }
     </style>
 </head>
 <body>
 
-    <!-- TELA DE LOGIN -->
     <div id="login-container">
         <h1 style="color: var(--primary-color);">Mentor YouTube IA</h1>
         <p>Analise o desempenho do seu canal com inteligência artificial.</p>
-        
         <div id="g_id_onload"
              data-client_id="145100322345-70nlh619s577puk5c75u19trip13nkme.apps.googleusercontent.com"
              data-callback="handleCredentialResponse">
@@ -147,39 +137,29 @@
         <div class="g_id_signin" data-type="standard"></div>
     </div>
 
-    <!-- TELA PRINCIPAL (CHAT) -->
     <div id="main-container">
         <header>Mentor Digital YouTube</header>
-        
-        <div class="status-bar">
-            <span id="user-info">Aguardando login...</span>
-            <span>API Status: Ativa</span>
-        </div>
-
+        <div class="status-bar" id="user-info">Canal Conectado</div>
         <div id="chat-window">
-            <div class="message ai-message">Olá! Sou seu Mentor de Growth. Conecte seus dados ou pergunte sobre CTR, Retenção e Thumbnails para começarmos a estratégia do seu canal.</div>
+            <div class="message ai-message">Conexão estabelecida! Sou seu mentor. Como posso ajudar com seu canal hoje?</div>
         </div>
-
         <div class="input-area">
-            <input type="text" id="user-input" placeholder="Ex: Como melhorar a retenção dos meus vídeos?">
+            <input type="text" id="user-input" placeholder="Pergunte algo...">
             <button id="send-btn" onclick="sendMessage()">Enviar</button>
         </div>
     </div>
 
     <script>
-        // CONFIGURAÇÕES
+        // CONFIGURAÇÃO CORRIGIDA
         const GEMINI_API_KEY = "AIzaSyAscQ09C0RqKQtFkiD0d4xC7OdnkQonvps"; 
-        const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+        // Mudamos para a versão v1 estável
+        const GEMINI_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 
-        // 1. Lógica de Autenticação Google
         function handleCredentialResponse(response) {
-            // No futuro, aqui pegaremos o token para a API do YouTube
-            document.getElementById('user-info').innerText = "Canal Conectado";
             document.getElementById('login-container').style.display = 'none';
             document.getElementById('main-container').style.display = 'flex';
         }
 
-        // 2. Envio de Mensagem para o Gemini
         async function sendMessage() {
             const inputField = document.getElementById('user-input');
             const chatWindow = document.getElementById('chat-window');
@@ -188,13 +168,9 @@
 
             if (!userText) return;
 
-            // Mostrar mensagem do usuário
             appendMessage('user', userText);
             inputField.value = '';
             sendBtn.disabled = true;
-
-            // Contexto de Especialista (Prompt)
-            const systemPrompt = "Você é um mentor especialista em YouTube Growth. Analise dados de CTR (5%), Retenção (40%) e inscritos. Dê conselhos práticos de estratégia. Seja breve e profissional.";
 
             try {
                 const response = await fetch(GEMINI_URL, {
@@ -202,7 +178,7 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         contents: [{
-                            parts: [{ text: `${systemPrompt}\n\nPergunta do usuário: ${userText}` }]
+                            parts: [{ text: "Você é um mentor de YouTube. Responda de forma breve: " + userText }]
                         }]
                     })
                 });
@@ -213,12 +189,16 @@
                     throw new Error(data.error.message);
                 }
 
-                const aiResponse = data.candidates[0].content.parts[0].text;
-                appendMessage('ai', aiResponse);
+                if (data.candidates && data.candidates[0].content) {
+                    const aiResponse = data.candidates[0].content.parts[0].text;
+                    appendMessage('ai', aiResponse);
+                } else {
+                    throw new Error("Resposta inesperada da IA.");
+                }
 
             } catch (error) {
-                console.error("Erro:", error);
-                appendMessage('ai', "Erro na Mentoria: " + error.message + ". Verifique se sua chave de API ainda é válida.");
+                console.error(error);
+                appendMessage('ai', "Erro: " + error.message);
             } finally {
                 sendBtn.disabled = false;
             }
@@ -230,10 +210,9 @@
             msgDiv.className = `message ${sender === 'user' ? 'user-message' : 'ai-message'}`;
             msgDiv.innerText = text;
             chatWindow.appendChild(msgDiv);
-            chatWindow.scrollTop = chatWindow.scrollHeight; // Auto-scroll
+            chatWindow.scrollTop = chatWindow.scrollHeight;
         }
 
-        // Atalho Enter
         document.getElementById('user-input').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') sendMessage();
         });
