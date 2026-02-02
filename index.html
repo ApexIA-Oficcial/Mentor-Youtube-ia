@@ -3,157 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mentor YouTube IA - Growth Strategist</title>
-    
-    <!-- Google Identity Services -->
+    <title>Mentor YouTube IA</title>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
-    
     <style>
-        :root {
-            --primary-color: #ff0000;
-            --bg-color: #f4f4f4;
-            --chat-bg: #ffffff;
-            --user-msg: #dcf8c6;
-            --ai-msg: #f1f0f0;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-        }
-
-        #login-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            text-align: center;
-            padding: 20px;
-        }
-
-        #main-container {
-            display: none;
-            flex-direction: column;
-            height: 100vh;
-            max-width: 900px;
-            margin: 0 auto;
-            width: 100%;
-            background: var(--chat-bg);
-            box-shadow: 0 0 15px rgba(0,0,0,0.1);
-        }
-
-        header {
-            padding: 20px;
-            background: var(--primary-color);
-            color: white;
-            text-align: center;
-            font-size: 1.2em;
-            font-weight: bold;
-        }
-
-        #chat-window {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .message {
-            padding: 12px 18px;
-            border-radius: 18px;
-            max-width: 85%;
-            line-height: 1.5;
-            word-wrap: break-word;
-            font-size: 15px;
-        }
-
-        .user-message {
-            align-self: flex-end;
-            background-color: var(--user-msg);
-            color: #000;
-            border-bottom-right-radius: 2px;
-        }
-
-        .ai-message {
-            align-self: flex-start;
-            background-color: var(--ai-msg);
-            color: #333;
-            border-bottom-left-radius: 2px;
-            white-space: pre-wrap;
-        }
-
-        .input-area {
-            padding: 20px;
-            border-top: 1px solid #eee;
-            display: flex;
-            gap: 10px;
-            background: white;
-        }
-
-        input {
-            flex: 1;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 25px;
-            outline: none;
-            padding-left: 20px;
-        }
-
-        button {
-            padding: 10px 25px;
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .status-bar {
-            font-size: 0.85em;
-            color: #555;
-            padding: 8px 20px;
-            background: #f8f8f8;
-            border-bottom: 1px solid #eee;
-        }
+        :root { --primary: #ff0000; --bg: #f4f4f4; --user: #dcf8c6; --ai: #ffffff; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; display: flex; flex-direction: column; height: 100vh; }
+        #login-container { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; }
+        #main-container { display: none; flex-direction: column; height: 100vh; max-width: 800px; margin: 0 auto; width: 100%; background: #fff; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        header { padding: 15px; background: var(--primary); color: white; text-align: center; font-weight: bold; }
+        #chat-window { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 10px; background: #e5ddd5; }
+        .msg { padding: 10px 15px; border-radius: 10px; max-width: 80%; font-size: 15px; line-height: 1.4; }
+        .user { align-self: flex-end; background: var(--user); }
+        .ai { align-self: flex-start; background: var(--ai); white-space: pre-wrap; }
+        .input-area { padding: 15px; border-top: 1px solid #ddd; display: flex; gap: 10px; }
+        input { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 20px; outline: none; }
+        button { padding: 10px 20px; background: var(--primary); color: white; border: none; border-radius: 20px; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <div id="login-container">
-        <h1 style="color: var(--primary-color);">Mentor YouTube IA</h1>
-        <p>Analise o desempenho do seu canal com inteligência artificial.</p>
-        <div id="g_id_onload"
-             data-client_id="145100322345-70nlh619s577puk5c75u19trip13nkme.apps.googleusercontent.com"
-             data-callback="handleCredentialResponse">
-        </div>
+        <h1>Mentor YouTube IA</h1>
+        <div id="g_id_onload" data-client_id="145100322345-70nlh619s577puk5c75u19trip13nkme.apps.googleusercontent.com" data-callback="handleCredentialResponse"></div>
         <div class="g_id_signin" data-type="standard"></div>
     </div>
 
     <div id="main-container">
         <header>Mentor Digital YouTube</header>
-        <div class="status-bar" id="user-info">Canal Conectado</div>
         <div id="chat-window">
-            <div class="message ai-message">Conexão estabelecida! Sou seu mentor. Como posso ajudar com seu canal hoje?</div>
+            <div class="msg ai">Olá! Sistema pronto. Como posso ajudar seu canal hoje?</div>
         </div>
         <div class="input-area">
-            <input type="text" id="user-input" placeholder="Pergunte algo...">
+            <input type="text" id="user-input" placeholder="Digite sua dúvida...">
             <button id="send-btn" onclick="sendMessage()">Enviar</button>
         </div>
     </div>
 
     <script>
-        // CONFIGURAÇÃO CORRIGIDA
-        const GEMINI_API_KEY = "AIzaSyAscQ09C0RqKQtFkiD0d4xC7OdnkQonvps"; 
-        // Mudamos para a versão v1 estável
-        const GEMINI_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+        const API_KEY = "AIzaSyAscQ09C0RqKQtFkiD0d4xC7OdnkQonvps";
+        
+        // Vamos tentar o modelo Pro, que é o mais estável e compatível
+        const MODELO_PRINCIPAL = "gemini-pro"; 
+        const URL_API = `https://generativelanguage.googleapis.com/v1beta/models/${MODELO_PRINCIPAL}:generateContent?key=${API_KEY}`;
 
         function handleCredentialResponse(response) {
             document.getElementById('login-container').style.display = 'none';
@@ -161,25 +52,19 @@
         }
 
         async function sendMessage() {
-            const inputField = document.getElementById('user-input');
-            const chatWindow = document.getElementById('chat-window');
-            const sendBtn = document.getElementById('send-btn');
-            const userText = inputField.value.trim();
+            const input = document.getElementById('user-input');
+            const text = input.value.trim();
+            if (!text) return;
 
-            if (!userText) return;
-
-            appendMessage('user', userText);
-            inputField.value = '';
-            sendBtn.disabled = true;
-
+            appendMessage('user', text);
+            input.value = '';
+            
             try {
-                const response = await fetch(GEMINI_URL, {
+                const response = await fetch(URL_API, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        contents: [{
-                            parts: [{ text: "Você é um mentor de YouTube. Responda de forma breve: " + userText }]
-                        }]
+                        contents: [{ parts: [{ text: "Você é um mentor de YouTube. Responda: " + text }] }]
                     })
                 });
 
@@ -189,33 +74,25 @@
                     throw new Error(data.error.message);
                 }
 
-                if (data.candidates && data.candidates[0].content) {
-                    const aiResponse = data.candidates[0].content.parts[0].text;
-                    appendMessage('ai', aiResponse);
-                } else {
-                    throw new Error("Resposta inesperada da IA.");
-                }
+                const aiText = data.candidates[0].content.parts[0].text;
+                appendMessage('ai', aiText);
 
-            } catch (error) {
-                console.error(error);
-                appendMessage('ai', "Erro: " + error.message);
-            } finally {
-                sendBtn.disabled = false;
+            } catch (err) {
+                console.error(err);
+                appendMessage('ai', "Erro de Conexão: O modelo " + MODELO_PRINCIPAL + " não respondeu. Verifique se a API de Linguagem Generativa está ativa no seu Google Cloud.");
             }
         }
 
-        function appendMessage(sender, text) {
-            const chatWindow = document.getElementById('chat-window');
-            const msgDiv = document.createElement('div');
-            msgDiv.className = `message ${sender === 'user' ? 'user-message' : 'ai-message'}`;
-            msgDiv.innerText = text;
-            chatWindow.appendChild(msgDiv);
-            chatWindow.scrollTop = chatWindow.scrollHeight;
+        function appendMessage(role, text) {
+            const win = document.getElementById('chat-window');
+            const div = document.createElement('div');
+            div.className = `msg ${role}`;
+            div.innerText = text;
+            win.appendChild(div);
+            win.scrollTop = win.scrollHeight;
         }
 
-        document.getElementById('user-input').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') sendMessage();
-        });
+        document.getElementById('user-input').addEventListener('keypress', (e) => { if(e.key === 'Enter') sendMessage(); });
     </script>
 </body>
 </html>
