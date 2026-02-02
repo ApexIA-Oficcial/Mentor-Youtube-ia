@@ -3,11 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <title>Mentor YouTube IA</title>
+
+  <!-- Google Identity Services -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
+
   <h1>Mentor do meu Canal do YouTube</h1>
   <p>Esta plataforma vai analisar meu canal e dar mentoria.</p>
 
-  <button>Entrar com Google</button>
+  <!-- Botão Google -->
+  <div id="g_id_onload"
+       data-client_id="145100322345-70nlh619s577puk5c75u19trip13nkme.apps.googleusercontent.com"
+       data-callback="handleCredentialResponse">
+  </div>
+
+  <div class="g_id_signin"></div>
+
+  <script>
+    function handleCredentialResponse(response) {
+      alert("Login feito com sucesso!");
+      console.log(response);
+    }
+  </script>
+
 </body>
 </html>
