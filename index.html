@@ -3,121 +3,197 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ApexiA Mentor | Growth System</title>
+    <title>ApexiA - Mentor IA Profissional</title>
+    
+    <!-- Google Identity Services -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
+    
     <style>
-        :root { --primary: #ff0000; --bg: #0b0b0b; --text: #ffffff; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
-        #landing { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; text-align: center; background: radial-gradient(circle, #330000, #0b0b0b); }
-        .logo { font-size: 4rem; font-weight: 900; letter-spacing: -2px; }
-        .logo span { color: var(--primary); }
-        #app { display: none; flex-direction: column; height: 100vh; max-width: 900px; margin: 0 auto; width: 100%; border-left: 1px solid #222; border-right: 1px solid #222; }
-        header { padding: 20px; border-bottom: 1px solid #222; background: #0b0b0b; display: flex; justify-content: space-between; align-items: center; }
-        #chat { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; background: #0b0b0b; }
-        .msg { padding: 14px 20px; border-radius: 20px; max-width: 80%; line-height: 1.5; font-size: 1rem; }
-        .ai { align-self: flex-start; background: #1e1e1e; color: #eee; border-bottom-left-radius: 2px; white-space: pre-wrap; }
-        .user { align-self: flex-end; background: var(--primary); color: #fff; border-bottom-right-radius: 2px; }
-        .diag-box { background: #1a1a1a; color: #ff5555; padding: 15px; border-radius: 8px; font-size: 0.8rem; margin: 10px; border: 1px solid #333; }
-        .input-area { padding: 20px; display: flex; gap: 10px; background: #161616; border-top: 1px solid #222; }
-        input { flex: 1; padding: 14px 20px; border-radius: 30px; border: 1px solid #333; background: #0b0b0b; color: #fff; outline: none; }
-        button { padding: 10px 25px; border-radius: 30px; border: none; background: var(--primary); color: #fff; font-weight: bold; cursor: pointer; }
+        :root {
+            --primary: #ff0000;
+            --dark-bg: #0f0f0f;
+            --card-bg: #1e1e1e;
+            --text-main: #ffffff;
+            --text-dim: #aaaaaa;
+            --user-bubble: #ff0000;
+            --ai-bubble: #2b2b2b;
+        }
+
+        body, html {
+            margin: 0; padding: 0;
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-main);
+            height: 100vh; overflow: hidden;
+        }
+
+        /* TELA DE BOAS-VINDAS (LANDING) */
+        #landing-page {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            height: 100vh; text-align: center; padding: 20px;
+            background: radial-gradient(circle at center, #2b0000 0%, #0f0f0f 100%);
+        }
+
+        .logo-apexia { font-size: 3.5rem; font-weight: 900; letter-spacing: -2px; margin-bottom: 10px; text-transform: uppercase; }
+        .logo-apexia span { color: var(--primary); }
+        .tagline { font-size: 1.2rem; color: var(--text-dim); max-width: 500px; margin-bottom: 30px; line-height: 1.6; }
+
+        .btn-google {
+            background: white; color: black; padding: 15px 30px; border-radius: 35px;
+            border: none; font-weight: bold; cursor: pointer; display: flex; align-items: center;
+            gap: 12px; font-size: 1rem; transition: 0.3s;
+        }
+        .btn-google:hover { transform: scale(1.05); background: #eee; }
+
+        /* INTERFACE DO CHAT */
+        #app-container {
+            display: none; flex-direction: column; height: 100vh;
+            max-width: 1000px; margin: 0 auto; background: var(--dark-bg);
+            border-left: 1px solid #333; border-right: 1px solid #333;
+        }
+
+        header {
+            padding: 15px 25px; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid #333; background: rgba(15, 15, 15, 0.9);
+        }
+
+        .header-logo { font-weight: bold; font-size: 1.4rem; }
+        .header-logo span { color: var(--primary); }
+
+        #chat-window { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 20px; }
+
+        .msg { max-width: 80%; padding: 15px 20px; border-radius: 18px; font-size: 1rem; line-height: 1.5; }
+        .ai { align-self: flex-start; background-color: var(--ai-bubble); color: white; border-bottom-left-radius: 2px; white-space: pre-wrap; }
+        .user { align-self: flex-end; background-color: var(--user-bubble); color: white; border-bottom-right-radius: 2px; }
+
+        .data-chip { 
+            background: rgba(0, 255, 0, 0.1); color: #00ff00; padding: 12px; 
+            border-radius: 10px; font-size: 0.85rem; border: 1px solid rgba(0, 255, 0, 0.2); margin-bottom: 15px;
+        }
+
+        .input-box { padding: 20px; background: #1a1a1a; display: flex; gap: 12px; border-top: 1px solid #333; }
+        input { flex: 1; background: #2a2a2a; border: 1px solid #444; padding: 15px 20px; border-radius: 30px; color: white; outline: none; }
+        button#send-btn { background: var(--primary); color: white; border: none; padding: 10px 25px; border-radius: 30px; font-weight: bold; cursor: pointer; }
+        
+        #typing { color: var(--text-dim); font-size: 0.8rem; margin: 0 0 10px 25px; display: none; }
     </style>
 </head>
 <body>
 
-    <div id="landing">
-        <div class="logo">APEX<span>IA</span></div>
-        <p style="color: #888; margin-bottom: 30px;">Growth Mentoring System v3.0</p>
-        <div id="g_id_onload" data-client_id="145100322345-70nlh619s577puk5c75u19trip13nkme.apps.googleusercontent.com" data-callback="onLogin"></div>
-        <div class="g_id_signin" data-type="standard" data-theme="filled_black" data-shape="pill"></div>
+    <!-- TELA DE LOGIN -->
+    <div id="landing-page">
+        <div class="logo-apexia">APEX<span>IA</span></div>
+        <div class="tagline">Conecte seu canal para receber mentoria da nossa IA personalizada com seus dados reais.</div>
+        
+        <button class="btn-google" onclick="iniciarAuth()">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" width="20">
+            Conectar Canal YouTube
+        </button>
     </div>
 
-    <div id="app">
+    <!-- APP PRINCIPAL -->
+    <div id="app-container">
         <header>
-            <div style="font-weight: 900;">APEX<span>IA</span> MENTOR</div>
-            <div id="model-name" style="font-size: 0.6rem; color: #888;">BUSCANDO MODELO...</div>
+            <div class="header-logo">APEX<span>IA</span> MENTOR PRO</div>
+            <div id="status-display" style="font-size: 0.7rem; color: #00ff00;">CONECTADO</div>
         </header>
-        <div id="chat">
-            <div class="msg ai">Olá! Sou o Mentor ApexiA. Analisarei seu CTR e Retenção. O que deseja revisar hoje?</div>
+
+        <div id="chat-window">
+            <div id="stats-area"></div>
+            <div class="msg ai">Acesso concedido! Estou pronto para analisar o seu canal. Aguarde enquanto leio seus dados básicos...</div>
         </div>
-        <div class="input-area">
-            <input type="text" id="user-input" placeholder="Pergunte algo...">
-            <button id="send-btn" onclick="enviar()">Analisar</button>
+
+        <div id="typing">ApexiA está analisando...</div>
+
+        <div class="input-box">
+            <input type="text" id="user-input" placeholder="Pergunte sobre seu canal...">
+            <button id="send-btn" onclick="askMentor()">Analisar</button>
         </div>
     </div>
 
     <script>
-        // USE UMA CHAVE NOVA GERADA NO AI STUDIO (aistudio.google.com)
-        const CHAVE_MESTRA = "AIzaSyB9qcL9Po0t0cGPL3VkIRGcjlX20X3rEhU"; 
+        // CONFIGURAÇÕES AUTOMÁTICAS
+        const CLIENT_ID = "145100322345-70nlh619s577puk5c75u19trip13nkme.apps.googleusercontent.com";
+        const API_KEY = "AIzaSyB9qcL9Po0t0cGPL3VkIRGcjlX20X3rEhU"; // <--- COLOQUE SUA CHAVE NOVA AQUI
+        
+        let accessToken = null;
+        let canalInfoContexto = "";
 
-        function onLogin() {
-            document.getElementById('landing').style.display = 'none';
-            document.getElementById('app').style.display = 'flex';
-            descobrirModelo();
-        }
-
-        let modeloAtivo = "gemini-1.5-flash"; // Padrão
-
-        // FUNÇÃO PARA DESCOBRIR QUAL MODELO O GOOGLE DEIXA VOCÊ USAR
-        async function descobrirModelo() {
-            try {
-                const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${CHAVE_MESTRA}`);
-                const d = await r.json();
-                if (d.models && d.models.length > 0) {
-                    // Pega o primeiro modelo que suporta gerar conteúdo
-                    const m = d.models.find(it => it.supportedGenerationMethods.includes("generateContent"));
-                    if (m) {
-                        modeloAtivo = m.name.split('/')[1];
-                        document.getElementById('model-name').innerText = "MODELO: " + modeloAtivo;
-                        console.log("Modelo encontrado: " + modeloAtivo);
+        // 1. FLUXO DE LOGIN E PERMISSÃO DO YOUTUBE
+        function iniciarAuth() {
+            const client = google.accounts.oauth2.initTokenClient({
+                client_id: CLIENT_ID,
+                scope: 'https://www.googleapis.com/auth/youtube.readonly https://www.googleapis.com/auth/yt-analytics.readonly',
+                callback: (response) => {
+                    if (response.access_token) {
+                        accessToken = response.access_token;
+                        document.getElementById('landing-page').style.display = 'none';
+                        document.getElementById('app-container').style.display = 'flex';
+                        puxarDadosDoYouTube();
                     }
-                }
+                },
+            });
+            client.requestAccessToken();
+        }
+
+        // 2. BUSCAR DADOS DO CANAL
+        async function puxarDadosDoYouTube() {
+            try {
+                const res = await fetch('https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&mine=true', {
+                    headers: { 'Authorization': `Bearer ${accessToken}` }
+                });
+                const data = await res.json();
+                const canal = data.items[0];
+                
+                const nome = canal.snippet.title;
+                const subs = canal.statistics.subscriberCount;
+                const videos = canal.statistics.videoCount;
+
+                canalInfoContexto = `O canal chama-se ${nome}, possui ${subs} inscritos e ${videos} vídeos publicados.`;
+
+                document.getElementById('stats-area').innerHTML = `
+                    <div class="data-chip">
+                        📊 <b>Canal Identificado:</b> ${nome} | <b>Inscritos:</b> ${Number(subs).toLocaleString()}
+                    </div>
+                `;
+                
+                addMsg('ai', `Tudo pronto, criador do canal **${nome}**! Já tenho acesso aos seus números. Como posso ajudar a subir o seu CTR ou sua Retenção hoje?`);
+
             } catch (e) {
-                console.error("Erro ao listar modelos");
+                console.error("Erro ao buscar dados", e);
             }
         }
 
-        async function enviar() {
+        // 3. ENVIAR PARA IA
+        async function askMentor() {
             const input = document.getElementById('user-input');
-            const chat = document.getElementById('chat');
-            const texto = input.value.trim();
-            if (!texto) return;
+            const btn = document.getElementById('send-btn');
+            const typing = document.getElementById('typing');
+            const text = input.value.trim();
 
-            addMsg('user', texto);
+            if (!text) return;
+
+            addMsg('user', text);
             input.value = '';
+            btn.disabled = true;
+            typing.style.display = 'block';
 
-            // URL usando o modelo que o Google nos autorizou
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/${modeloAtivo}:generateContent?key=${CHAVE_MESTRA}`;
+            // Contexto Master da ApexiA
+            const promptFinal = `Você é o Mentor Estrategista da ApexiA. 
+            DADOS DO CANAL DO USUÁRIO: ${canalInfoContexto}
+            CTR ATUAL SIMULADO: 4.5% | RETENÇÃO ATUAL SIMULADA: 40%
+            
+            PERGUNTA DO USUÁRIO: ${text}
+            
+            Instrução: Dê uma resposta técnica, curta e direta focada em crescimento (Growth).`;
 
             try {
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: "Você é o Mentor ApexiA. Responda brevemente: " + texto }] }] })
-                });
+                // Tentando os modelos disponíveis
+                const modelos = ["gemini-1.5-flash", "gemini-pro"];
+                let respondido = false;
 
-                const data = await response.json();
-
-                if (response.ok) {
-                    addMsg('ai', data.candidates[0].content.parts[0].text);
-                } else {
-                    const div = document.createElement('div');
-                    div.className = 'diag-box';
-                    div.innerHTML = `<b>AVISO DA APEXIA:</b><br>${data.error.message}<br><br><i>Se você está em Angola, o Google bloqueia o acesso. Use uma VPN (Brasil ou EUA) para testar agora.</i>`;
-                    chat.appendChild(div);
-                }
-            } catch (e) {
-                addMsg('ai', "Erro de conexão.");
-            }
-            chat.scrollTop = chat.scrollHeight;
-        }
-
-        function addMsg(t, x) {
-            const c = document.getElementById('chat');
-            const d = document.createElement('div');
-            d.className = `msg ${t}`; d.innerText = x;
-            c.appendChild(d); c.scrollTop = c.scrollHeight;
-        }
-    </script>
-</body>
-</html>
+                for (let mod of modelos) {
+                    const url = `https://generativelanguage.googleapis.com/v1beta/models/${mod}:generateContent?key=${API_KEY}`;
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type':
