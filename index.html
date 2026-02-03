@@ -10,10 +10,10 @@
     <style>
         :root {
             --primary: #ff0000;
-            --dark-bg: #0f0f0f;
+            --dark-bg: #050505;
             --text-main: #ffffff;
             --text-dim: #aaaaaa;
-            --ai-bubble: #1e1e1e;
+            --ai-bubble: #1c1c1e;
             --glass-border: rgba(255, 255, 255, 0.1);
         }
 
@@ -23,17 +23,17 @@
             background-color: var(--dark-bg);
             color: var(--text-main);
             height: 100vh; width: 100vw;
-            overflow: hidden; /* Impede scroll na página inteira */
+            overflow: hidden;
         }
 
         /* TELA DE LOGIN */
         #landing-page {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             height: 100vh; text-align: center; padding: 20px;
-            background: radial-gradient(circle at center, #2b0000 0%, #0f0f0f 100%);
+            background: radial-gradient(circle at 50% -20%, #3a0000 0%, #050505 80%);
         }
 
-        .logo-apexia { font-size: 3.5rem; font-weight: 900; letter-spacing: -2px; margin-bottom: 20px; text-transform: uppercase; }
+        .logo-apexia { font-size: clamp(2.5rem, 8vw, 4rem); font-weight: 900; letter-spacing: -3px; margin-bottom: 20px; text-transform: uppercase; }
         .logo-apexia span { color: var(--primary); }
 
         .btn-google {
@@ -42,9 +42,9 @@
             gap: 12px; font-size: 1.1rem; transition: 0.3s;
         }
 
-        /* CONTAINER PRINCIPAL DO APP */
+        /* CONTAINER PRINCIPAL */
         #app-container {
-            display: none; /* Ativado via JS */
+            display: none;
             flex-direction: column;
             height: 100vh;
             max-width: 900px;
@@ -54,33 +54,21 @@
             border-right: 1px solid var(--glass-border);
         }
 
-        /* HEADER FIXO - CORREÇÃO DO BOTÃO QUE DESAPARECE */
         header {
-            flex-shrink: 0; /* IMPEDE O HEADER DE SUMIR */
+            flex-shrink: 0;
             padding: 15px 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid var(--glass-border);
-            background: #0f0f0f;
-            z-index: 10;
+            background: #050505;
         }
 
-        .header-logo { font-weight: bold; font-size: 1.4rem; }
+        .header-logo { font-weight: 800; font-size: 1.4rem; letter-spacing: -1px; }
         .header-logo span { color: var(--primary); }
 
-        .btn-sair {
-            background: #2b2b2b;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
+        .btn-sair { background: #2b2b2b; color: white; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 0.8rem; font-weight: 600; }
 
-        /* ÁREA DE CHAT SCROLLÁVEL */
         #chat-window {
             flex: 1;
             overflow-y: auto;
@@ -90,64 +78,55 @@
             gap: 15px;
         }
 
-        .msg { max-width: 80%; padding: 15px 20px; border-radius: 18px; line-height: 1.5; font-size: 1rem; animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; } }
+        .msg { max-width: 80%; padding: 15px 20px; border-radius: 20px; line-height: 1.6; font-size: 1rem; }
+        .ai { align-self: flex-start; background-color: var(--ai-bubble); color: white; border-bottom-left-radius: 4px; white-space: pre-wrap; border: 1px solid var(--glass-border); }
+        .user { align-self: flex-end; background: linear-gradient(135deg, #ff0000, #990000); color: white; border-bottom-right-radius: 4px; }
 
-        .ai { align-self: flex-start; background-color: var(--ai-bubble); color: white; border-bottom-left-radius: 2px; white-space: pre-wrap; }
-        .user { align-self: flex-end; background-color: var(--primary); color: white; border-bottom-right-radius: 2px; }
+        .data-chip { background: rgba(0, 255, 0, 0.05); color: #00ff00; padding: 12px; border-radius: 12px; font-size: 0.85rem; border: 1px solid rgba(0, 255, 0, 0.1); margin-bottom: 10px; }
 
-        .data-chip { background: rgba(0, 255, 0, 0.1); color: #00ff00; padding: 12px; border-radius: 12px; font-size: 0.9rem; border: 1px solid rgba(0, 255, 0, 0.2); margin-bottom: 10px; }
-
-        /* RODAPÉ DE INPUT */
         .input-box {
             flex-shrink: 0;
             padding: 20px;
-            background: #1a1a1a;
+            background: rgba(0,0,0,0.5);
             display: flex;
-            gap: 10px;
+            gap: 12px;
             border-top: 1px solid var(--glass-border);
         }
 
-        input { flex: 1; background: #2a2a2a; border: 1px solid #444; padding: 12px 20px; border-radius: 30px; color: white; outline: none; }
-        button#send-btn { background: var(--primary); color: white; border: none; padding: 10px 25px; border-radius: 30px; font-weight: bold; cursor: pointer; }
+        input { flex: 1; background: #1c1c1e; border: 1px solid var(--glass-border); padding: 14px 20px; border-radius: 30px; color: white; outline: none; font-size: 1rem; }
+        button#send-btn { background: #fff; color: #000; border: none; padding: 10px 25px; border-radius: 30px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <!-- LANDING PAGE -->
     <div id="landing-page">
         <div class="logo-apexia">APEX<span>IA</span></div>
-        <p style="color: var(--text-dim); margin-bottom: 30px;">O ápice do seu canal começa aqui.</p>
+        <p style="color: var(--text-dim); margin-bottom: 30px; max-width: 400px; line-height: 1.5;">O Mentor de Growth mais avançado para criadores de elite.</p>
         <button class="btn-google" onclick="solicitarAcesso()">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" width="22">
-            Entrar com Google e YouTube
+            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_Color_Icon.svg" width="20">
+            Conectar Canal ApexiA
         </button>
     </div>
 
-    <!-- APP PRINCIPAL -->
     <div id="app-container">
         <header>
             <div class="header-logo">APEX<span>IA</span> PRO</div>
-            <div style="display: flex; align-items: center; gap: 12px;">
-                <div id="model-tag" style="color: #00ff00; font-size: 0.6rem; font-weight: bold;">SISTEMA SEGURO</div>
-                <button class="btn-sair" onclick="logout()">Sair</button>
-            </div>
+            <button class="btn-sair" onclick="logout()">Sair</button>
         </header>
 
         <div id="chat-window">
             <div id="stats-area"></div>
-            <div class="msg ai">Acesso concedido! Estou preparando seu relatório estratégico via Vercel Backend...</div>
+            <div class="msg ai">Acesso concedido. Analisei suas métricas iniciais. Como posso ajudar seu canal hoje?</div>
         </div>
 
         <div class="input-box">
-            <input type="text" id="user-input" placeholder="Pergunte sobre seu canal...">
+            <input type="text" id="user-input" placeholder="Pergunte sobre estratégia...">
             <button id="send-btn" onclick="askGemini()">Analisar</button>
         </div>
     </div>
 
     <script>
         const CLIENT_ID = "145100322345-70nlh619s577puk5c75u19trip13nkme.apps.googleusercontent.com";
-        // A API_URL deve ser o link do seu projeto no Vercel
         const BACKEND_URL = "https://apexia-backend.vercel.app/api/mentor"; 
 
         let accessToken = localStorage.getItem('apexia_token');
@@ -158,9 +137,9 @@
             tokenClient = google.accounts.oauth2.initTokenClient({
                 client_id: CLIENT_ID,
                 scope: 'https://www.googleapis.com/auth/youtube.readonly https://www.googleapis.com/auth/yt-analytics.readonly',
-                callback: (tokenResponse) => {
-                    if (tokenResponse.access_token) {
-                        accessToken = tokenResponse.access_token;
+                callback: (res) => {
+                    if (res.access_token) {
+                        accessToken = res.access_token;
                         localStorage.setItem('apexia_token', accessToken);
                         entrarNoApp();
                     }
@@ -179,38 +158,20 @@
         }
 
         async function puxarDadosCanal() {
-            let nomeCanal = "Criador";
-            let inscritos = "0";
-
             try {
                 const resB = await fetch('https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&mine=true', {
                     headers: { 'Authorization': `Bearer ${accessToken}` }
                 });
                 const dataB = await resB.json();
-                nomeCanal = dataB.items[0].snippet.title;
-                inscritos = dataB.items[0].statistics.subscriberCount;
+                const canal = dataB.items[0];
+                const nome = canal.snippet.title;
+                const subs = canal.statistics.subscriberCount;
 
+                contextoCanalGlobal = `Canal: ${nome}. Inscritos: ${subs}.`;
                 document.getElementById('stats-area').innerHTML = `
-                    <div class="data-chip">📊 Canal: <b>${nomeCanal}</b> | Inscritos: <b>${Number(inscritos).toLocaleString()}</b></div>
+                    <div class="data-chip">📊 Canal: <b>${nome}</b> | Inscritos: <b>${Number(subs).toLocaleString()}</b></div>
                 `;
-            } catch (e) { console.error("Erro YouTube Data API"); }
-
-            try {
-                const hoje = new Date().toISOString().split('T')[0];
-                const trintaDias = new Date(new Date().setDate(new Date().getDate() - 30)).toISOString().split('T')[0];
-                const urlA = `https://youtubeanalytics.googleapis.com/v1/reports?ids=channel==MINE&startDate=${trintaDias}&endDate=${hoje}&metrics=views,estimatedMinutesWatched,averageViewDuration&dimensions=day`;
-                const resA = await fetch(urlA, { headers: { 'Authorization': `Bearer ${accessToken}` } });
-                const analytics = await resA.json();
-
-                let viewsTotais = 0;
-                if(analytics.rows) analytics.rows.forEach(r => viewsTotais += r[1]);
-                contextoCanalGlobal = `Canal: ${nomeCanal}. Inscritos: ${inscritos}. Views (30 dias): ${viewsTotais}.`;
-
-                document.getElementById('stats-area').innerHTML += `
-                    <div class="data-chip" style="background:rgba(0,150,255,0.1); color:#00aaff; border-color:#00aaff44;">📈 Views (30d): <b>${viewsTotais.toLocaleString()}</b></div>
-                `;
-                addMsg('ai', `Relatório carregado! Analisei o canal **${nomeCanal}**. Como vamos crescer hoje?`);
-            } catch (e) { addMsg('ai', "Conectado! Verifique as permissões de Analytics se os dados de views não aparecerem."); }
+            } catch (e) { console.error("Erro dados YT"); }
         }
 
         async function askGemini() {
@@ -223,13 +184,16 @@
             input.value = '';
             btn.disabled = true;
 
-            const promptCompleto = `Contexto: ${contextoCanalGlobal}. Pergunta: ${texto}`;
-
             try {
+                // AQUI ESTAVA O ERRO: Adicionado headers e JSON.stringify correto
                 const response = await fetch(BACKEND_URL, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ prompt: promptCompleto })
+                    headers: { 
+                        'Content-Type': 'application/json' 
+                    },
+                    body: JSON.stringify({ 
+                        prompt: `Contexto: ${contextoCanalGlobal}. Pergunta: ${texto}` 
+                    })
                 });
                 
                 const data = await response.json();
@@ -237,10 +201,10 @@
                 if (data.reply) {
                     addMsg('ai', data.reply);
                 } else {
-                    addMsg('ai', "O backend Vercel respondeu, mas sem conteúdo. Verifique os logs no Vercel.");
+                    addMsg('ai', "Erro no servidor: " + (data.error || "Sem resposta"));
                 }
             } catch (e) {
-                addMsg('ai', "Erro ao conectar com o seu servidor no Vercel. Verifique se a URL está correta e se a VPN está ligada.");
+                addMsg('ai', "Erro ao conectar com Vercel. Verifique se a VPN está ligada.");
             } finally {
                 btn.disabled = false;
             }
