@@ -6,12 +6,13 @@
     <title>ApexiA | Dominação Digital</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <!-- Biblioteca Google -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 
     <style>
         :root {
-            --primary: #A855F7; /* Lilás Impactante */
+            --primary: #A855F7; /* Lilás */
             --bg: #030303;
             --card: rgba(168, 85, 247, 0.05);
             --border: rgba(168, 85, 247, 0.2);
@@ -29,7 +30,7 @@
             overflow: hidden;
         }
 
-        /* --- FUNDO ANIMADO (ESPAÇO/NEBULOSA) --- */
+        /* --- FUNDO ANIMADO --- */
         .bg-stars {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: radial-gradient(circle at 50% 50%, #1a0033 0%, #030303 100%);
@@ -42,161 +43,109 @@
         }
         @keyframes moveStars { from { background-position: 0 0; } to { background-position: 1000px 1000px; } }
 
-        /* --- LANDING PAGE --- */
+        /* --- LANDING --- */
         #landing-page {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             height: 100vh; text-align: center; padding: 20px;
         }
 
         .logo-container {
-            width: 180px; height: 180px;
-            margin-bottom: 20px;
+            width: 160px; height: 160px; margin-bottom: 25px;
             animation: float 4s ease-in-out infinite;
         }
         .logo-img {
-            width: 100%; height: 100%;
-            border-radius: 50%;
-            box-shadow: 0 0 50px rgba(168, 85, 247, 0.4);
-            object-fit: cover;
+            width: 100%; height: 100%; border-radius: 50%;
+            box-shadow: 0 0 40px rgba(168, 85, 247, 0.5); object-fit: cover;
+            border: 2px solid var(--primary);
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
-        .hero-title {
-            font-size: clamp(3rem, 12vw, 5rem);
-            font-weight: 800; letter-spacing: -3px; margin: 0;
-            text-transform: uppercase;
-        }
-        .hero-title span { color: var(--primary); text-shadow: 0 0 20px var(--primary); }
+        .hero-title { font-size: clamp(2.5rem, 10vw, 5rem); font-weight: 800; letter-spacing: -2px; margin: 0; text-transform: uppercase; }
+        .hero-title span { color: var(--primary); text-shadow: 0 0 15px var(--primary); }
 
-        .animated-phrases {
-            height: 30px; font-size: 1.1rem; color: #aaa; margin: 20px 0;
-            font-weight: 400; font-style: italic;
-        }
+        .phrases { height: 30px; font-size: 1rem; color: #aaa; margin: 20px 0; font-style: italic; }
 
         .btn-lilac {
-            background: var(--primary); color: white; padding: 18px 45px;
+            background: var(--primary); color: white; padding: 16px 40px;
             border-radius: 40px; border: none; font-weight: 800;
             font-size: 1rem; cursor: pointer; display: flex; align-items: center; gap: 12px;
-            transition: 0.3s; box-shadow: 0 0 20px rgba(168, 85, 247, 0.5);
+            transition: 0.3s; box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
         }
-        .btn-lilac:hover { transform: scale(1.05); box-shadow: 0 0 40px var(--primary); }
+        .btn-lilac:disabled { background: #444; box-shadow: none; cursor: not-allowed; }
 
-        /* --- SELECTION MENU --- */
-        #selection-menu {
-            display: none; flex-direction: column; align-items: center; justify-content: center;
-            height: 100vh; text-align: center; padding: 20px;
-        }
-
-        .menu-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px; width: 100%; max-width: 900px; margin-top: 40px;
-        }
-
+        /* --- MENU --- */
+        #selection-menu { display: none; flex-direction: column; align-items: center; justify-content: center; height: 100vh; text-align: center; padding: 20px; }
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; width: 100%; max-width: 800px; margin-top: 30px; }
         .menu-card {
             background: var(--card); border: 1px solid var(--border);
-            padding: 50px 30px; border-radius: 30px; cursor: pointer;
-            backdrop-filter: blur(15px); transition: 0.4s;
+            padding: 40px 20px; border-radius: 24px; cursor: pointer;
+            backdrop-filter: blur(10px); transition: 0.3s;
         }
-        .menu-card:hover { border-color: var(--primary); background: rgba(168, 85, 247, 0.15); transform: translateY(-10px); }
-        .menu-card h3 { margin: 0; font-size: 1.6rem; text-transform: uppercase; letter-spacing: 1px; color: var(--primary); }
-        .menu-card p { color: #ccc; margin-top: 15px; font-size: 0.9rem; }
+        .menu-card:hover { border-color: var(--primary); transform: scale(1.02); background: rgba(168, 85, 247, 0.1); }
+        .menu-card h3 { color: var(--primary); text-transform: uppercase; margin: 0; font-size: 1.3rem; }
 
-        /* --- DASHBOARD MENTORIA --- */
-        #app-container { display: none; flex-direction: column; height: 100vh; max-width: 1000px; margin: 0 auto; background: rgba(0,0,0,0.8); }
-
-        header { padding: 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-        .header-logo { font-weight: 800; color: var(--primary); font-size: 1.2rem; }
-
-        .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 15px 20px; }
-        .card { background: var(--card); border: 1px solid var(--border); padding: 15px 5px; border-radius: 20px; text-align: center; }
-        .card label { color: #aaa; font-size: 0.6rem; font-weight: 600; text-transform: uppercase; }
-        .card .value { font-size: 1.2rem; font-weight: 800; margin-top: 5px; display: block; color: var(--primary); }
-
-        /* --- CHAT AREA --- */
+        /* --- APP --- */
+        #app-container { display: none; flex-direction: column; height: 100vh; max-width: 900px; margin: 0 auto; background: rgba(0,0,0,0.8); }
+        header { padding: 15px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
         #chat-window { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
-        .msg { max-width: 85%; padding: 14px 20px; border-radius: 22px; font-size: 0.95rem; line-height: 1.6; }
+        .msg { max-width: 85%; padding: 12px 16px; border-radius: 20px; font-size: 0.95rem; line-height: 1.5; }
         .ai { align-self: flex-start; background: #1c1c1e; border: 1px solid var(--border); }
-        .user { align-self: flex-end; background: var(--primary); color: white; }
-
-        /* --- THINKING ANIMATION --- */
-        .thinking { font-style: italic; color: #86868b; font-size: 0.8rem; display: flex; align-items: center; gap: 5px; }
-        .dot { width: 4px; height: 4px; background: var(--primary); border-radius: 50%; animation: blink 1.4s infinite both; }
-        .dot:nth-child(2) { animation-delay: 0.2s; }
-        .dot:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes blink { 0%, 100% { opacity: .2; } 20% { opacity: 1; } }
-
-        /* --- INPUT --- */
-        .input-bar { padding: 20px; background: #000; border-top: 1px solid var(--border); display: flex; gap: 10px; }
-        input { flex: 1; background: #1c1c1e; border: 1px solid var(--border); padding: 15px 25px; border-radius: 30px; color: white; outline: none; font-size: 16px; }
-        .send-btn { background: var(--primary); border: none; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; color: white; font-size: 1.2rem; font-weight: 900; }
-
-        .btn-nav { background: rgba(255,255,255,0.05); color: #aaa; border: 1px solid var(--border); padding: 8px 15px; border-radius: 15px; cursor: pointer; font-size: 0.75rem; }
-
-        @media (max-width: 480px) {
-            .menu-grid { grid-template-columns: 1fr; }
-        }
+        .user { align-self: flex-end; background: var(--primary); }
+        .input-bar { padding: 15px; background: #000; border-top: 1px solid var(--border); display: flex; gap: 10px; }
+        input { flex: 1; background: #1c1c1e; border: 1px solid var(--border); padding: 12px 20px; border-radius: 25px; color: white; outline: none; font-size: 16px; }
+        .send-btn { background: var(--primary); border: none; width: 45px; height: 45px; border-radius: 50%; color: white; font-weight: 900; }
+        .btn-nav { background: #222; color: #888; border: 1px solid #444; padding: 6px 12px; border-radius: 12px; font-size: 0.7rem; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <div class="bg-stars"><div class="nebula"></div></div>
 
-    <!-- TELA 1: LOGIN -->
+    <!-- TELA 1 -->
     <div id="landing-page">
         <div class="logo-container">
-            <img src="logo.png" alt="ApexiA Logo" class="logo-img" onerror="this.src='https://via.placeholder.com/180/A855F7/FFFFFF?text=ApexiA'">
+            <!-- Forçando o carregamento do logo.png relativo -->
+            <img src="./logo.png" alt="ApexiA Logo" class="logo-img" id="main-logo">
         </div>
         <h1 class="hero-title">APEX<span>IA</span></h1>
-        <div class="animated-phrases" id="phrase">O futuro do seu canal começa aqui...</div>
+        <div class="phrases" id="phrase">Iniciando protocolos de dominação...</div>
         
-        <button class="btn-lilac" onclick="iniciarLogin()">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_Color_Icon.svg" width="20" style="background:white; border-radius:50%; padding:2px;">
-            Sincronizar Canal
+        <button id="btn-login" class="btn-lilac" onclick="iniciarLogin()" disabled>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_Color_Icon.svg" width="18">
+            <span id="btn-text">Carregando Sistema...</span>
         </button>
     </div>
 
-    <!-- TELA 2: MENU -->
+    <!-- TELA 2 -->
     <div id="selection-menu">
-        <h2 style="font-size: 2.2rem; font-weight: 800; text-transform: uppercase;">Acesso <span style="color:var(--primary)">Autorizado</span></h2>
+        <h2 style="text-transform: uppercase;">Acesso <span style="color:var(--primary)">Autorizado</span></h2>
         <div class="menu-grid">
             <div class="menu-card" onclick="irParaMentoria()">
                 <h3>Dominação Digital</h3>
-                <p>Use a nossa IA para analisar métricas, roteiros e destruir o algoritmo do YouTube.</p>
+                <p>IA de análise técnica profunda para destruir o algoritmo.</p>
             </div>
             <div class="menu-card" onclick="irParaPrompts()">
-                <h3>Biblioteca Mestra</h3>
-                <p>Acesse o arsenal de prompts secretos para acelerar a sua produtividade agora.</p>
+                <h3>Arsenal de Prompts</h3>
+                <p>A tua biblioteca mestra de comandos secretos.</p>
             </div>
         </div>
-        <button class="btn-nav" onclick="logout()" style="margin-top: 50px;">Desconectar</button>
+        <button class="btn-nav" onclick="logout()" style="margin-top: 40px;">Sair</button>
     </div>
 
-    <!-- TELA 3: APP MENTORIA -->
+    <!-- TELA 3 -->
     <div id="app-container">
         <header>
             <button class="btn-nav" onclick="voltarAoMenu()">← Voltar</button>
-            <div class="header-logo">APEX<span>IA</span> PRO</div>
+            <div style="font-weight: 800; color: var(--primary);">APEX<span>IA</span> PRO</div>
             <button class="btn-nav" onclick="logout()">Sair</button>
         </header>
-
-        <div class="metrics-grid">
-            <div class="card"><label>Inscritos</label><span class="value" id="val-subs">---</span></div>
-            <div class="card"><label>Views (30d)</label><span class="value" id="val-views">---</span></div>
-            <div class="card"><label>Sistema</label><span class="value" id="view-status">ON</span></div>
+        <div id="chat-window">
+            <div class="msg ai">Protocolo de Dominação ativo. O que vamos conquistar hoje?</div>
         </div>
-
-        <div id="chat-section">
-            <div id="chat-window">
-                <div class="msg ai">Dominação iniciada. Analisei as profundezas do seu canal. O que vamos conquistar hoje?</div>
-            </div>
-            <div class="input-bar">
-                <input type="text" id="user-input" placeholder="Mande sua dúvida técnica...">
-                <button class="send-btn" onclick="perguntar()">→</button>
-            </div>
+        <div class="input-bar">
+            <input type="text" id="user-input" placeholder="Mande sua dúvida estratégica...">
+            <button class="send-btn" onclick="perguntar()">→</button>
         </div>
     </div>
 
@@ -205,33 +154,38 @@
         const BACKEND_URL = "https://apexia-backend.vercel.app/api/mentor"; 
 
         const phrases = [
-            "Domine o Algoritmo com IA.",
-            "A estratégia dos grandes agora é sua.",
+            "Domine o algoritmo com IA.",
+            "Resultados exponenciais.",
             "O ápice da criação de conteúdo.",
-            "Análise real. Resultados exponenciais."
+            "A estratégia dos grandes agora é tua."
         ];
-        let pIndex = 0;
+        let pIdx = 0;
         setInterval(() => {
-            pIndex = (pIndex + 1) % phrases.length;
-            document.getElementById('phrase').innerText = phrases[pIndex];
+            pIdx = (pIdx + 1) % phrases.length;
+            document.getElementById('phrase').innerText = phrases[pIdx];
         }, 3000);
 
         let accessToken = localStorage.getItem('apexia_token');
         let tokenClient;
-        let canalInfo = { nome: "Criador", subs: 0, views: 0 };
 
+        // Inicialização Segura
         window.onload = () => {
-            tokenClient = google.accounts.oauth2.initTokenClient({
-                client_id: CLIENT_ID,
-                scope: 'https://www.googleapis.com/auth/youtube.readonly https://www.googleapis.com/auth/yt-analytics.readonly',
-                callback: (res) => {
-                    if (res.access_token) {
-                        accessToken = res.access_token;
-                        localStorage.setItem('apexia_token', res.access_token);
-                        mostrarMenu();
-                    }
-                },
-            });
+            if (typeof google !== 'undefined') {
+                tokenClient = google.accounts.oauth2.initTokenClient({
+                    client_id: CLIENT_ID,
+                    scope: 'https://www.googleapis.com/auth/youtube.readonly https://www.googleapis.com/auth/yt-analytics.readonly',
+                    callback: (res) => {
+                        if (res.access_token) {
+                            localStorage.setItem('apexia_token', res.access_token);
+                            accessToken = res.access_token;
+                            mostrarMenu();
+                        }
+                    },
+                });
+                // Ativa o botão quando o Google carregar
+                document.getElementById('btn-login').disabled = false;
+                document.getElementById('btn-text').innerText = "Sincronizar Canal";
+            }
             if (accessToken) mostrarMenu();
         };
 
@@ -245,65 +199,27 @@
         function irParaMentoria() {
             document.getElementById('selection-menu').style.display = 'none';
             document.getElementById('app-container').style.display = 'flex';
-            carregarMetricas();
         }
         function irParaPrompts() { window.open('https://apexia-oficcial.github.io/ApexIA/', '_blank'); }
         function voltarAoMenu() { mostrarMenu(); }
-
-        async function carregarMetricas() {
-            try {
-                const r1 = await fetch('https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&mine=true', {
-                    headers: { 'Authorization': `Bearer ${accessToken}` }
-                });
-                const d1 = await r1.json();
-                canalInfo.nome = d1.items[0].snippet.title;
-                canalInfo.subs = d1.items[0].statistics.subscriberCount;
-                document.getElementById('val-subs').innerText = Number(canalInfo.subs).toLocaleString();
-
-                const hoje = new Date().toISOString().split('T')[0];
-                const trinta = new Date(new Date().setDate(new Date().getDate() - 30)).toISOString().split('T')[0];
-                const r2 = await fetch(`https://youtubeanalytics.googleapis.com/v1/reports?ids=channel==MINE&startDate=${trinta}&endDate=${hoje}&metrics=views&dimensions=day`, {
-                    headers: { 'Authorization': `Bearer ${accessToken}` }
-                });
-                const d2 = await r2.json();
-                let v = 0; if(d2.rows) d2.rows.forEach(r => v += r[1]);
-                canalInfo.views = v;
-                document.getElementById('val-views').innerText = v.toLocaleString();
-            } catch (e) {
-                document.getElementById('view-status').innerText = "ERRO";
-            }
-        }
 
         async function perguntar() {
             const input = document.getElementById('user-input');
             const txt = input.value.trim();
             if (!txt) return;
-
             addMsg('user', txt);
             input.value = "";
-
-            const chatWindow = document.getElementById('chat-window');
-            const thinkingDiv = document.createElement('div');
-            thinkingDiv.id = "thinking-id";
-            thinkingDiv.className = "msg ai thinking";
-            thinkingDiv.innerHTML = `ApexiA está analisando o seu canal <div class="dot"></div><div class="dot"></div><div class="dot"></div>`;
-            chatWindow.appendChild(thinkingDiv);
-            chatWindow.scrollTop = chatWindow.scrollHeight;
-
-            const promptFinal = `IDENTIDADE: Mentor ApexiA Pro (Focado em Dominação Digital). DADOS REAIS: Canal: ${canalInfo.nome}, Subs: ${canalInfo.subs}, Views: ${canalInfo.views}. Responda como um mentor técnico de elite. Pergunta: ${txt}`;
 
             try {
                 const response = await fetch(BACKEND_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ prompt: promptFinal })
+                    body: JSON.stringify({ prompt: "Responda como Mentor ApexiA Pro: " + txt })
                 });
                 const data = await response.json();
-                document.getElementById('thinking-id').remove();
                 addMsg('ai', data.reply);
             } catch (e) {
-                if(document.getElementById('thinking-id')) document.getElementById('thinking-id').remove();
-                addMsg('ai', "Erro de conexão. Ative a VPN.");
+                addMsg('ai', "Erro de conexão. Ativa a VPN.");
             }
         }
 
