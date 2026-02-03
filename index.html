@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ApexiA | Mentor IA de Elite</title>
+    <title>ApexiA Mentor Pro | Elite</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
@@ -25,11 +25,11 @@
             font-family: 'Inter', sans-serif;
             background-color: var(--bg);
             color: var(--text);
-            height: 100%; width: 100%;
-            overflow: hidden; /* Mantém o app fixo */
+            height: 100vh; width: 100vw;
+            overflow: hidden;
         }
 
-        /* --- LANDING PAGE (MOBILE READY) --- */
+        /* --- LANDING --- */
         #landing-page {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             height: 100vh; text-align: center; padding: 30px;
@@ -44,86 +44,56 @@
         }
         .hero-title span { color: var(--primary); -webkit-text-fill-color: var(--primary); }
 
-        .tagline { font-size: 1rem; color: #86868b; max-width: 400px; margin: 15px 0 35px 0; line-height: 1.5; }
-
         .btn-apple {
             background: #fff; color: #000; padding: 16px 35px;
             border-radius: 40px; border: none; font-weight: 700;
-            font-size: 1rem; cursor: pointer; display: flex; align-items: center; gap: 10px;
+            font-size: 1rem; cursor: pointer; display: flex; align-items: center; gap: 10px; margin-top: 30px;
         }
 
-        /* --- APP DASHBOARD (MOBILE OPTIMIZED) --- */
-        #app-container {
-            display: none; flex-direction: column;
-            height: 100vh; max-width: 1000px; margin: 0 auto;
-        }
+        /* --- APP CONTAINER --- */
+        #app-container { display: none; flex-direction: column; height: 100vh; max-width: 1000px; margin: 0 auto; }
 
         header {
-            flex-shrink: 0;
-            display: flex; justify-content: space-between; align-items: center;
+            flex-shrink: 0; display: flex; justify-content: space-between; align-items: center;
             padding: 15px 20px; border-bottom: 1px solid var(--border);
         }
 
         .header-logo { font-weight: 800; font-size: 1.2rem; letter-spacing: -1px; }
         .header-logo span { color: var(--primary); }
 
-        .metrics-grid {
-            display: grid; grid-template-columns: repeat(3, 1fr);
-            gap: 10px; padding: 15px 20px; flex-shrink: 0;
-        }
-
-        .card {
-            background: var(--card); border: 1px solid var(--border);
-            padding: 12px 10px; border-radius: 16px; text-align: center;
-        }
-
+        /* --- METRICS --- */
+        .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 15px 20px; flex-shrink: 0; }
+        .card { background: var(--card); border: 1px solid var(--border); padding: 12px 5px; border-radius: 16px; text-align: center; }
         .card label { color: #86868b; font-size: 0.6rem; font-weight: 600; text-transform: uppercase; display: block; }
         .card .value { font-size: 1.1rem; font-weight: 700; margin-top: 4px; display: block; }
-        .card .status-text { font-size: 0.6rem; color: #00ff00; margin-top: 2px; display: block; }
 
-        /* --- CHAT AREA --- */
-        #chat-section {
-            flex: 1; display: flex; flex-direction: column;
-            overflow: hidden; background: rgba(255,255,255,0.02);
-            border-top: 1px solid var(--border);
-        }
+        /* --- CHAT --- */
+        #chat-section { flex: 1; display: flex; flex-direction: column; overflow: hidden; border-top: 1px solid var(--border); }
+        #chat-window { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
 
-        #chat-window {
-            flex: 1; overflow-y: auto; padding: 20px;
-            display: flex; flex-direction: column; gap: 15px;
-        }
+        .msg { max-width: 85%; padding: 12px 16px; border-radius: 20px; line-height: 1.5; font-size: 0.95rem; animation: fadeIn 0.3s ease; }
+        .ai { align-self: flex-start; background: #1c1c1e; border: 1px solid var(--border); border-bottom-left-radius: 4px; }
+        .user { align-self: flex-end; background: var(--primary); border-bottom-right-radius: 4px; }
 
-        .msg { max-width: 85%; padding: 12px 16px; border-radius: 20px; line-height: 1.5; font-size: 0.95rem; }
-        .ai { align-self: flex-start; background: #1c1c1e; border: 1px solid var(--border); color: #f5f5f7; border-bottom-left-radius: 4px; }
-        .user { align-self: flex-end; background: var(--primary); color: white; border-bottom-right-radius: 4px; }
+        /* --- PENSANDO (ANIMATION) --- */
+        .thinking { font-style: italic; color: #86868b; font-size: 0.8rem; display: flex; align-items: center; gap: 5px; }
+        .dot { width: 4px; height: 4px; background: #86868b; border-radius: 50%; animation: blink 1.4s infinite both; }
+        .dot:nth-child(2) { animation-delay: 0.2s; }
+        .dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes blink { 0% { opacity: .2; } 20% { opacity: 1; } 100% { opacity: .2; } }
 
-        /* --- INPUT BAR --- */
+        /* --- INPUT --- */
         .input-bar {
-            flex-shrink: 0; padding: 15px 20px;
-            background: #000; border-top: 1px solid var(--border);
-            display: flex; gap: 10px; align-items: center;
-            padding-bottom: env(safe-area-inset-bottom); /* Suporte para iPhone Notch */
+            flex-shrink: 0; padding: 15px 20px; background: #000; border-top: 1px solid var(--border);
+            display: flex; gap: 10px; align-items: center; padding-bottom: env(safe-area-inset-bottom);
         }
 
-        input {
-            flex: 1; background: #1c1c1e; border: 1px solid var(--border);
-            padding: 12px 20px; border-radius: 25px; color: white;
-            outline: none; font-size: 16px; /* 16px impede o zoom automático no iOS */
-        }
-
-        .send-btn {
-            background: #fff; border: none; width: 44px; height: 44px;
-            border-radius: 50%; cursor: pointer; font-size: 1.2rem;
-            display: flex; align-items: center; justify-content: center;
-        }
+        input { flex: 1; background: #1c1c1e; border: 1px solid var(--border); padding: 12px 20px; border-radius: 25px; color: white; outline: none; font-size: 16px; }
+        .send-btn { background: #fff; border: none; width: 44px; height: 44px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; }
 
         .btn-sair { background: #222; color: #86868b; border: 1px solid var(--border); padding: 5px 12px; border-radius: 12px; font-size: 0.7rem; cursor: pointer; }
 
-        @media (max-width: 480px) {
-            .hero-title { font-size: 3.5rem; }
-            .msg { max-width: 90%; font-size: 0.9rem; }
-            .metrics-grid { padding: 10px; }
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -131,14 +101,14 @@
     <!-- TELA DE LOGIN -->
     <div id="landing-page">
         <h1 class="hero-title">APEX<span>IA</span></h1>
-        <p class="tagline">O seu Mentor de Growth no bolso. Analise seu canal em qualquer lugar.</p>
+        <p class="tagline">O seu Mentor de Growth nível Black Belt. Inteligência real conectada ao seu canal.</p>
         <button class="btn-apple" onclick="login()">
             <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_Color_Icon.svg" width="18">
-            Conectar Canal ApexiA
+            Acessar Mentor Pro
         </button>
     </div>
 
-    <!-- APP PRINCIPAL -->
+    <!-- DASHBOARD PRINCIPAL -->
     <div id="app-container">
         <header>
             <div class="header-logo">APEX<span>IA</span> PRO</div>
@@ -155,17 +125,17 @@
                 <span class="value" id="val-views">---</span>
             </div>
             <div class="card">
-                <label>Status</label>
-                <span class="value" id="view-status" style="color: #007AFF; font-size: 0.8rem;">Analisando</span>
+                <label>Métrica</label>
+                <span class="value" id="view-status" style="color: #007AFF; font-size: 0.7rem;">Sincronizando</span>
             </div>
         </div>
 
         <div id="chat-section">
             <div id="chat-window">
-                <div class="msg ai">ApexiA Mentor Pro Online. Analisei seus 415 inscritos. Como vamos crescer hoje?</div>
+                <div class="msg ai">ApexiA Mentor Pro Online. Analisei seu status atual. O que vamos otimizar hoje?</div>
             </div>
             <div class="input-bar">
-                <input type="text" id="user-input" placeholder="Dúvida estratégica...">
+                <input type="text" id="user-input" placeholder="Pergunte sobre estratégia...">
                 <button class="send-btn" onclick="perguntar()">→</button>
             </div>
         </div>
@@ -205,6 +175,7 @@
 
         async function carregarMetricas() {
             try {
+                // Inscritos
                 const r1 = await fetch('https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&mine=true', {
                     headers: { 'Authorization': `Bearer ${accessToken}` }
                 });
@@ -214,6 +185,7 @@
                 canalInfo.subs = c.statistics.subscriberCount;
                 document.getElementById('val-subs').innerText = Number(canalInfo.subs).toLocaleString();
 
+                // Views
                 const hoje = new Date().toISOString().split('T')[0];
                 const trinta = new Date(new Date().setDate(new Date().getDate() - 30)).toISOString().split('T')[0];
                 const r2 = await fetch(`https://youtubeanalytics.googleapis.com/v1/reports?ids=channel==MINE&startDate=${trinta}&endDate=${hoje}&metrics=views&dimensions=day`, {
@@ -225,7 +197,9 @@
                 if(d2.rows) d2.rows.forEach(r => v += r[1]);
                 canalInfo.views = v;
                 document.getElementById('val-views').innerText = v.toLocaleString();
-                document.getElementById('view-status').innerText = "CONECTADO";
+                document.getElementById('view-status').innerText = "ONLINE";
+                document.getElementById('view-status').style.color = "#00ff00";
+
             } catch (e) {
                 document.getElementById('view-status').innerText = "ERRO DATA";
                 document.getElementById('view-status').style.color = "red";
@@ -237,17 +211,20 @@
             const txt = input.value.trim();
             if (!txt) return;
 
+            // Mostra pergunta do usuário
             addMsg('user', txt);
             input.value = "";
 
-            const promptFinal = `
-                IDENTIDADE: Você é o Mentor Pro da ApexiA. 
-                DADOS DO CANAL: Canal: ${canalInfo.nome}, Subs: ${canalInfo.subs}, Views: ${canalInfo.views}
-                REGRAS: 
-                1. Prove que você tem os dados acima. 
-                2. Use termos como CTR, Retenção e SEO. 
-                3. Responda à pergunta: ${txt}
-            `;
+            // --- MOSTRA INDICADOR DE PENSAMENTO ---
+            const chatWindow = document.getElementById('chat-window');
+            const thinkingDiv = document.createElement('div');
+            thinkingDiv.id = "thinking-id";
+            thinkingDiv.className = "msg ai thinking";
+            thinkingDiv.innerHTML = `ApexiA está analisando <div class="dot"></div><div class="dot"></div><div class="dot"></div>`;
+            chatWindow.appendChild(thinkingDiv);
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+
+            const promptFinal = `IDENTIDADE: Mentor ApexiA Pro. DADOS REAIS: Canal: ${canalInfo.nome}, Subs: ${canalInfo.subs}, Views: ${canalInfo.views}. RESPONDA COM AUTORIDADE E USE OS DADOS REAIS. Pergunta: ${txt}`;
 
             try {
                 const response = await fetch(BACKEND_URL, {
@@ -256,9 +233,14 @@
                     body: JSON.stringify({ prompt: promptFinal })
                 });
                 const data = await response.json();
+                
+                // REMOVE INDICADOR DE PENSAMENTO E ADICIONA RESPOSTA REAL
+                document.getElementById('thinking-id').remove();
                 addMsg('ai', data.reply);
+
             } catch (e) {
-                addMsg('ai', "Falha de conexão. Ligue a VPN se estiver em Angola.");
+                document.getElementById('thinking-id').remove();
+                addMsg('ai', "Falha técnica. Ative a VPN e tente novamente.");
             }
         }
 
