@@ -22,14 +22,12 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
         body, html { font-family: 'Inter', sans-serif; background-color: var(--bg-chat); color: var(--text); height: 100vh; width: 100vw; overflow: hidden; }
 
-        /* --- ESTILO BRUTAL --- */
         .smoke-bg { position: fixed; inset: 0; background: radial-gradient(circle at 50% 50%, #0a200a 0%, #030303 100%); z-index: -1; }
         
         #login-screen { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; }
         .logo-login { width: 150px; height: 150px; border-radius: 50%; border: 3px solid var(--primary); box-shadow: 0 0 40px rgba(0, 255, 0, 0.4); margin-bottom: 25px; object-fit: cover; animation: pulse 2s infinite; }
         @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 
-        /* --- LAYOUT FIX PC & MOBILE --- */
         #app-container { display: none; height: 100vh; width: 100vw; }
         
         #sidebar { width: 300px; background: var(--bg-sidebar); border-right: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; transition: transform 0.3s ease; }
@@ -38,26 +36,22 @@
         header { padding: 15px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: #000; }
         #chat-window { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
 
-        /* DASHBOARD SOCIAL BLADE */
         #dashboard { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 15px; border-bottom: 1px solid var(--border); }
         .stat-card { background: rgba(255,255,255,0.02); border: 1px solid var(--border); padding: 12px; border-radius: 12px; text-align: center; }
         .stat-card label { font-size: 0.55rem; color: #666; font-weight: 900; text-transform: uppercase; display: block; }
         .stat-card span { font-size: 1rem; font-weight: 900; color: var(--primary); display: block; }
 
-        /* MENSAGENS */
         .msg { max-width: 85%; padding: 16px 20px; border-radius: 18px; line-height: 1.6; font-size: 0.95rem; }
         .ai { align-self: flex-start; background: transparent; border-left: 3px solid var(--primary); border-radius: 0; }
         .user { align-self: flex-end; background: var(--primary); color: #000; font-weight: 600; border-radius: 20px 20px 2px 20px; }
         .msg img { max-width: 100%; max-height: 300px; border-radius: 10px; margin-top: 10px; border: 1px solid var(--border); }
 
-        /* INPUT */
         .input-area { padding: 20px; border-top: 1px solid var(--border); background: #000; padding-bottom: calc(20px + env(safe-area-inset-bottom)); }
         .input-wrapper { max-width: 900px; margin: 0 auto; display: flex; gap: 12px; align-items: center; background: #0a0a0a; padding: 10px 18px; border-radius: 35px; border: 1px solid var(--border); }
         input { flex: 1; background: transparent; border: none; color: #fff; outline: none; font-size: 1rem; }
         .icon-btn { color: var(--primary); font-size: 1.4rem; background: none; border: none; cursor: pointer; }
         .send-btn { background: var(--primary); color: #000; width: 42px; height: 42px; border-radius: 50%; font-weight: 900; border: none; cursor: pointer; }
 
-        /* RESPONSIVIDADE */
         @media (max-width: 768px) {
             #sidebar { position: fixed; left: 0; top: 0; bottom: 0; transform: translateX(-100%); z-index: 4000; }
             #sidebar.open { transform: translateX(0); }
@@ -71,13 +65,15 @@
 
         .thinking { display: flex; align-items: center; gap: 10px; padding: 15px; color: var(--primary); font-size: 0.8rem; font-weight: 800; }
         .thinking img { width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--primary); animation: pulse 1.5s infinite; }
+        #history-list { flex:1; overflow-y:auto; padding:10px; }
+        .history-item { display: flex; align-items: center; justify-content: space-between; padding: 12px; border-radius: 10px; font-size: 0.8rem; cursor: pointer; margin-bottom: 5px; color: #888; border: 1px solid transparent; }
+        .history-item.active { background: rgba(0,255,0,0.1); color: #fff; border-color: var(--border); }
     </style>
 </head>
 <body>
 
     <div class="smoke-bg"></div>
 
-    <!-- TELA LOGIN -->
     <div id="login-screen">
         <img src="logo.png" class="logo-login" onerror="this.src='https://via.placeholder.com/150/00FF00/000000?text=ApexIA'">
         <h1 style="font-size: 3.5rem; font-weight: 900; letter-spacing: -4px;">APEX<span>IA</span> V.1.0</h1>
@@ -85,13 +81,12 @@
         <button onclick="iniciarLogin()" style="background:var(--primary); color:#000; padding:20px 50px; border-radius:50px; border:none; font-weight:900; cursor:pointer; margin-top:30px; font-size: 1rem;">ACESSAR COMANDO</button>
     </div>
 
-    <!-- APP PRINCIPAL -->
     <div id="app-container">
         <nav id="sidebar">
             <div style="padding:20px; border-bottom:1px solid var(--border);">
                 <button style="width:100%; padding:12px; border-radius:10px; background:rgba(0,255,0,0.1); color:var(--primary); border:1px solid var(--primary); font-weight:800; cursor:pointer;" onclick="novoChat()">+ NOVO PROTOCOLO</button>
             </div>
-            <div id="history-list" style="flex:1; overflow-y:auto; padding:10px;"></div>
+            <div id="history-list"></div>
             <div style="padding:15px; border-top:1px solid var(--border);">
                 <button onclick="logout()" style="background:none; border:none; color:#555; font-size:0.75rem; cursor:pointer; font-weight: 800;">DESCONECTAR</button>
             </div>
@@ -99,7 +94,7 @@
 
         <main id="main-chat">
             <header>
-                <button id="menu-btn" onclick="toggleSidebar()" style="background:none; border:none; color:var(--primary); font-size:1.5rem;">☰</button>
+                <button id="menu-btn" onclick="toggleSidebar()" style="background:none; border:none; color:var(--primary); font-size:1.8rem;">☰</button>
                 <div style="font-weight: 900; font-size: 1.3rem;">APEXIA <span style="color:var(--primary)">V.1.0</span></div>
                 <div id="chan-label" style="font-size: 0.7rem; color: #555;">SISTEMA ONLINE</div>
             </header>
@@ -128,16 +123,15 @@
         const CLIENT_ID = "145100322345-70nlh619s577puk5c75u19trip13nkme.apps.googleusercontent.com";
         const BACKEND_URL = "https://apexia-backend.vercel.app/api/mentor";
         
-        // O PROMPT SUPREMO FUNDIDO COM AS 6 CAMADAS
-        const MENTOR_PROMPT = `Aja como um Mentor Profissional de YouTube de nível máximo. Você é o estrategista-chefe do Universo ApexiA. 
-        IDENTIFICAÇÃO: Você fala com o dono do canal [NOME_CANAL].
-        REGRAS:
-        1. Correlação Cruzada: Analise CTR + Retenção.
-        2. Engenharia de Ganchos: Foque nos primeiros 30 segundos.
-        3. Diferenciação: Sugira como ser único no nicho.
-        4. Ciclo de Retenção: Sugira End Screens e Pontes de Visualização.
-        5. Visão Cirúrgica: Analise thumbnails enviadas (contraste, texto, emoção).
-        6. Memória Ativa: Use o histórico para evoluir a conversa sem repetições.`;
+        const MENTOR_PROMPT = `Aja como um Mentor Profissional de YouTube Supremo. Você é o estrategista-chefe ApexiA. 
+        IDENTIFICAÇÃO: Canal [NOME_CANAL].
+        ESTILO DE RESPOSTA (OBRIGATÓRIO): Nunca use asteriscos (*) ou hifens (-) para listar pontos. Use emojis criativos e correspondentes ao assunto de cada parágrafo ou tópico citado (ex: 🚀 para crescimento, 📈 para dados, 🎨 para design, 🧠 para mentalidade). Mantenha as respostas organizadas e visualmente ricas.
+        REGRAS: 
+        1. Analise CTR + Retenção. 
+        2. Engenharia de Ganchos (30 seg). 
+        3. Diferenciação de Branding. 
+        4. Visão Cirúrgica de Thumbnails.
+        5. Use o histórico para evoluir a conversa sem ser repetitivo.`;
 
         let accessToken = localStorage.getItem('apexia_token');
         let tokenClient;
@@ -188,13 +182,13 @@
                 document.getElementById('d-views').innerText = Number(c.statistics.viewCount).toLocaleString();
                 document.getElementById('d-vids').innerText = c.statistics.videoCount;
                 document.getElementById('chan-label').innerText = "CANAL: " + canalGlobalNome.toUpperCase();
-                canalStats = `Estatísticas Reais: ${c.statistics.subscriberCount} inscritos, ${c.statistics.viewCount} views totais.`;
+                canalStats = `Canal: ${canalGlobalNome}. Subs: ${c.statistics.subscriberCount}. Views: ${c.statistics.viewCount}.`;
             } catch (e) { console.error("Erro dados"); }
         }
 
         function novoChat() {
             currentChatId = 'chat_' + Date.now();
-            chats[currentChatId] = { title: "Novo Protocolo", messages: [] };
+            chats[currentChatId] = { title: "Protocolo Novo", messages: [] };
             save(); selectChat(currentChatId);
         }
 
@@ -222,7 +216,7 @@
             Object.keys(chats).reverse().forEach(id => {
                 const item = document.createElement('div');
                 item.className = `history-item ${id === currentChatId ? 'active' : ''}`;
-                item.innerHTML = `<span>${chats[id].title}</span><button onclick="deleteChat('${id}', event)">🗑</button>`;
+                item.innerHTML = `<span>${chats[id].title}</span><button onclick="deleteChat('${id}', event)" style="background:none;border:none;color:#333;cursor:pointer;">🗑</button>`;
                 item.onclick = () => selectChat(id);
                 list.appendChild(item);
             });
@@ -239,9 +233,8 @@
             const text = input.value.trim();
             if(!text && !pendingImage) return;
 
-            const msgUser = { role: 'user', content: text, img: pendingImage };
-            chats[currentChatId].messages.push(msgUser);
-            if(chats[currentChatId].title === "Novo Protocolo") chats[currentChatId].title = text.substring(0, 18) || "Protocolo Mídia";
+            chats[currentChatId].messages.push({ role: 'user', content: text, img: pendingImage });
+            if(chats[currentChatId].title === "Protocolo Novo") chats[currentChatId].title = text.substring(0, 18) || "Protocolo Mídia";
             
             renderChat();
             input.value = '';
@@ -252,7 +245,7 @@
             const loader = document.createElement('div');
             loader.id = "loader";
             loader.className = "thinking";
-            loader.innerHTML = `<img src="logo.png" onerror="this.src='https://via.placeholder.com/35/00FF00/000000?text=A'"> ApexiA analisando contexto...`;
+            loader.innerHTML = `<img src="logo.png" onerror="this.src='https://via.placeholder.com/35/00FF00/000000?text=A'"> ApexiA analisando histórico e dados...`;
             win.appendChild(loader);
             win.scrollTop = win.scrollHeight;
 
@@ -273,12 +266,12 @@
                 save();
                 renderChat();
                 renderHistory();
-            } catch (e) { document.getElementById('loader').innerText = "ERRO. LIGUE A VPN."; }
+            } catch (e) { document.getElementById('loader').innerText = "CONEXÃO FALHOU. ATIVE A VPN."; }
         }
 
         function renderChat() {
             const win = document.getElementById('chat-window');
-            win.innerHTML = chats[currentChatId].messages.length === 0 ? '<div class="msg ai">SISTEMA APEXIA V.1.0 PRONTO. ENVIE UM PROTOCOLO.</div>' : '';
+            win.innerHTML = chats[currentChatId].messages.length === 0 ? '<div class="msg ai">SISTEMA APEXIA V.1.0 PRONTO. AGUARDANDO PROTOCOLO.</div>' : '';
             chats[currentChatId].messages.forEach(m => {
                 const div = document.createElement('div');
                 div.className = `msg ${m.role}`;
