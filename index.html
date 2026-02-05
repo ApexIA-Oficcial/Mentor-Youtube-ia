@@ -16,18 +16,15 @@
         body, html { font-family: 'Inter', sans-serif; background-color: var(--bg-chat); color: var(--text); height: 100dvh; width: 100vw; overflow: hidden; }
         .smoke-bg { position: fixed; inset: 0; background: radial-gradient(circle at 50% 50%, #0a200a 0%, #030303 100%); z-index: -1; }
         
-        /* LOGIN */
         #login-screen { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; }
         .logo-login { width: 140px; height: 140px; border-radius: 50%; border: 3px solid var(--primary); box-shadow: 0 0 40px rgba(0, 255, 0, 0.4); margin-bottom: 25px; object-fit: cover; animation: pulse 2s infinite; }
         @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 
-        /* HUB SELECTION */
         #selection-menu { display: none; flex-direction: column; align-items: center; justify-content: center; height: 100dvh; width: 100vw; text-align: center; background: rgba(0,0,0,0.95); z-index: 8888; position: fixed; }
         .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; width: 100%; max-width: 900px; padding: 20px; }
         .menu-card { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 40px 20px; border-radius: 24px; cursor: pointer; transition: 0.3s; }
         .menu-card:hover { border-color: var(--primary); transform: translateY(-5px); background: rgba(0,255,0,0.05); }
 
-        /* APP CONTAINER */
         #app-container { display: none; height: 100dvh; width: 100vw; flex-direction: row; }
         #sidebar { width: 300px; background: var(--bg-sidebar); border-right: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; transition: transform 0.3s ease; }
         #main-chat { flex: 1; display: flex; flex-direction: column; background: var(--bg-chat); height: 100dvh; min-width: 0; position: relative; }
@@ -63,14 +60,12 @@
 
     <div class="smoke-bg"></div>
 
-    <!-- TELA LOGIN -->
     <div id="login-screen">
         <img src="logo.png" class="logo-login" onerror="this.src='https://via.placeholder.com/150/00FF00/000000?text=ApexIA'">
         <h1 style="font-size: 3rem; font-weight: 900; letter-spacing: -3px;">APEX<span>IA</span> V.1.0</h1>
         <button id="btn-acessar" onclick="iniciarLogin()" style="background:var(--primary); color:#000; padding:18px 45px; border-radius:50px; border:none; font-weight:900; cursor:pointer; margin-top:30px;">ACESSAR COMANDO</button>
     </div>
 
-    <!-- HUB -->
     <div id="selection-menu">
         <h2 style="font-weight: 900; font-size: 2.5rem; margin-bottom: 30px;">HUB <span style="color:var(--primary)">APEXIA</span></h2>
         <div class="menu-grid">
@@ -88,7 +83,6 @@
         <button onclick="logout()" style="margin-top:40px; color:#555; background:none; border:none; cursor:pointer; font-weight:800;">DESCONECTAR</button>
     </div>
 
-    <!-- APP -->
     <div id="app-container">
         <nav id="sidebar">
             <div style="padding:20px; border-bottom:1px solid var(--border);">
@@ -103,7 +97,7 @@
 
         <main id="main-chat">
             <header>
-                <button onclick="toggleSidebar()" style="background:none; border:none; color:var(--primary); font-size:1.5rem;">☰</button>
+                <button onclick="toggleSidebar()" style="background:none; border:none; color:var(--primary); font-size:1.5rem;" id="menu-btn">☰</button>
                 <div style="font-weight: 900; font-size: 1.2rem;">APEXIA <span style="color:var(--primary)">V.1.0</span></div>
                 <div id="chan-label" style="font-size: 0.6rem; color: #555;">...</div>
             </header>
@@ -131,8 +125,7 @@
     <script>
         const CLIENT_ID = "145100322345-70nlh619s577puk5c75u19trip13nkme.apps.googleusercontent.com";
         const GEMINI_KEY = "SUA_CHAVE_GEMINI_AQUI"; // <-- COLOQUE AQUI A CHAVE DO AI STUDIO
-        
-        // PROMPT COMPLETO
+
         const mentorYouTubePrompt = "Algoritmo do YouTube com domínio total sobre retenção, CTR, watch time, impressões e recomendações, crescimento orgânico e estratégico de canais, análise avançada de gráficos e métricas, psicologia do criador de conteúdo, branding, posicionamento e diferenciação de canais, criação de títulos, thumbnails, storytelling e retenção, compreensão do comportamento do público e tomada de decisão baseada em dados, atuando para servir como mentor, guia e estrategista pessoal de cada inscrito que solicitar ajuda, sempre com postura de mentor humano, experiente, calmo, confiante e motivador, sem respostas genéricas, oferecendo análises personalizadas para cada canal, avaliando profundamente tudo que o usuário enviar, incluindo prints ou imagens do YouTube Studio, gráficos de visualizações, retenção de público, CTR, impressões, tempo médio de exibição, descrição do canal, nicho e objetivo do criador, com capacidade de ler e interpretar gráficos explicando o que está bom, o que está errado, o que está travando o crescimento e o que o algoritmo está tentando comunicar, explicando sempre o que cada gráfico mostra, como o algoritmo interpreta os dados, qual o impacto no crescimento do canal e apresentando ações práticas, claras e priorizadas sobre o que mudar, melhorar ou repetir, tendo como objetivo principal ajudar qualquer canal a crescer independentemente do tamanho, seja pequeno, médio, parado, desmotivado ou com poucas visualizações, buscando gerar clareza, direção, confiança e estratégia prática, atuando também como mentor psicológico ao compreender frustração, ansiedade por visualizações, comparação com outros canais e desmotivação, ajudando a acalmar, motivar, reposicionar a mentalidade, corrigir expectativas irreais e ensinar disciplina e visão de longo prazo, sem nunca diminuir ou humilhar o criador, orientando sempre com verdade e empatia, respondendo de forma natural a interações sociais simples mas conduzindo sempre a conversa para o crescimento do canal, utilizando linguagem clara, direta e humana, evitando termos técnicos desnecessários sem explicação, usando exemplos, analogias e passos práticos, mantendo o tom de mentor experiente e não de robô, sem inventar dados, sem prometer resultados irreais, sem enganar ou fazer suposições sem base, explicando claramente quando algo não puder ser concluído e mantendo como princípio ajudar o criador a entender o que o algoritmo vê, o que o público sente e o que precisa ser ajustado para crescer de forma consistente. REGRAS DE ESTILO: Use emojis criativos (🚀, 📈, 🎨, 🧠). Use o histórico para dar continuidade. Identifique o usuário pelo canal.";
 
         let accessToken = localStorage.getItem('apexia_token');
@@ -143,6 +136,7 @@
         let canalGlobalNome = "Criador";
         let canalStats = "";
 
+        // FUNÇÃO DE INICIALIZAÇÃO FUNDIDA (Login + Extensão)
         window.onload = () => {
             const checkG = setInterval(() => {
                 if (typeof google !== 'undefined') {
@@ -151,124 +145,3 @@
                         client_id: CLIENT_ID,
                         scope: 'https://www.googleapis.com/auth/youtube.readonly https://www.googleapis.com/auth/yt-analytics.readonly',
                         callback: (res) => { if(res.access_token) handleAuth(res.access_token); }
-                    });
-                }
-            }, 500);
-            if (accessToken) handleAuth(accessToken, true);
-        };
-
-        function iniciarLogin() { tokenClient.requestAccessToken({ prompt: 'consent' }); }
-        function logout() { localStorage.clear(); location.reload(); }
-        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
-        function voltarAoHub() { document.getElementById('app-container').style.display='none'; document.getElementById('selection-menu').style.display='flex'; }
-        function irParaMentoria() { document.getElementById('selection-menu').style.display='none'; document.getElementById('app-container').style.display='flex'; renderHistory(); if(!currentChatId) novoChat(); else selectChat(currentChatId); }
-
-        function handleAuth(token, auto = false) {
-            accessToken = token;
-            localStorage.setItem('apexia_token', token);
-            document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('selection-menu').style.display = 'flex';
-            if(!auto) confetti({ particleCount: 150, colors: ['#00FF00', '#FFFFFF'] });
-            carregarCanal();
-        }
-
-        async function carregarCanal() {
-            try {
-                const res = await fetch('https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&mine=true', { headers: { 'Authorization': `Bearer ${accessToken}` } });
-                const data = await res.json();
-                const c = data.items[0];
-                canalGlobalNome = c.snippet.title;
-                document.getElementById('d-subs').innerText = Number(c.statistics.subscriberCount).toLocaleString();
-                document.getElementById('d-views').innerText = Number(c.statistics.viewCount).toLocaleString();
-                document.getElementById('d-vids').innerText = c.statistics.videoCount;
-                document.getElementById('chan-label').innerText = canalGlobalNome.toUpperCase();
-                canalStats = `Canal: ${canalGlobalNome}. Subs: ${c.statistics.subscriberCount}. Views: ${c.statistics.viewCount}.`;
-            } catch (e) { console.error("Erro API"); }
-        }
-
-        function novoChat() {
-            currentChatId = 'chat_' + Date.now();
-            chats[currentChatId] = { title: "Protocolo Novo", messages: [] };
-            save(); selectChat(currentChatId);
-        }
-
-        function selectChat(id) { currentChatId = id; renderChat(); renderHistory(); if(window.innerWidth < 769) document.getElementById('sidebar').classList.remove('open'); }
-        function save() { localStorage.setItem('apexia_history_final', JSON.stringify(chats)); }
-
-        function renderHistory() {
-            const list = document.getElementById('history-list');
-            list.innerHTML = '';
-            Object.keys(chats).reverse().forEach(id => {
-                const item = document.createElement('div');
-                item.className = `history-item ${id === currentChatId ? 'active' : ''}`;
-                item.style.padding = '12px'; item.style.cursor = 'pointer'; item.style.color = id === currentChatId ? '#00FF00' : '#888';
-                item.innerHTML = `<span>${chats[id].title}</span>`;
-                item.onclick = () => selectChat(id);
-                list.appendChild(item);
-            });
-        }
-
-        function handleImage(input) {
-            const reader = new FileReader();
-            reader.onload = (e) => { pendingImage = e.target.result.split(',')[1]; alert("Imagem Pronta!"); };
-            reader.readAsDataURL(input.files[0]);
-        }
-
-        async function enviar() {
-            const input = document.getElementById('user-input');
-            const text = input.value.trim();
-            if(!text && !pendingImage) return;
-
-            chats[currentChatId].messages.push({ role: 'user', content: text, img: pendingImage });
-            if(chats[currentChatId].title === "Protocolo Novo") chats[currentChatId].title = text.substring(0, 18);
-            
-            renderChat();
-            input.value = '';
-            const imgToSend = pendingImage;
-            pendingImage = null;
-
-            const win = document.getElementById('chat-window');
-            const loader = document.createElement('div');
-            loader.className = "thinking";
-            loader.innerHTML = `<img src="logo.png" onerror="this.src='https://via.placeholder.com/35/00FF00/000000?text=A'"> ApexiA analisando...`;
-            win.appendChild(loader);
-            win.scrollTop = win.scrollHeight;
-
-            const historyContext = chats[currentChatId].messages.slice(-10).map(m => `${m.role === 'user' ? 'Usuário' : 'Mentor'}: ${m.content}`).join('\n');
-
-            try {
-                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`;
-                const payload = { contents: [{ parts: [{ text: `${mentorYouTubePrompt}\n\n[CANAL]: ${canalGlobalNome}\n\nSTATS: ${canalStats}\n\nHISTÓRICO:\n${historyContext}\n\nPERGUNTA: ${text}` }] }] };
-                if (imgToSend) payload.contents[0].parts.push({ inline_data: { mime_type: "image/jpeg", data: imgToSend } });
-
-                const response = await fetch(url, { method: 'POST', body: JSON.stringify(payload) });
-                const data = await response.json();
-                loader.remove();
-                
-                if (data.candidates) {
-                    const aiText = data.candidates[0].content.parts[0].text;
-                    chats[currentChatId].messages.push({ role: 'ai', content: aiText });
-                    save(); renderChat();
-                } else { throw new Error(); }
-            } catch (e) { 
-                loader.innerText = "ERRO. VERIFIQUE VPN E CHAVE."; 
-            }
-        }
-
-        function renderChat() {
-            const win = document.getElementById('chat-window');
-            win.innerHTML = chats[currentChatId].messages.length === 0 ? '<div class="msg ai">SISTEMA PRONTO. AGUARDANDO PROTOCOLO.</div>' : '';
-            chats[currentChatId].messages.forEach(m => {
-                const div = document.createElement('div');
-                div.className = `msg ${m.role}`;
-                if(m.content) div.innerHTML = `<div>${m.content.replace(/\n/g, '<br>')}</div>`;
-                if(m.img) div.innerHTML += `<img src="data:image/jpeg;base64,${m.img}">`;
-                win.appendChild(div);
-            });
-            win.scrollTop = win.scrollHeight;
-        }
-
-        document.getElementById('user-input').addEventListener('keypress', (e) => { if(e.key === 'Enter') enviar(); });
-    </script>
-</body>
-</html>
