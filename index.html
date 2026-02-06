@@ -189,7 +189,7 @@
             } catch (e) { console.error("Erro API"); }
         }
 
-        function novoChat() { currentChatId = 'chat_' + Date.now(); chats[currentChatId] = { title: "Protocolo Novo", messages: [] }; save(); selectChat(currentChatId); }
+        function novoChat() { currentChatId = 'chat_' + Date.now(); chats[currentChatId] = { title: "Desejo Novo", messages: [] }; save(); selectChat(currentChatId); }
         function selectChat(id) { currentChatId = id; renderChat(); renderHistory(); if(window.innerWidth < 769) document.getElementById('sidebar').classList.remove('open'); }
         function save() { localStorage.setItem('apexia_history_final', JSON.stringify(chats)); }
 
