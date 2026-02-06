@@ -91,7 +91,7 @@
     <div id="app-container">
         <nav id="sidebar">
             <div style="padding:20px; border-bottom:1px solid var(--border);">
-                <button style="width:100%; padding:12px; border-radius:10px; background:rgba(0,255,0,0.1); color:var(--primary); border:1px solid var(--primary); font-weight:800; cursor:pointer;" onclick="novoChat()">+ NOVO DESEJO</button>
+                <button style="width:100%; padding:12px; border-radius:10px; background:rgba(0,255,0,0.1); color:var(--primary); border:1px solid var(--primary); font-weight:800; cursor:pointer;" onclick="novoChat()">+ NOVO COMANDO</button>
             </div>
             <div id="history-list" style="flex:1; overflow-y:auto; padding:10px;"></div>
             <div style="padding:15px; border-top:1px solid var(--border);">
@@ -190,7 +190,7 @@
             } catch (e) { console.error("Erro API"); }
         }
 
-        function novoChat() { currentChatId = 'chat_' + Date.now(); chats[currentChatId] = { title: "Desejo Novo", messages: [] }; save(); selectChat(currentChatId); }
+        function novoChat() { currentChatId = 'chat_' + Date.now(); chats[currentChatId] = { title: "Comando Novo", messages: [] }; save(); selectChat(currentChatId); }
         function selectChat(id) { currentChatId = id; renderChat(); renderHistory(); if(window.innerWidth < 769) document.getElementById('sidebar').classList.remove('open'); }
         function save() { localStorage.setItem('apexia_history_final', JSON.stringify(chats)); }
 
@@ -214,7 +214,7 @@
             if(!text && !pendingImage) return;
 
             chats[currentChatId].messages.push({ role: 'user', content: text, img: pendingImage });
-            if(chats[currentChatId].title === "Desejo Novo") chats[currentChatId].title = text.substring(0, 18);
+            if(chats[currentChatId].title === "Comando Novo") chats[currentChatId].title = text.substring(0, 18);
             
             renderChat();
             input.value = '';
