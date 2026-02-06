@@ -1,69 +1,84 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+    <meta name="google-site-verification" content="xrh1p7XApuOxQCSh2CLBXgs3g6Pq4YGvicRq3NmcF0A" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ApexiA V.1.0 | Mentor Supremo</title>
+    <!-- COLE AQUI A TAG DO SEARCH CONSOLE QUE EU EXPLIQUEI NO PASSO 1 -->
+    <title>ApexiA Mentor Supremo</title>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap" rel="stylesheet">
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
     <style>
         :root { --primary: #00FF00; --bg-sidebar: #080808; --bg-chat: #030303; --border: rgba(0, 255, 0, 0.15); --text: #F5F5F7; }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
         body, html { font-family: 'Inter', sans-serif; background-color: var(--bg-chat); color: var(--text); height: 100dvh; width: 100vw; overflow: hidden; }
-        .smoke-bg { position: fixed; inset: 0; background: radial-gradient(circle at 50% 50%, #0a200a 0%, #030303 100%); z-index: -1; }
+        
+        /* LOGIN */
         #login-screen { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; }
         .logo-login { width: 140px; height: 140px; border-radius: 50%; border: 3px solid var(--primary); box-shadow: 0 0 40px rgba(0, 255, 0, 0.4); margin-bottom: 25px; object-fit: cover; animation: pulse 2s infinite; }
-        #selection-menu { display: none; flex-direction: column; align-items: center; justify-content: center; height: 100dvh; width: 100vw; text-align: center; background: rgba(0,0,0,0.95); z-index: 8888; position: fixed; }
-        .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; width: 100%; max-width: 900px; padding: 20px; }
-        .menu-card { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 40px 20px; border-radius: 24px; cursor: pointer; transition: 0.3s; }
-        .menu-card:hover { border-color: var(--primary); transform: translateY(-5px); }
+        
         #app-container { display: none; height: 100dvh; width: 100vw; flex-direction: row; }
         #sidebar { width: 300px; background: var(--bg-sidebar); border-right: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; transition: transform 0.3s ease; }
         #main-chat { flex: 1; display: flex; flex-direction: column; background: var(--bg-chat); height: 100dvh; min-width: 0; position: relative; }
+
         header { padding: 15px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: #000; }
-        #dashboard { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; padding: 12px; border-bottom: 1px solid var(--border); background: #050505; }
+        
+        /* DASHBOARD */
+        #dashboard { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; padding: 12px; border-bottom: 1px solid var(--border); }
         .stat-card { background: rgba(255,255,255,0.02); border: 1px solid var(--border); padding: 10px; border-radius: 12px; text-align: center; }
         .stat-card label { font-size: 0.5rem; color: #666; font-weight: 900; text-transform: uppercase; display: block; }
         .stat-card span { font-size: 0.9rem; font-weight: 900; color: var(--primary); }
+
         #chat-window { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
         .msg { max-width: 85%; padding: 14px 18px; border-radius: 18px; line-height: 1.6; font-size: 0.95rem; word-wrap: break-word; }
         .ai { align-self: flex-start; background: transparent; border-left: 3px solid var(--primary); border-radius: 0; white-space: pre-wrap; }
         .user { align-self: flex-end; background: var(--primary); color: #000; font-weight: 600; border-radius: 20px 20px 2px 20px; }
-        .msg img { max-width: 100%; max-height: 280px; border-radius: 10px; margin-top: 10px; border: 1px solid var(--border); display: block; }
-        .input-area { padding: 15px; border-top: 1px solid var(--border); background: #000; }
+
+        /* INPUT AREA FIX MOBILE */
+        .input-area { padding: 15px; border-top: 1px solid var(--border); background: #000; padding-bottom: max(15px, env(safe-area-inset-bottom)); }
         .input-wrapper { max-width: 900px; margin: 0 auto; display: flex; gap: 10px; align-items: center; background: #0a0a0a; padding: 10px 18px; border-radius: 35px; border: 1px solid var(--border); }
-        input { flex: 1; background: transparent; border: none; color: #fff; outline: none; font-size: 1rem; padding: 5px; }
-        @media (max-width: 768px) { #sidebar { position: fixed; left: 0; top: 0; bottom: 0; transform: translateX(-100%); z-index: 9000; } #sidebar.open { transform: translateX(0); } #app-container { flex-direction: column; } }
+        input { flex: 1; background: transparent; border: none; color: #fff; outline: none; font-size: 1rem; }
+
+        /* FOOTER PARA O GOOGLE APROVAR */
+        footer { padding: 10px; font-size: 0.7rem; color: #444; text-align: center; }
+        footer a { color: #666; text-decoration: underline; }
+
+        @media (max-width: 768px) {
+            #sidebar { position: fixed; left: 0; top: 0; bottom: 0; transform: translateX(-100%); z-index: 9000; }
+            #sidebar.open { transform: translateX(0); }
+            #app-container { flex-direction: column; }
+        }
         @media (min-width: 769px) { #app-container { display: flex; } #dashboard { grid-template-columns: repeat(4, 1fr); } }
-        .thinking { display: flex; align-items: center; gap: 10px; padding: 15px; color: var(--primary); font-size: 0.8rem; font-weight: 800; }
-        .thinking img { width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--primary); animation: pulse 1.5s infinite; }
     </style>
 </head>
 <body>
-    <div class="smoke-bg"></div>
     <div id="login-screen">
         <img src="logo.png" class="logo-login" onerror="this.src='https://via.placeholder.com/150/00FF00/000000?text=ApexIA'">
-        <h1>APEX<span>IA</span> V.1.0</h1>
-        <button onclick="iniciarLogin()" style="background:var(--primary); color:#000; padding:18px 45px; border-radius:50px; border:none; font-weight:900; cursor:pointer; margin-top:30px;">ACESSAR COMANDO</button>
+        <h1 style="font-size: 2.5rem; font-weight: 900; color: #fff;">ApexiA Mentor Supremo</h1>
+        <button onclick="iniciarLogin()" style="background:#fff; color:#000; padding:18px 45px; border-radius:50px; border:none; font-weight:900; cursor:pointer; margin-top:30px;">ACESSAR COMANDO</button>
+        <footer><a href="privacidade.html">Política de Privacidade</a></footer>
     </div>
-    <div id="selection-menu">
-        <h2>HUB <span style="color:var(--primary)">APEXIA</span></h2>
-        <div class="menu-grid">
-            <div class="menu-card" onclick="irParaMentoria()"><h3>Mentor Supremo</h3></div>
-            <div class="menu-card" onclick="window.open('https://apexia-oficcial.github.io/ApexIA/', '_blank')"><h3>Arsenal de Prompts</h3></div>
-        </div>
-        <button onclick="logout()" style="margin-top:40px; color:#555; background:none; border:none; cursor:pointer;">DESCONECTAR</button>
-    </div>
+
     <div id="app-container">
         <nav id="sidebar">
             <div style="padding:20px; border-bottom:1px solid var(--border);"><button style="width:100%; padding:12px; border-radius:10px; background:rgba(0,255,0,0.1); color:var(--primary); border:1px solid var(--primary); font-weight:800; cursor:pointer;" onclick="novoChat()">+ NOVO PROTOCOLO</button></div>
             <div id="history-list" style="flex:1; overflow-y:auto; padding:10px;"></div>
-            <div style="padding:15px; border-top:1px solid var(--border);"><button onclick="logout()" style="color:#555; background:none; border:none; font-size:0.75rem; cursor:pointer;">SAIR DO SISTEMA</button></div>
+            <div style="padding:15px; border-top:1px solid var(--border); font-size: 0.7rem; text-align: center;">
+                <a href="privacidade.html" style="color: #555;">Privacidade</a><br><br>
+                <button onclick="logout()" style="color:#555; background:none; border:none; cursor:pointer; font-weight:800;">SAIR DO SISTEMA</button>
+            </div>
         </nav>
+
         <main id="main-chat">
-            <header><button onclick="toggleSidebar()" style="background:none; border:none; color:var(--primary); font-size:1.5rem;" id="menu-btn">☰</button><div>APEXIA <span>V.1.0</span></div><div id="chan-label" style="font-size:0.6rem; color:#555;">...</div></header>
+            <header>
+                <button onclick="toggleSidebar()" style="background:none; border:none; color:var(--primary); font-size:1.5rem;" id="menu-btn">☰</button>
+                <div style="font-weight: 900;">APEXIA V.1.0</div>
+                <div id="chan-label" style="font-size: 0.6rem; color: #555;">...</div>
+            </header>
             <div id="dashboard">
                 <div class="stat-card"><label>Inscritos</label><span id="d-subs">---</span></div>
                 <div class="stat-card"><label>Total Views</label><span id="d-views">---</span></div>
@@ -71,13 +86,22 @@
                 <div class="stat-card"><label>Status</label><span style="color:var(--primary)">ELITE</span></div>
             </div>
             <div id="chat-window"></div>
-            <div class="input-area"><div class="input-wrapper"><button style="background:none; border:none; color:var(--primary); font-size:1.3rem; cursor:pointer;" onclick="document.getElementById('file-input').click()">📎</button><input type="file" id="file-input" style="display:none" accept="image/*" onchange="handleImage(this)"><input type="text" id="user-input" placeholder="Comando de Growth..."><button style="background:var(--primary); color:#000; width:38px; height:38px; border-radius:50%; border:none; font-weight:900; cursor:pointer;" onclick="enviar()">→</button></div></div>
+            <div class="input-area">
+                <div class="input-wrapper">
+                    <button style="background:none; border:none; color:var(--primary); font-size:1.3rem; cursor:pointer;" onclick="document.getElementById('file-input').click()">📎</button>
+                    <input type="file" id="file-input" style="display:none" accept="image/*" onchange="handleImage(this)">
+                    <input type="text" id="user-input" placeholder="Comando de Growth...">
+                    <button style="background:var(--primary); color:#000; width:38px; height:38px; border-radius:50%; border:none; font-weight:900; cursor:pointer;" onclick="enviar()">→</button>
+                </div>
+            </div>
         </main>
     </div>
+
     <script>
         const CLIENT_ID = "145100322345-70nlh619s577puk5c75u19trip13nkme.apps.googleusercontent.com";
         const BACKEND_URL = "https://apexia-backend.vercel.app/api/mentor";
-        const mentorYouTubePrompt = "Aja como um Mentor Profissional de YouTube Supremo ApexiA. Analise profundamente CTR, Retenção e Impressões. Use emojis criativos (🚀, 📈, 🎨, 🧠). Nunca diga que não tem acesso aos dados, pois eles estão sendo enviados abaixo.";
+        
+        const mentorYouTubePrompt = "Algoritmo do YouTube com domínio total sobre retenção, CTR... [PROMPT COMPLETO AQUI]";
 
         let accessToken = localStorage.getItem('apexia_token');
         let tokenClient;
@@ -85,31 +109,24 @@
         let currentChatId = null;
         let pendingImage = null;
         let canalDataGlobal = "";
-        let videoDataExtra = "";
 
         window.onload = () => {
-            const checkG = setInterval(() => {
-                if (typeof google !== 'undefined') {
-                    clearInterval(checkG);
-                    tokenClient = google.accounts.oauth2.initTokenClient({
-                        client_id: CLIENT_ID,
-                        scope: 'https://www.googleapis.com/auth/youtube.readonly https://www.googleapis.com/auth/yt-analytics.readonly',
-                        callback: (res) => { if(res.access_token) handleAuth(res.access_token); }
-                    });
-                }
-            }, 500);
+            tokenClient = google.accounts.oauth2.initTokenClient({
+                client_id: CLIENT_ID,
+                scope: 'https://www.googleapis.com/auth/youtube.readonly https://www.googleapis.com/auth/yt-analytics.readonly',
+                callback: (res) => { if(res.access_token) handleAuth(res.access_token); }
+            });
             if (accessToken) handleAuth(accessToken, true);
         };
 
         function iniciarLogin() { tokenClient.requestAccessToken({ prompt: 'consent' }); }
         function logout() { localStorage.clear(); location.reload(); }
         function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
-        function irParaMentoria() { document.getElementById('selection-menu').style.display='none'; document.getElementById('app-container').style.display='flex'; renderHistory(); if(!currentChatId) novoChat(); else selectChat(currentChatId); verificarExtensao(); }
 
         async function handleAuth(token, auto = false) {
             accessToken = token; localStorage.setItem('apexia_token', token);
             document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('selection-menu').style.display = 'flex';
+            document.getElementById('app-container').style.display = 'flex';
             if(!auto) confetti({ particleCount: 150, colors: ['#00FF00', '#FFFFFF'] });
             await carregarCanal();
         }
@@ -123,43 +140,48 @@
                 document.getElementById('d-views').innerText = Number(c.statistics.viewCount).toLocaleString();
                 document.getElementById('d-vids').innerText = c.statistics.videoCount;
                 document.getElementById('chan-label').innerText = c.snippet.title.toUpperCase();
-                canalDataGlobal = `DADOS DO CANAL: Nome: ${c.snippet.title}, Subs: ${c.statistics.subscriberCount}, Views: ${c.statistics.viewCount}.`;
+                canalDataGlobal = `DADOS REAIS: Canal: ${c.snippet.title}, Subs: ${c.statistics.subscriberCount}, Views: ${c.statistics.viewCount}.`;
             } catch (e) { console.error("Erro API"); }
         }
 
-        // --- FUNÇÃO PARA PEGAR DADOS REAIS DO VÍDEO DA EXTENSÃO ---
-        async function verificarExtensao() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const videoId = urlParams.get('v_id');
-            if (videoId && accessToken) {
-                try {
-                    // Busca dados reais do vídeo via API
-                    const resV = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics,contentDetails&id=${videoId}`, {
-                        headers: { 'Authorization': `Bearer ${accessToken}` }
-                    });
-                    const dataV = await resV.json();
-                    const v = dataV.items[0];
-                    const titulo = v.snippet.title;
-                    const thumb = v.snippet.thumbnails.high.url;
-                    
-                    // Busca CTR e Analytics do vídeo específico
-                    const hoje = new Date().toISOString().split('T')[0];
-                    const resA = await fetch(`https://youtubeanalytics.googleapis.com/v1/reports?ids=channel==MINE&startDate=2024-01-01&endDate=${hoje}&metrics=views,estimatedMinutesWatched,averageViewDuration,averageViewPercentage&dimensions=video&filters=video==${videoId}`, {
-                        headers: { 'Authorization': `Bearer ${accessToken}` }
-                    });
-                    const dataA = await resA.json();
-                    const stats = dataA.rows ? dataA.rows[0] : null;
+        function novoChat() { currentChatId = 'chat_' + Date.now(); chats[currentChatId] = { title: "Protocolo Novo", messages: [] }; save(); selectChat(currentChatId); }
+        function selectChat(id) { currentChatId = id; renderChat(); renderHistory(); }
+        function save() { localStorage.setItem('apexia_history_final', JSON.stringify(chats)); }
 
-                    videoDataExtra = `VÍDEO EM ANÁLISE: Título: ${titulo}, ID: ${videoId}, Views: ${stats ? stats[1] : 'N/A'}, Retenção: ${stats ? stats[4] + '%' : 'N/A'}.`;
-                    
-                    addMsgToDOM('ai', `🚀 PROTOCOLO DE EXTENSÃO ATIVO!\nAnalisando agora: **${titulo}**\n\n![Thumbnail](${thumb})\n\nJá puxei as métricas reais. O que deseja otimizar?`);
-                } catch (e) { console.error("Erro ao puxar dados do vídeo"); }
-            }
+        async function enviar() {
+            const input = document.getElementById('user-input');
+            const text = input.value.trim();
+            if(!text && !pendingImage) return;
+            chats[currentChatId].messages.push({ role: 'user', content: text, img: pendingImage });
+            renderChat(); input.value = ''; const imgToSend = pendingImage; pendingImage = null;
+            
+            try {
+                const response = await fetch(BACKEND_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        prompt: `${mentorYouTubePrompt}\n\n${canalDataGlobal}\n\nPERGUNTA: ${text}`,
+                        image: imgToSend
+                    })
+                });
+                const data = await response.json();
+                chats[currentChatId].messages.push({ role: 'ai', content: data.reply });
+                save(); renderChat();
+            } catch (e) { alert("Erro na conexão"); }
         }
 
-        function novoChat() { currentChatId = 'chat_' + Date.now(); chats[currentChatId] = { title: "Protocolo Novo", messages: [] }; save(); selectChat(currentChatId); }
-        function selectChat(id) { currentChatId = id; renderChat(); renderHistory(); if(window.innerWidth < 769) document.getElementById('sidebar').classList.remove('open'); }
-        function save() { localStorage.setItem('apexia_history_final', JSON.stringify(chats)); }
+        function renderChat() {
+            const win = document.getElementById('chat-window');
+            win.innerHTML = chats[currentChatId].messages.length === 0 ? '<div class="msg ai">AGUARDANDO PROTOCOLO...</div>' : '';
+            chats[currentChatId].messages.forEach(m => {
+                const div = document.createElement('div');
+                div.className = `msg ${m.role}`;
+                div.innerHTML = `<div>${m.content}</div>`;
+                if(m.img) div.innerHTML += `<img src="data:image/jpeg;base64,${m.img}">`;
+                win.appendChild(div);
+            });
+            win.scrollTop = win.scrollHeight;
+        }
 
         function renderHistory() {
             const list = document.getElementById('history-list'); list.innerHTML = '';
@@ -177,58 +199,6 @@
             reader.onload = (e) => { pendingImage = e.target.result.split(',')[1]; alert("Imagem Pronta!"); };
             reader.readAsDataURL(input.files[0]);
         }
-
-        async function enviar() {
-            const input = document.getElementById('user-input');
-            const text = input.value.trim();
-            if(!text && !pendingImage) return;
-            chats[currentChatId].messages.push({ role: 'user', content: text, img: pendingImage });
-            renderChat(); input.value = ''; const imgToSend = pendingImage; pendingImage = null;
-
-            const win = document.getElementById('chat-window');
-            const loader = document.createElement('div');
-            loader.className = "thinking";
-            loader.innerHTML = `<img src="logo.png" onerror="this.src='https://via.placeholder.com/35/00FF00/000000?text=A'"> Analisando...`;
-            win.appendChild(loader); win.scrollTop = win.scrollHeight;
-
-            try {
-                const response = await fetch(BACKEND_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        prompt: `${mentorYouTubePrompt}\n\n${canalDataGlobal}\n\n${videoDataExtra}\n\nPERGUNTA: ${text}`,
-                        image: imgToSend
-                    })
-                });
-                const data = await response.json();
-                loader.remove();
-                chats[currentChatId].messages.push({ role: 'ai', content: data.reply });
-                save(); renderChat();
-            } catch (e) { loader.innerText = "ERRO NA CONEXÃO."; }
-        }
-
-        function renderChat() {
-            const win = document.getElementById('chat-window');
-            win.innerHTML = chats[currentChatId].messages.length === 0 ? '<div class="msg ai">SISTEMA PRONTO. ENVIE UM PROTOCOLO.</div>' : '';
-            chats[currentChatId].messages.forEach(m => addMsgToDOM(m.role, m.content, m.img));
-            win.scrollTop = win.scrollHeight;
-        }
-
-        function addMsgToDOM(role, text, img) {
-            const win = document.getElementById('chat-window');
-            const div = document.createElement('div');
-            div.className = `msg ${role}`;
-            if(text) div.innerHTML = `<div>${text.replace(/\n/g, '<br>')}</div>`;
-            if(img) div.innerHTML += `<img src="data:image/jpeg;base64,${img}">`;
-            // Suporte para Markdown simples de imagem para a thumbnail da API
-            if(text && text.includes('![')) {
-                const url = text.match(/\((.*?)\)/)[1];
-                div.innerHTML = div.innerHTML.replace(/!\[.*?\]\(.*?\)/, `<img src="${url}" style="max-height:200px">`);
-            }
-            win.appendChild(div); win.scrollTop = win.scrollHeight;
-        }
-
-        document.getElementById('user-input').addEventListener('keypress', (e) => { if(e.key === 'Enter') enviar(); });
     </script>
 </body>
 </html>
