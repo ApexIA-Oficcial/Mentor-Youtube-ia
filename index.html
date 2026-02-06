@@ -18,40 +18,45 @@
         body, html { font-family: 'Inter', sans-serif; background-color: var(--bg-chat); color: var(--text); height: 100dvh; width: 100vw; overflow: hidden; }
         .smoke-bg { position: fixed; inset: 0; background: radial-gradient(circle at 50% 50%, #0a200a 0%, #030303 100%); z-index: -1; }
         
-        /* LOGIN */
+        /* TELA LOGIN */
         #login-screen { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; }
         .logo-login { width: 140px; height: 140px; border-radius: 50%; border: 3px solid var(--primary); box-shadow: 0 0 40px rgba(0, 255, 0, 0.4); margin-bottom: 25px; object-fit: cover; animation: pulse 2s infinite; }
         @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 
-        /* SELECTION MENU (HUB) */
+        /* MENU HUB (BIBLIOTECA + MENTOR) */
         #selection-menu { display: none; flex-direction: column; align-items: center; justify-content: center; height: 100dvh; width: 100vw; text-align: center; background: rgba(0,0,0,0.95); z-index: 8888; position: fixed; }
         .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; width: 100%; max-width: 900px; padding: 20px; }
         .menu-card { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 40px 20px; border-radius: 24px; cursor: pointer; transition: 0.3s; }
         .menu-card:hover { border-color: var(--primary); transform: translateY(-5px); background: rgba(0,255,0,0.05); }
 
-        /* APP ESTRUTURA */
+        /* APP CONTAINER */
         #app-container { display: none; height: 100dvh; width: 100vw; flex-direction: row; }
         #sidebar { width: 300px; background: var(--bg-sidebar); border-right: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; transition: transform 0.3s ease; }
         #main-chat { flex: 1; display: flex; flex-direction: column; background: var(--bg-chat); height: 100dvh; min-width: 0; position: relative; }
 
         header { padding: 15px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: #000; }
+        
+        /* DASHBOARD */
         #dashboard { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; padding: 12px; border-bottom: 1px solid var(--border); background: #050505; }
         .stat-card { background: rgba(255,255,255,0.02); border: 1px solid var(--border); padding: 10px; border-radius: 12px; text-align: center; }
         .stat-card label { font-size: 0.5rem; color: #666; font-weight: 900; text-transform: uppercase; display: block; }
         .stat-card span { font-size: 0.9rem; font-weight: 900; color: var(--primary); }
 
+        /* CHAT WINDOW */
         #chat-window { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
         .msg { max-width: 85%; padding: 14px 18px; border-radius: 18px; line-height: 1.6; font-size: 0.95rem; word-wrap: break-word; }
         .ai { align-self: flex-start; background: transparent; border-left: 3px solid var(--primary); border-radius: 0; white-space: pre-wrap; }
         .user { align-self: flex-end; background: var(--primary); color: #000; font-weight: 600; border-radius: 20px 20px 2px 20px; }
-        
-        /* INPUT AREA MOBILE FIX */
-        .input-area { padding: 15px; border-top: 1px solid var(--border); background: #000; padding-bottom: max(15px, env(safe-area-inset-bottom)); }
-        .input-wrapper { max-width: 900px; margin: 0 auto; display: flex; gap: 10px; align-items: center; background: #0a0a0a; padding: 10px 18px; border-radius: 35px; border: 1px solid var(--border); }
-        input { flex: 1; background: transparent; border: none; color: #fff; outline: none; font-size: 1rem; }
 
-        footer { padding: 10px; font-size: 0.7rem; color: #444; text-align: center; }
-        footer a { color: #666; text-decoration: underline; }
+        /* INPUT AREA */
+        .input-area { padding: 15px; border-top: 1px solid var(--border); background: #000; padding-bottom: max(15px, env(safe-area-inset-bottom)); }
+        .input-wrapper { max-width: 900px; margin: 0 auto; display: flex; gap: 12px; align-items: center; background: #0a0a0a; padding: 10px 18px; border-radius: 35px; border: 1px solid var(--border); }
+        input { flex: 1; background: transparent; border: none; color: #fff; outline: none; font-size: 1rem; padding: 5px; }
+        .send-btn { background: var(--primary); border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-weight: 900; }
+
+        /* FOOTER */
+        .login-footer { margin-top: 20px; font-size: 0.7rem; color: #444; }
+        .login-footer a { color: #666; text-decoration: underline; }
 
         @media (max-width: 768px) {
             #sidebar { position: fixed; left: 0; top: 0; bottom: 0; transform: translateX(-100%); z-index: 9000; }
@@ -71,31 +76,34 @@
     <div id="login-screen">
         <img src="logo.png" class="logo-login" onerror="this.src='https://via.placeholder.com/150/00FF00/000000?text=ApexIA'">
         <h1 style="font-size: 2.5rem; font-weight: 900; color: #fff;">ApexiA Mentor Supremo</h1>
-        <button onclick="iniciarLogin()" style="background:#fff; color:#000; padding:18px 45px; border-radius:50px; border:none; font-weight:900; cursor:pointer; margin-top:30px;">ACESSAR COMANDO</button>
-        <footer><a href="privacidade.html">Política de Privacidade</a></footer>
+        <button onclick="iniciarLogin()" style="background:#fff; color:#000; padding:18px 45px; border-radius:50px; border:none; font-weight:900; cursor:pointer; margin-top:20px;">ACESSAR COMANDO</button>
+        <div class="login-footer"><a href="privacidade.html">Política de Privacidade</a></div>
     </div>
 
-    <!-- HUB SELECTION -->
+    <!-- MENU HUB -->
     <div id="selection-menu">
         <h2 style="font-weight: 900; font-size: 2.5rem; margin-bottom: 30px;">HUB <span style="color:var(--primary)">APEXIA</span></h2>
         <div class="menu-grid">
             <div class="menu-card" onclick="irParaMentoria()">
                 <div style="font-size: 3rem;">🧠</div>
                 <h3 style="color:var(--primary); margin:10px 0;">Mentor Supremo</h3>
-                <p style="color:#888; font-size:0.9rem;">Análise técnica profunda e estratégica.</p>
+                <p style="color:#888; font-size:0.9rem;">Análise técnica e estratégica do seu canal.</p>
             </div>
             <div class="menu-card" onclick="window.open('https://apexia-oficcial.github.io/ApexIA/', '_blank')">
                 <div style="font-size: 3rem;">⚡</div>
                 <h3 style="color:var(--primary); margin:10px 0;">Arsenal de Prompts</h3>
-                <p style="color:#888; font-size:0.9rem;">Biblioteca master de comandos.</p>
+                <p style="color:#888; font-size:0.9rem;">Biblioteca master para dominar o algoritmo.</p>
             </div>
         </div>
         <button onclick="logout()" style="margin-top:40px; color:#555; background:none; border:none; cursor:pointer; font-weight:800;">DESCONECTAR</button>
     </div>
 
+    <!-- MENTOR APP -->
     <div id="app-container">
         <nav id="sidebar">
-            <div style="padding:20px; border-bottom:1px solid var(--border);"><button style="width:100%; padding:12px; border-radius:10px; background:rgba(0,255,0,0.1); color:var(--primary); border:1px solid var(--primary); font-weight:800; cursor:pointer;" onclick="novoChat()">+ NOVO PROTOCOLO</button></div>
+            <div style="padding:20px; border-bottom:1px solid var(--border);">
+                <button style="width:100%; padding:12px; border-radius:10px; background:rgba(0,255,0,0.1); color:var(--primary); border:1px solid var(--primary); font-weight:800; cursor:pointer;" onclick="novoChat()">+ NOVO PROTOCOLO</button>
+            </div>
             <div id="history-list" style="flex:1; overflow-y:auto; padding:10px;"></div>
             <div style="padding:15px; border-top:1px solid var(--border);">
                 <button onclick="voltarAoHub()" style="color:var(--primary); background:none; border:none; font-size:0.75rem; font-weight:800; cursor:pointer; margin-bottom:10px; display:block;">← VOLTAR AO HUB</button>
@@ -120,8 +128,8 @@
                 <div class="input-wrapper">
                     <button style="background:none; border:none; color:var(--primary); font-size:1.3rem; cursor:pointer;" onclick="document.getElementById('file-input').click()">📎</button>
                     <input type="file" id="file-input" style="display:none" accept="image/*" onchange="handleImage(this)">
-                    <input type="text" id="user-input" placeholder="Comando de Growth...">
-                    <button style="background:var(--primary); color:#000; width:38px; height:38px; border-radius:50%; border:none; font-weight:900; cursor:pointer;" onclick="enviar()">→</button>
+                    <input type="text" id="user-input" placeholder="Mande seu protocolo de growth...">
+                    <button class="send-btn" onclick="enviar()">→</button>
                 </div>
             </div>
         </main>
@@ -131,8 +139,8 @@
         const CLIENT_ID = "145100322345-70nlh619s577puk5c75u19trip13nkme.apps.googleusercontent.com";
         const BACKEND_URL = "https://apexia-backend.vercel.app/api/mentor";
         
-        // PROMPT SUPREMO INTACTO
-        const mentorYouTubePrompt = "Algoritmo do YouTube com domínio total sobre retenção, CTR, watch time, impressões e recomendações, crescimento orgânico e estratégico de canais, análise avançada de gráficos e métricas, psicologia do criador de conteúdo, branding, posicionamento e diferenciação de canais, criação de títulos, thumbnails, storytelling e retenção, compreensão do comportamento do público e tomada de decisão baseada em dados, atuando para servir como mentor, guia e estrategista pessoal de cada inscrito que solicitar ajuda, sempre com postura de mentor humano, experiente, calmo, confiante e motivador, sem respostas genéricas, oferecendo análises personalizadas para cada canal, avaliando profundamente tudo que o usuário enviar, incluindo prints ou imagens do YouTube Studio, gráficos de visualizações, retenção de público, CTR, impressões, tempo médio de exibição, descrição do canal, nicho e objetivo do criador, com capacidade de ler e interpretar gráficos explicando o que está bom, o que está errado, o que está travando o crescimento e o que o algoritmo está tentando comunicar, explicando sempre o que cada gráfico mostra, como o algoritmo interpreta os dados, qual o impacto no crescimento do canal e apresentando ações práticas, claras e priorizadas sobre o que mudar, melhorar ou repetir, tendo como objetivo principal ajudar qualquer canal a crescer independentemente do tamanho, seja pequeno, médio, parado, desmotivado ou com poucas visualizações, buscando gerar clareza, direção, confiança e estratégia prática, atuando também como mentor psicológico ao compreender frustração, ansiedade por visualizações, comparação com outros canais e desmotivação, ajudando a acalmar, motivar, reposicionar a mentalidade, corrigir expectativas irreais e ensinar disciplina e visão de longo prazo, sem nunca diminuir ou humilhar o criador, orientando sempre com verdade e empatia, respondendo de forma natural a interações sociais simples mas conduzindo sempre a conversa para o crescimento do canal, utilizando linguagem clara, direta e humana, evitando termos técnicos desnecessários sem explicação, usando exemplos, analogias e passos práticos, mantendo o tom de mentor experiente e não de robô, sem inventar dados, sem prometer resultados irreais, sem enganar ou fazer suposições sem base, explicando claramente quando algo não puder ser concluído e mantendo como princípio ajudar o criador a entender o que o algoritmo vê, o que o público sente e o que precisa ser ajustado para crescer de forma consistente. REGRAS EXTRAS: Use emojis criativos (🚀, 📈, 🎨, 🧠).";
+        // PROMPT SUPREMO COMPLETO (CONFORME SOLICITADO)
+        const mentorYouTubePrompt = "Algoritmo do YouTube com domínio total sobre retenção, CTR, watch time, impressões e recomendações, crescimento orgânico e estratégico de canais, análise avançada de gráficos e métricas, psicologia do criador de conteúdo, branding, posicionamento e diferenciação de canais, criação de títulos, thumbnails, storytelling e retenção, compreensão do comportamento do público e tomada de decisão baseada em dados, atuando para servir como mentor, guia e estrategista pessoal de cada inscrito que solicitar ajuda, sempre com postura de mentor humano, experiente, calmo, confiante e motivador, sem respostas genéricas, oferecendo análises personalizadas para cada canal, avaliando profundamente tudo que o usuário enviar, incluindo prints ou imagens do YouTube Studio, gráficos de visualizações, retenção de público, CTR, impressões, tempo médio de exibição, descrição do canal, nicho e objetivo do criador, com capacidade de ler e interpretar gráficos explicando o que está bom, o que está errado, o que está travando o crescimento e o que o algoritmo está tentando comunicar, explicando sempre o que cada gráfico mostra, como o algoritmo interpreta os dados, qual o impacto no crescimento do canal e apresentando ações práticas, claras e priorizadas sobre o que mudar, melhorar ou repetir, tendo como objetivo principal ajudar qualquer canal a crescer independentemente do tamanho, seja pequeno, médio, parado, desmotivado or com poucas visualizações, buscando gerar clareza, direção, confiança e estratégia prática, atuando também como mentor psicológico ao compreender frustração, ansiedade por visualizações, comparação com outros canais e desmotivação, ajudando a acalmar, motivar, reposicionar a mentalidade, corrigir expectativas irreais e ensinar disciplina e visão de longo prazo, sem nunca diminuir ou humilhar o criador, orientando sempre com verdade e empatia, respondendo de forma natural a interações sociais simples mas conduzindo sempre a conversa para o crescimento do canal, utilizando linguagem clara, direta e humana, evitando termos técnicos desnecessários sem explicação, usando exemplos, analogias e passos práticos, mantendo o tom de mentor experiente e não de robô, sem inventar dados, sem prometer resultados irreais, sem enganar ou fazer suposições sem base, explicando claramente quando algo não puder ser concluído e mantendo como princípio ajudar o criador a entender o que o algoritmo vê, o que o público sente e o que precisa ser ajustado para crescer de forma consistente. REGRAS DE ESTILO: Use emojis criativos (🚀, 📈, 🎨, 🧠).";
 
         let accessToken = localStorage.getItem('apexia_token');
         let tokenClient;
@@ -160,7 +168,11 @@
             accessToken = token; localStorage.setItem('apexia_token', token);
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('selection-menu').style.display = 'flex';
-            if(!auto) confetti({ particleCount: 150, colors: ['#00FF00', '#FFFFFF'] });
+            if(!auto) {
+                confetti({ particleCount: 150, colors: ['#00FF00', '#FFFFFF'] });
+                alert(!localStorage.getItem('apexia_welcome') ? "BEM-VINDO AO UNIVERSO APEXIA" : "BEM-VINDO DE VOLTA AO COMANDO");
+                localStorage.setItem('apexia_welcome', 'true');
+            }
             await carregarCanal();
         }
 
@@ -173,12 +185,12 @@
                 document.getElementById('d-views').innerText = Number(c.statistics.viewCount).toLocaleString();
                 document.getElementById('d-vids').innerText = c.statistics.videoCount;
                 document.getElementById('chan-label').innerText = c.snippet.title.toUpperCase();
-                canalDataGlobal = `DADOS REAIS: Canal: ${c.snippet.title}, Subs: ${c.statistics.subscriberCount}, Views: ${c.statistics.viewCount}.`;
+                canalDataGlobal = `CANAL: ${c.snippet.title}, INSCRITOS: ${c.statistics.subscriberCount}, VIEWS: ${c.statistics.viewCount}.`;
             } catch (e) { console.error("Erro API"); }
         }
 
         function novoChat() { currentChatId = 'chat_' + Date.now(); chats[currentChatId] = { title: "Protocolo Novo", messages: [] }; save(); selectChat(currentChatId); }
-        function selectChat(id) { currentChatId = id; renderChat(); renderHistory(); }
+        function selectChat(id) { currentChatId = id; renderChat(); renderHistory(); if(window.innerWidth < 769) document.getElementById('sidebar').classList.remove('open'); }
         function save() { localStorage.setItem('apexia_history_final', JSON.stringify(chats)); }
 
         function renderHistory() {
@@ -186,7 +198,9 @@
             Object.keys(chats).reverse().forEach(id => {
                 const item = document.createElement('div');
                 item.className = `history-item ${id === currentChatId ? 'active' : ''}`;
-                item.style.padding = '12px'; item.style.cursor = 'pointer';
+                item.style.padding = '12px'; item.style.cursor = 'pointer'; item.style.borderRadius = '8px';
+                item.style.marginBottom = '5px'; item.style.fontSize = '0.8rem';
+                item.style.color = id === currentChatId ? '#00FF00' : '#888';
                 item.innerHTML = `<span>${chats[id].title}</span>`;
                 item.onclick = () => selectChat(id);
                 list.appendChild(item);
@@ -197,9 +211,59 @@
             const input = document.getElementById('user-input');
             const text = input.value.trim();
             if(!text && !pendingImage) return;
+
             chats[currentChatId].messages.push({ role: 'user', content: text, img: pendingImage });
-            renderChat(); input.value = ''; const imgToSend = pendingImage; pendingImage = null;
+            if(chats[currentChatId].title === "Protocolo Novo") chats[currentChatId].title = text.substring(0, 18);
             
+            renderChat();
+            input.value = '';
+            const imgToSend = pendingImage;
+            pendingImage = null;
+
+            const win = document.getElementById('chat-window');
             const loader = document.createElement('div');
             loader.className = "thinking";
-            loader.inne
+            loader.innerHTML = `<img src="logo.png" onerror="this.src='https://via.placeholder.com/35/00FF00/000000?text=A'"> Analisando...`;
+            win.appendChild(loader);
+            win.scrollTop = win.scrollHeight;
+
+            const historyContext = chats[currentChatId].messages.slice(-10).map(m => `${m.role === 'user' ? 'Usuário' : 'Mentor'}: ${m.content}`).join('\n');
+
+            try {
+                const response = await fetch(BACKEND_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        prompt: `${mentorYouTubePrompt}\n\n${canalDataGlobal}\n\nHISTÓRICO:\n${historyContext}\n\nPERGUNTA: ${text}`,
+                        image: imgToSend
+                    })
+                });
+                const data = await response.json();
+                loader.remove();
+                chats[currentChatId].messages.push({ role: 'ai', content: data.reply });
+                save(); renderChat();
+            } catch (e) { loader.innerText = "ERRO. LIGUE A VPN."; }
+        }
+
+        function renderChat() {
+            const win = document.getElementById('chat-window');
+            win.innerHTML = chats[currentChatId].messages.length === 0 ? '<div class="msg ai">SISTEMA V.1.0 PRONTO. AGUARDANDO COMANDO.</div>' : '';
+            chats[currentChatId].messages.forEach(m => {
+                const div = document.createElement('div'); div.className = `msg ${m.role}`;
+                if(m.content) div.innerHTML = `<div>${m.content.replace(/\n/g, '<br>')}</div>`;
+                if(m.img) div.innerHTML += `<img src="data:image/jpeg;base64,${m.img}">`;
+                win.appendChild(div);
+            });
+            win.scrollTop = win.scrollHeight;
+        }
+
+        function handleImage(input) {
+            const reader = new FileReader();
+            reader.onload = (e) => { pendingImage = e.target.result.split(',')[1]; alert("Imagem Pronta!"); };
+            reader.readAsDataURL(input.files[0]);
+        }
+
+        document.getElementById('user-input').addEventListener('keypress', (e) => { if(e.key === 'Enter') enviar(); });
+    </script>
+</body>
+</html>
