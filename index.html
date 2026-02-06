@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+    <!-- CÓDIGO DE VERIFICAÇÃO GOOGLE -->
     <meta name="google-site-verification" content="xrh1p7XapuOxQCSh2CLBXgs3g6Pq4YGvicRq3NMcF0A" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ApexiA Hub V.1.1 | Elite Growth</title>
+    <title>ApexiA V.1.0 | Mentor Supremo</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap" rel="stylesheet">
@@ -18,7 +19,7 @@
         .smoke-bg { position: fixed; inset: 0; background: radial-gradient(circle at 50% 50%, #0a200a 0%, #030303 100%); z-index: -1; }
         
         #login-screen { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; }
-        .logo-login { width: 150px; height: 150px; border-radius: 50%; border: 3px solid var(--primary); box-shadow: 0 0 40px rgba(0, 255, 0, 0.4); margin-bottom: 25px; object-fit: cover; animation: pulse 2s infinite; }
+        .logo-login { width: 140px; height: 140px; border-radius: 50%; border: 3px solid var(--primary); box-shadow: 0 0 40px rgba(0, 255, 0, 0.4); margin-bottom: 25px; object-fit: cover; animation: pulse 2s infinite; }
         @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 
         #selection-menu { display: none; flex-direction: column; align-items: center; justify-content: center; height: 100dvh; width: 100vw; text-align: center; background: rgba(0,0,0,0.95); z-index: 8888; position: fixed; overflow-y: auto; padding: 20px 0; }
@@ -47,7 +48,6 @@
         input { flex: 1; background: transparent; border: none; color: #fff; outline: none; font-size: 1rem; }
         .send-btn { background: var(--primary); border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-weight: 900; color: #000; }
 
-        /* MODAL REPORTAR ERRO */
         #report-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 10000; align-items: center; justify-content: center; padding: 20px; }
         .modal-content { background: #111; border: 1px solid var(--primary); padding: 30px; border-radius: 24px; width: 100%; max-width: 500px; text-align: center; }
         textarea { width: 100%; height: 120px; background: #000; border: 1px solid var(--border); border-radius: 15px; color: #fff; padding: 15px; margin: 20px 0; outline: none; font-family: inherit; }
@@ -62,15 +62,13 @@
 <body>
     <div class="smoke-bg"></div>
 
-    <!-- TELA LOGIN -->
     <div id="login-screen">
         <img src="logo.png" class="logo-login" onerror="this.src='https://via.placeholder.com/150/00FF00/000000?text=ApexIA'">
         <h1 style="font-size: 2.5rem; font-weight: 900; color: #fff;">ApexiA Hub V.1.1</h1>
-        <button onclick="iniciarLogin()" style="background:#fff; color:#000; padding:18px 45px; border-radius:50px; border:none; font-weight:900; cursor:pointer; margin-top:20px;">ACESSAR HUB ELITE</button>
+        <button onclick="iniciarLogin()" style="background:#fff; color:#000; padding:18px 45px; border-radius:50px; border:none; font-weight:900; cursor:pointer; margin-top:20px;">ACESSAR MENTORIA ELITE</button>
         <div style="margin-top:20px;"><a href="privacidade.html" style="color:#444; font-size:0.7rem;">Política de Privacidade</a></div>
     </div>
 
-    <!-- HUB DE SELEÇÃO -->
     <div id="selection-menu">
         <h2 style="font-weight: 900; font-size: 2.5rem; margin-bottom: 30px;">CENTRAL <span style="color:var(--primary)">APEXIA</span></h2>
         <div class="menu-grid">
@@ -82,7 +80,7 @@
             <div class="menu-card" onclick="window.open('https://apexia-oficcial.github.io/ApexIA/', '_blank')">
                 <div style="font-size: 3rem;">⚡</div>
                 <h3>Arsenal de Prompts</h3>
-                <p style="color:#888; font-size:0.85rem;">Biblioteca de comandos secretos.</p>
+                <p style="color:#888; font-size:0.85rem;">Biblioteca master de comandos secretos.</p>
             </div>
             <div class="menu-card" onclick="window.open('https://substack.com/@apexia', '_blank')">
                 <div style="font-size: 3rem;">📖</div>
@@ -93,12 +91,9 @@
         <button onclick="logout()" style="margin-top:40px; color:#555; background:none; border:none; cursor:pointer; font-weight:800;">DESCONECTAR SISTEMA</button>
     </div>
 
-    <!-- INTERFACE APP -->
     <div id="app-container">
         <nav id="sidebar">
-            <div style="padding:20px; border-bottom:1px solid var(--border);">
-                <button style="width:100%; padding:12px; border-radius:10px; background:rgba(0,255,0,0.1); color:var(--primary); border:1px solid var(--primary); font-weight:800; cursor:pointer;" onclick="novoChat()">+ NOVO PROTOCOLO</button>
-            </div>
+            <div style="padding:20px; border-bottom:1px solid var(--border);"><button style="width:100%; padding:12px; border-radius:10px; background:rgba(0,255,0,0.1); color:var(--primary); border:1px solid var(--primary); font-weight:800; cursor:pointer;" onclick="novoChat()">+ NOVO PROTOCOLO</button></div>
             <div id="history-list" style="flex:1; overflow-y:auto; padding:10px;"></div>
             <div style="padding:15px; border-top:1px solid var(--border);">
                 <button onclick="abrirModalErro()" style="color:#ffaa00; background:none; border:none; font-size:0.7rem; font-weight:800; cursor:pointer; margin-bottom:15px; display:block;">⚠️ REPORTAR ERRO / FEEDBACK</button>
@@ -146,8 +141,8 @@
         const CLIENT_ID = "145100322345-70nlh619s577puk5c75u19trip13nkme.apps.googleusercontent.com";
         const BACKEND_URL = "https://apexia-backend.vercel.app/api/mentor";
         
-        const mentorYouTubePrompt = "Aja como um Mentor Profissional de YouTube Supremo ApexiA. Algoritmo do YouTube com domínio total sobre retenção, CTR, watch time, impressões e recomendações, crescimento orgânico e estratégico de canais, análise avançada de gráficos e métricas, psicologia do criador de conteúdo, branding, posicionamento e diferenciação de canais, criação de títulos, thumbnails, storytelling e retenção, compreensão do comportamento do público e tomada de decisão baseada em dados, atuando para servir como mentor, guia e estrategista pessoal de cada inscrito que solicitar ajuda, sempre com postura de mentor humano, experiente, calmo, confiante e motivador, sem respostas genéricas, oferecendo análises personalizadas para cada canal, avaliando profundamente tudo que o usuário enviar, incluindo prints ou imagens do YouTube Studio, gráficos de visualizações, retenção de público, CTR, impressões, tempo médio de exibição, descrição do canal, nicho e objetivo do criador, com capacidade de ler e interpretar gráficos explicando o que está bom, o que está errado, o que está travando o crescimento e o que o algoritmo está tentando comunicar, explicando sempre o que cada gráfico mostra, como o algoritmo interpreta os dados, qual o impacto no crescimento do canal e apresentando ações práticas, claras e priorizadas sobre o que mudar, melhorar ou repetir, tendo como objetivo principal ajudar qualquer canal a crescer independentemente do tamanho, seja pequeno, médio, parado, desmotivado or com poucas visualizações, buscando gerar clareza, direção, confiança e estratégia prática, atuando também como mentor psicológico ao compreender frustração, ansiedade por visualizações, comparação com outros canais e desmotivação, ajudando a acalmar, motivar, reposicionar a mentalidade, corrigir expectativas irreais e ensinar disciplina e visão de longo prazo, sem nunca diminuir ou humilhar o criador, orientando sempre com verdade e empatia, respondendo de forma natural a interações sociais simples mas conduzindo sempre a conversa para o crescimento do canal, utilizando linguagem clara, direta e humana, evitando termos técnicos desnecessários sem explicação, usando exemplos, analogias e passos práticos, mantendo o tom de mentor experiente e não de robô, sem inventar dados, sem prometer resultados irreais, sem enganar ou fazer suposições sem base, explicando claramente quando algo não puder ser concluído e mantendo como princípio ajudar o criador a entender o que o algoritmo vê, o que o público sente e o que precisa ser ajustado para crescer de forma consistente. REGRAS DE ESTILO: Use emojis criativos (🚀, 📈, 🎨, 🧠).";
-. Use emojis criativos (🚀, 📈, 🎨, 🧠). Responda de forma breve, curta e simples.";
+        // --- PROMPT SUPREMO FUNDIDO E COMPLETO ---
+        const mentorYouTubePrompt = `Algoritmo do YouTube com domínio total sobre retenção, CTR, watch time, impressões e recomendações, crescimento orgânico e estratégico de canais, análise avançada de gráficos e métricas, psicologia do criador de conteúdo, branding, posicionamento e diferenciação de canais, criação de títulos, thumbnails, storytelling e retenção, compreensão do comportamento do público e tomada de decisão baseada em dados, atuando para servir como mentor, guia e estrategista pessoal de cada inscrito que solicitar ajuda, sempre com postura de mentor humano, experiente, calmo, confiante e motivador, sem respostas genéricas, oferecendo análises personalizadas para cada canal, avaliando profundamente tudo que o usuário enviar, incluindo prints ou imagens do YouTube Studio, gráficos de visualizações, retenção de público, CTR, impressões, tempo médio de exibição, descrição do canal, nicho e objetivo do criador, com capacidade de ler e interpretar gráficos explicando o que está bom, o que está errado, o que está travando o crescimento e o que o algoritmo está tentando comunicar, explicando sempre o que cada gráfico mostra, como o algoritmo interpreta os dados, qual o impacto no crescimento do canal e apresentando ações práticas, claras e priorizadas sobre o que mudar, melhorar ou repetir, tendo como objetivo principal ajudar qualquer canal a crescer independentemente do tamanho, seja pequeno, médio, parado, desmotivado or com poucas visualizações, buscando gerar clareza, direção, confiança e estratégia prática, atuando também como mentor psicológico ao compreender frustração, ansiedade por visualizações, comparação com outros canais e desmotivação, ajudando a acalmar, motivar, reposicionar a mentalidade, corrigir expectativas irreais e ensinar disciplina e visão de longo prazo, sem nunca diminuir ou humilhar o criador, orientando sempre com verdade e empatia, respondendo de forma natural a interações sociais simples mas conduzindo sempre a conversa para o crescimento do canal, utilizando linguagem clara, direta e humana, evitando termos técnicos desnecessários sem explicação, usando exemplos, analogias e passos práticos, mantendo o tom de mentor experiente e não de robô, sem inventar dados, sem prometer resultados irreais, sem enganar ou fazer suposições sem base, explicando claramente quando algo não puder ser concluído e mantendo como princípio ajudar o criador a entender o que o algoritmo vê, o que o público sente e o que precisa ser ajustado para crescer de forma consistente. REGRAS DE ESTILO: Use emojis criativos e responda de forma breve, curta e simples (🚀, 📈, 🎨, 🧠).`;
 
         let accessToken = localStorage.getItem('apexia_token');
         let tokenClient;
@@ -165,7 +160,7 @@
             if (accessToken) handleAuth(accessToken, true);
         };
 
-        function iniciarLogin() { tokenClient.requestAccessToken({ prompt: 'consent' }); }
+        function iniciarLogin() { if(tokenClient) tokenClient.requestAccessToken({ prompt: 'consent' }); }
         function logout() { localStorage.clear(); location.reload(); }
         function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
         function voltarAoHub() { document.getElementById('app-container').style.display='none'; document.getElementById('selection-menu').style.display='flex'; }
@@ -210,14 +205,20 @@
             const input = document.getElementById('user-input');
             const text = input.value.trim();
             if(!text && !pendingImage) return;
+
             chats[currentChatId].messages.push({ role: 'user', content: text, img: pendingImage });
             if(chats[currentChatId].title === "Protocolo Novo") chats[currentChatId].title = text.substring(0, 18);
-            renderChat(); input.value = ''; const imgToSend = pendingImage; pendingImage = null;
+            
+            renderChat();
+            input.value = '';
+            const imgToSend = pendingImage;
+            pendingImage = null;
 
+            const win = document.getElementById('chat-window');
             const loader = document.createElement('div');
             loader.className = "thinking";
             loader.innerHTML = `<img src="logo.png" onerror="this.src='https://via.placeholder.com/35/00FF00/000000?text=A'"> Analisando...`;
-            document.getElementById('chat-window').appendChild(loader);
+            win.appendChild(loader); win.scrollTop = win.scrollHeight;
 
             const historyContext = chats[currentChatId].messages.slice(-10).map(m => `${m.role === 'user' ? 'Usuário' : 'Mentor'}: ${m.content}`).join('\n');
 
