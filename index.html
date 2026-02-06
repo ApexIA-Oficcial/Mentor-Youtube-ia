@@ -15,11 +15,10 @@
         .smoke-bg { position: fixed; inset: 0; background: radial-gradient(circle at 50% 50%, #0a200a 0%, #030303 100%); z-index: -1; }
         #login-screen { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; }
         .logo-login { width: 140px; height: 140px; border-radius: 50%; border: 3px solid var(--primary); box-shadow: 0 0 40px rgba(0, 255, 0, 0.4); margin-bottom: 25px; object-fit: cover; animation: pulse 2s infinite; }
-        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
         #selection-menu { display: none; flex-direction: column; align-items: center; justify-content: center; height: 100dvh; width: 100vw; text-align: center; background: rgba(0,0,0,0.95); z-index: 8888; position: fixed; }
         .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; width: 100%; max-width: 900px; padding: 20px; }
         .menu-card { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 40px 20px; border-radius: 24px; cursor: pointer; transition: 0.3s; }
-        .menu-card:hover { border-color: var(--primary); transform: translateY(-5px); background: rgba(0,255,0,0.05); }
+        .menu-card:hover { border-color: var(--primary); transform: translateY(-5px); }
         #app-container { display: none; height: 100dvh; width: 100vw; flex-direction: row; }
         #sidebar { width: 300px; background: var(--bg-sidebar); border-right: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; transition: transform 0.3s ease; }
         #main-chat { flex: 1; display: flex; flex-direction: column; background: var(--bg-chat); height: 100dvh; min-width: 0; position: relative; }
@@ -46,42 +45,25 @@
     <div class="smoke-bg"></div>
     <div id="login-screen">
         <img src="logo.png" class="logo-login" onerror="this.src='https://via.placeholder.com/150/00FF00/000000?text=ApexIA'">
-        <h1 style="font-size: 3rem; font-weight: 900; letter-spacing: -3px;">APEX<span>IA</span> V.1.0</h1>
+        <h1>APEX<span>IA</span> V.1.0</h1>
         <button onclick="iniciarLogin()" style="background:var(--primary); color:#000; padding:18px 45px; border-radius:50px; border:none; font-weight:900; cursor:pointer; margin-top:30px;">ACESSAR COMANDO</button>
     </div>
     <div id="selection-menu">
-        <h2 style="font-weight: 900; font-size: 2.5rem; margin-bottom: 30px;">HUB <span style="color:var(--primary)">APEXIA</span></h2>
+        <h2>HUB <span style="color:var(--primary)">APEXIA</span></h2>
         <div class="menu-grid">
-            <div class="menu-card" onclick="irParaMentoria()">
-                <div style="font-size: 3rem;">🧠</div>
-                <h3 style="color:var(--primary); margin:10px 0;">Mentor Supremo</h3>
-                <p style="color:#888; font-size:0.9rem;">Análise técnica profunda e estratégica do seu canal.</p>
-            </div>
-            <div class="menu-card" onclick="window.open('https://apexia-oficcial.github.io/ApexIA/', '_blank')">
-                <div style="font-size: 3rem;">⚡</div>
-                <h3 style="color:var(--primary); margin:10px 0;">Arsenal de Prompts</h3>
-                <p style="color:#888; font-size:0.9rem;">Biblioteca master para dominar o algoritmo.</p>
-            </div>
+            <div class="menu-card" onclick="irParaMentoria()"><h3>Mentor Supremo</h3></div>
+            <div class="menu-card" onclick="window.open('https://apexia-oficcial.github.io/ApexIA/', '_blank')"><h3>Arsenal de Prompts</h3></div>
         </div>
-        <button onclick="logout()" style="margin-top:40px; color:#555; background:none; border:none; cursor:pointer; font-weight:800;">DESCONECTAR</button>
+        <button onclick="logout()" style="margin-top:40px; color:#555; background:none; border:none; cursor:pointer;">DESCONECTAR</button>
     </div>
     <div id="app-container">
         <nav id="sidebar">
-            <div style="padding:20px; border-bottom:1px solid var(--border);">
-                <button style="width:100%; padding:12px; border-radius:10px; background:rgba(0,255,0,0.1); color:var(--primary); border:1px solid var(--primary); font-weight:800; cursor:pointer;" onclick="novoChat()">+ NOVO PROTOCOLO</button>
-            </div>
+            <div style="padding:20px; border-bottom:1px solid var(--border);"><button style="width:100%; padding:12px; border-radius:10px; background:rgba(0,255,0,0.1); color:var(--primary); border:1px solid var(--primary); font-weight:800; cursor:pointer;" onclick="novoChat()">+ NOVO PROTOCOLO</button></div>
             <div id="history-list" style="flex:1; overflow-y:auto; padding:10px;"></div>
-            <div style="padding:15px; border-top:1px solid var(--border);">
-                <button onclick="voltarAoHub()" style="color:var(--primary); background:none; border:none; font-size:0.75rem; font-weight:800; cursor:pointer; margin-bottom:10px; display:block;">← VOLTAR AO HUB</button>
-                <button onclick="logout()" style="color:#555; background:none; border:none; font-size:0.75rem; font-weight:800; cursor:pointer;">SAIR DO SISTEMA</button>
-            </div>
+            <div style="padding:15px; border-top:1px solid var(--border);"><button onclick="logout()" style="color:#555; background:none; border:none; font-size:0.75rem; cursor:pointer;">SAIR DO SISTEMA</button></div>
         </nav>
         <main id="main-chat">
-            <header>
-                <button onclick="toggleSidebar()" style="background:none; border:none; color:var(--primary); font-size:1.5rem;" id="menu-btn">☰</button>
-                <div style="font-weight: 900;">APEXIA <span style="color:var(--primary)">V.1.0</span></div>
-                <div id="chan-label" style="font-size: 0.6rem; color: #555;">...</div>
-            </header>
+            <header><button onclick="toggleSidebar()" style="background:none; border:none; color:var(--primary); font-size:1.5rem;" id="menu-btn">☰</button><div>APEXIA <span>V.1.0</span></div><div id="chan-label" style="font-size:0.6rem; color:#555;">...</div></header>
             <div id="dashboard">
                 <div class="stat-card"><label>Inscritos</label><span id="d-subs">---</span></div>
                 <div class="stat-card"><label>Total Views</label><span id="d-views">---</span></div>
@@ -89,21 +71,13 @@
                 <div class="stat-card"><label>Status</label><span style="color:var(--primary)">ELITE</span></div>
             </div>
             <div id="chat-window"></div>
-            <div class="input-area">
-                <div class="input-wrapper">
-                    <button style="background:none; border:none; color:var(--primary); font-size:1.3rem; cursor:pointer;" onclick="document.getElementById('file-input').click()">📎</button>
-                    <input type="file" id="file-input" style="display:none" accept="image/*" onchange="handleImage(this)">
-                    <input type="text" id="user-input" placeholder="Comando de Growth...">
-                    <button style="background:var(--primary); color:#000; width:38px; height:38px; border-radius:50%; border:none; font-weight:900; cursor:pointer;" onclick="enviar()">→</button>
-                </div>
-            </div>
+            <div class="input-area"><div class="input-wrapper"><button style="background:none; border:none; color:var(--primary); font-size:1.3rem; cursor:pointer;" onclick="document.getElementById('file-input').click()">📎</button><input type="file" id="file-input" style="display:none" accept="image/*" onchange="handleImage(this)"><input type="text" id="user-input" placeholder="Comando de Growth..."><button style="background:var(--primary); color:#000; width:38px; height:38px; border-radius:50%; border:none; font-weight:900; cursor:pointer;" onclick="enviar()">→</button></div></div>
         </main>
     </div>
     <script>
         const CLIENT_ID = "145100322345-70nlh619s577puk5c75u19trip13nkme.apps.googleusercontent.com";
         const BACKEND_URL = "https://apexia-backend.vercel.app/api/mentor";
-        
-        const mentorYouTubePrompt = "Algoritmo do YouTube com domínio total sobre retenção, CTR, watch time, impressões e recomendações, crescimento orgânico e estratégico de canais, análise avançada de gráficos e métricas, psicologia do criador de conteúdo, branding, posicionamento e diferenciação de canais, criação de títulos, thumbnails, storytelling e retenção, compreensão do comportamento do público e tomada de decisão baseada em dados, atuando para servir como mentor, guia e estrategista pessoal de cada inscrito que solicitar ajuda, sempre com postura de mentor humano, experiente, calmo, confiante e motivador, sem respostas genéricas, oferecendo análises personalizadas para cada canal, avaliando profundamente tudo que o usuário enviar, incluindo prints ou imagens do YouTube Studio, gráficos de visualizações, retenção de público, CTR, impressões, tempo médio de exibição, descrição do canal, nicho e objetivo do criador, com capacidade de ler e interpretar gráficos explicando o que está bom, o que está errado, o que está travando o crescimento e o que o algoritmo está tentando comunicar, explicando sempre o que cada gráfico mostra, como o algoritmo interpreta os dados, qual o impacto no crescimento do canal e apresentando ações práticas, claras e priorizadas sobre o que mudar, melhorar ou repetir, tendo como objetivo principal ajudar qualquer canal a crescer independentemente do tamanho, seja pequeno, médio, parado, desmotivado ou com poucas visualizações, buscando gerar clareza, direção, confiança e estratégia prática, atuando também como mentor psicológico ao compreender frustração, ansiedade por visualizações, comparação com outros canais e desmotivação, ajudando a acalmar, motivar, reposicionar a mentalidade, corrigir expectativas irreais e ensinar disciplina e visão de longo prazo, sem nunca diminuir ou humilhar o criador, orientando sempre com verdade e empatia, respondendo de forma natural a interações sociais simples mas conduzindo sempre a conversa para o crescimento do canal, utilizando linguagem clara, direta e humana, evitando termos técnicos desnecessários sem explicação, usando exemplos, analogias e passos práticos, mantendo o tom de mentor experiente e não de robô, sem inventar dados, sem prometer resultados irreais, sem enganar ou fazer suposições sem base, explicando claramente quando algo não puder ser concluído e mantendo como princípio ajudar o criador a entender o que o algoritmo vê, o que o público sente e o que precisa ser ajustado para crescer de forma consistente. REGRAS EXTRAS: Use emojis criativos (🚀, 📈, 🎨, 🧠). Nunca diga que não tem acesso aos dados, pois eles estão sendo enviados abaixo.";
+        const mentorYouTubePrompt = "Aja como um Mentor Profissional de YouTube Supremo ApexiA. Analise profundamente CTR, Retenção e Impressões. Use emojis criativos (🚀, 📈, 🎨, 🧠). Nunca diga que não tem acesso aos dados, pois eles estão sendo enviados abaixo.";
 
         let accessToken = localStorage.getItem('apexia_token');
         let tokenClient;
@@ -111,28 +85,33 @@
         let currentChatId = null;
         let pendingImage = null;
         let canalDataGlobal = "";
+        let videoDataExtra = "";
 
         window.onload = () => {
-            tokenClient = google.accounts.oauth2.initTokenClient({
-                client_id: CLIENT_ID,
-                scope: 'https://www.googleapis.com/auth/youtube.readonly https://www.googleapis.com/auth/yt-analytics.readonly',
-                callback: (res) => { if(res.access_token) handleAuth(res.access_token); }
-            });
+            const checkG = setInterval(() => {
+                if (typeof google !== 'undefined') {
+                    clearInterval(checkG);
+                    tokenClient = google.accounts.oauth2.initTokenClient({
+                        client_id: CLIENT_ID,
+                        scope: 'https://www.googleapis.com/auth/youtube.readonly https://www.googleapis.com/auth/yt-analytics.readonly',
+                        callback: (res) => { if(res.access_token) handleAuth(res.access_token); }
+                    });
+                }
+            }, 500);
             if (accessToken) handleAuth(accessToken, true);
         };
 
         function iniciarLogin() { tokenClient.requestAccessToken({ prompt: 'consent' }); }
         function logout() { localStorage.clear(); location.reload(); }
         function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
-        function voltarAoHub() { document.getElementById('app-container').style.display='none'; document.getElementById('selection-menu').style.display='flex'; }
-        function irParaMentoria() { document.getElementById('selection-menu').style.display='none'; document.getElementById('app-container').style.display='flex'; renderHistory(); if(!currentChatId) novoChat(); else selectChat(currentChatId); }
+        function irParaMentoria() { document.getElementById('selection-menu').style.display='none'; document.getElementById('app-container').style.display='flex'; renderHistory(); if(!currentChatId) novoChat(); else selectChat(currentChatId); verificarExtensao(); }
 
-        function handleAuth(token, auto = false) {
+        async function handleAuth(token, auto = false) {
             accessToken = token; localStorage.setItem('apexia_token', token);
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('selection-menu').style.display = 'flex';
             if(!auto) confetti({ particleCount: 150, colors: ['#00FF00', '#FFFFFF'] });
-            carregarCanal();
+            await carregarCanal();
         }
 
         async function carregarCanal() {
@@ -144,8 +123,38 @@
                 document.getElementById('d-views').innerText = Number(c.statistics.viewCount).toLocaleString();
                 document.getElementById('d-vids').innerText = c.statistics.videoCount;
                 document.getElementById('chan-label').innerText = c.snippet.title.toUpperCase();
-                canalDataGlobal = `DADOS REAIS DO CANAL: Nome: ${c.snippet.title}, Subs: ${c.statistics.subscriberCount}, Views Totais: ${c.statistics.viewCount}, Vídeos: ${c.statistics.videoCount}.`;
+                canalDataGlobal = `DADOS DO CANAL: Nome: ${c.snippet.title}, Subs: ${c.statistics.subscriberCount}, Views: ${c.statistics.viewCount}.`;
             } catch (e) { console.error("Erro API"); }
+        }
+
+        // --- FUNÇÃO PARA PEGAR DADOS REAIS DO VÍDEO DA EXTENSÃO ---
+        async function verificarExtensao() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const videoId = urlParams.get('v_id');
+            if (videoId && accessToken) {
+                try {
+                    // Busca dados reais do vídeo via API
+                    const resV = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics,contentDetails&id=${videoId}`, {
+                        headers: { 'Authorization': `Bearer ${accessToken}` }
+                    });
+                    const dataV = await resV.json();
+                    const v = dataV.items[0];
+                    const titulo = v.snippet.title;
+                    const thumb = v.snippet.thumbnails.high.url;
+                    
+                    // Busca CTR e Analytics do vídeo específico
+                    const hoje = new Date().toISOString().split('T')[0];
+                    const resA = await fetch(`https://youtubeanalytics.googleapis.com/v1/reports?ids=channel==MINE&startDate=2024-01-01&endDate=${hoje}&metrics=views,estimatedMinutesWatched,averageViewDuration,averageViewPercentage&dimensions=video&filters=video==${videoId}`, {
+                        headers: { 'Authorization': `Bearer ${accessToken}` }
+                    });
+                    const dataA = await resA.json();
+                    const stats = dataA.rows ? dataA.rows[0] : null;
+
+                    videoDataExtra = `VÍDEO EM ANÁLISE: Título: ${titulo}, ID: ${videoId}, Views: ${stats ? stats[1] : 'N/A'}, Retenção: ${stats ? stats[4] + '%' : 'N/A'}.`;
+                    
+                    addMsgToDOM('ai', `🚀 PROTOCOLO DE EXTENSÃO ATIVO!\nAnalisando agora: **${titulo}**\n\n![Thumbnail](${thumb})\n\nJá puxei as métricas reais. O que deseja otimizar?`);
+                } catch (e) { console.error("Erro ao puxar dados do vídeo"); }
+            }
         }
 
         function novoChat() { currentChatId = 'chat_' + Date.now(); chats[currentChatId] = { title: "Protocolo Novo", messages: [] }; save(); selectChat(currentChatId); }
@@ -157,7 +166,6 @@
             Object.keys(chats).reverse().forEach(id => {
                 const item = document.createElement('div');
                 item.className = `history-item ${id === currentChatId ? 'active' : ''}`;
-                item.style.padding = '12px'; item.style.cursor = 'pointer';
                 item.innerHTML = `<span>${chats[id].title}</span>`;
                 item.onclick = () => selectChat(id);
                 list.appendChild(item);
@@ -175,7 +183,6 @@
             const text = input.value.trim();
             if(!text && !pendingImage) return;
             chats[currentChatId].messages.push({ role: 'user', content: text, img: pendingImage });
-            if(chats[currentChatId].title === "Protocolo Novo") chats[currentChatId].title = text.substring(0, 18);
             renderChat(); input.value = ''; const imgToSend = pendingImage; pendingImage = null;
 
             const win = document.getElementById('chat-window');
@@ -184,14 +191,12 @@
             loader.innerHTML = `<img src="logo.png" onerror="this.src='https://via.placeholder.com/35/00FF00/000000?text=A'"> Analisando...`;
             win.appendChild(loader); win.scrollTop = win.scrollHeight;
 
-            const historyContext = chats[currentChatId].messages.slice(-10).map(m => `${m.role === 'user' ? 'Usuário' : 'Mentor'}: ${m.content}`).join('\n');
-
             try {
                 const response = await fetch(BACKEND_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ 
-                        prompt: `${mentorYouTubePrompt}\n\n${canalDataGlobal}\n\nHISTÓRICO:\n${historyContext}\n\nPERGUNTA: ${text}`,
+                        prompt: `${mentorYouTubePrompt}\n\n${canalDataGlobal}\n\n${videoDataExtra}\n\nPERGUNTA: ${text}`,
                         image: imgToSend
                     })
                 });
@@ -204,15 +209,26 @@
 
         function renderChat() {
             const win = document.getElementById('chat-window');
-            win.innerHTML = chats[currentChatId].messages.length === 0 ? '<div class="msg ai">SISTEMA PRONTO. AGUARDANDO PROTOCOLO.</div>' : '';
-            chats[currentChatId].messages.forEach(m => {
-                const div = document.createElement('div'); div.className = `msg ${m.role}`;
-                if(m.content) div.innerHTML = `<div>${m.content.replace(/\n/g, '<br>')}</div>`;
-                if(m.img) div.innerHTML += `<img src="data:image/jpeg;base64,${m.img}">`;
-                win.appendChild(div);
-            });
+            win.innerHTML = chats[currentChatId].messages.length === 0 ? '<div class="msg ai">SISTEMA PRONTO. ENVIE UM PROTOCOLO.</div>' : '';
+            chats[currentChatId].messages.forEach(m => addMsgToDOM(m.role, m.content, m.img));
             win.scrollTop = win.scrollHeight;
         }
+
+        function addMsgToDOM(role, text, img) {
+            const win = document.getElementById('chat-window');
+            const div = document.createElement('div');
+            div.className = `msg ${role}`;
+            if(text) div.innerHTML = `<div>${text.replace(/\n/g, '<br>')}</div>`;
+            if(img) div.innerHTML += `<img src="data:image/jpeg;base64,${img}">`;
+            // Suporte para Markdown simples de imagem para a thumbnail da API
+            if(text && text.includes('![')) {
+                const url = text.match(/\((.*?)\)/)[1];
+                div.innerHTML = div.innerHTML.replace(/!\[.*?\]\(.*?\)/, `<img src="${url}" style="max-height:200px">`);
+            }
+            win.appendChild(div); win.scrollTop = win.scrollHeight;
+        }
+
+        document.getElementById('user-input').addEventListener('keypress', (e) => { if(e.key === 'Enter') enviar(); });
     </script>
 </body>
 </html>
