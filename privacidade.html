@@ -2,29 +2,203 @@
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
-    <title>Política de Privacidade - ApexiA Mentor Supremo</title>
-    <style>body { font-family: sans-serif; padding: 30px; line-height: 1.6; color: #333; max-width: 800px; margin: auto; }</style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacidade & FAQ | ApexiA Mentor Supremo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00FF00;
+            --bg: #050505;
+            --card: #111;
+            --text: #F5F5F7;
+            --border: rgba(0, 255, 0, 0.2);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            padding: 40px 0;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -2px;
+            margin: 0;
+        }
+
+        header h1 span { color: var(--primary); }
+
+        .last-update {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        /* --- ESTILO DOS MENUS EXPANSÍVEIS --- */
+        details {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+
+        details[open] {
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.1);
+        }
+
+        summary {
+            padding: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            outline: none;
+        }
+
+        summary::after {
+            content: '+';
+            color: var(--primary);
+            font-size: 1.2rem;
+            font-weight: 800;
+        }
+
+        details[open] summary::after {
+            content: '−';
+        }
+
+        .content {
+            padding: 0 20px 20px 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.95rem;
+            color: #ccc;
+        }
+
+        .content strong { color: var(--primary); }
+
+        h2 {
+            font-size: 1.5rem;
+            margin: 40px 0 20px 0;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        a { color: var(--primary); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        @media (max-width: 600px) {
+            header h1 { font-size: 1.8rem; }
+        }
+    </style>
 </head>
 <body>
-    <h1>Política de Privacidade ApexiA</h1>
-    <p>Última atualização: 7 de Fevereiro de 2026</p>
 
-    <h2>1. Dados acessados</h2>
-    <p>A aplicação <strong>ApexiA Mentor Supremo</strong> acede, através das APIs oficiais do Google, aos seguintes dados do seu canal de YouTube: nome do canal, contagem de subscritos, contagem de vídeos e métricas de desempenho (visualizações, CTR e retenção).</p>
-    
-    <h2>2. Utilização de dados</h2>
-    <p>Estes dados são utilizados exclusivamente para que a nossa Inteligência Artificial (Google Gemini) analise a performance do seu canal e forneça recomendações estratégicas de crescimento. Os dados servem apenas como contexto para a mentoria.</p>
-    
-    <h2>3. Compartilhamento de dados</h2>
-    <p><strong>Nós não compartilhamos os seus dados com terceiros.</strong> Os dados capturados são processados em tempo real e enviados apenas para a API oficial do Google Gemini para a geração das respostas da IA.</p>
-    
-    <h2>4. Armazenamento e proteção de dados</h2>
-    <p>A ApexiA não possui base de dados externa. Todas as informações são processadas "client-side" (no seu navegador). O histórico de conversas e as métricas capturadas são armazenados apenas localmente no <em>localStorage</em> do seu navegador, garantindo que só você tenha acesso a eles.</p>
-    
-    <h2>5. Retenção e Exclusão de dados</h2>
-    <p>Os dados são mantidos apenas enquanto a sua sessão estiver ativa. Pode excluir permanentemente todos os dados e o histórico de conversas a qualquer momento clicando no botão <strong>"Sair"</strong> ou <strong>"Limpar Chat"</strong> dentro da aplicação.</p>
+    <div class="container">
+        <header>
+            <h1>APEX<span>IA</span> PRIVACIDADE</h1>
+            <p class="last-update">Última atualização: 7 de Fevereiro de 2026</p>
+        </header>
 
-    <hr>
-    <p>Para dúvidas, entre em contato: contatoapexia@gmail.com</p>
+        <h2>🛡️ Política de Dados</h2>
+
+        <details>
+            <summary>1. Que dados são acessados?</summary>
+            <div class="content">
+                A aplicação acede apenas a dados públicos e de performance através das APIs oficiais do Google:
+                <ul>
+                    <li>Nome e estatísticas do canal (Inscritos e vídeos).</li>
+                    <li>Relatórios de <strong>CTR, Retenção e Visualizações</strong>.</li>
+                </ul>
+            </div>
+        </details>
+
+        <details>
+            <summary>2. Como os dados são utilizados?</summary>
+            <div class="content">
+                Os dados são enviados como contexto para o motor de IA (Google Gemini). A IA utiliza estes números para criar uma <strong>estratégia personalizada</strong> de crescimento para o seu canal, identificando falhas e oportunidades.
+            </div>
+        </details>
+
+        <details>
+            <summary>3. Onde os dados são guardados?</summary>
+            <div class="content">
+                <strong>Em lugar nenhum fora do seu dispositivo.</strong> A ApexiA não possui base de dados. O histórico de conversa e as métricas ficam guardados apenas no <em>localStorage</em> do seu próprio navegador. Se você clicar em "Sair", tudo é apagado.
+            </div>
+        </details>
+
+        <details>
+            <summary>4. Os dados são partilhados?</summary>
+            <div class="content">
+                <strong>Não.</strong> Nunca partilhamos ou vendemos informações. Os dados viajam de forma segura entre o seu navegador e os servidores oficiais do Google.
+            </div>
+        </details>
+
+        <h2>❓ Perguntas Frequentes (FAQ)</h2>
+
+        <details>
+            <summary>É seguro ligar o meu canal?</summary>
+            <div class="content">
+                Sim, 100% seguro. Usamos o sistema oficial do Google (OAuth2). A ApexiA tem permissão apenas de <strong>"Leitura"</strong>. Isso significa que o sistema não pode apagar vídeos, mudar senhas ou publicar nada no seu canal.
+            </div>
+        </details>
+
+        <details>
+            <summary>Por que preciso de usar VPN?</summary>
+            <div class="content">
+                A tecnologia de IA que usamos (Gemini) tem restrições geográficas temporárias em certas regiões como Angola. A VPN serve apenas para permitir que o site fale com o cérebro da IA no Brasil ou EUA.
+            </div>
+        </details>
+
+        <details>
+            <summary>Como apago o meu histórico?</summary>
+            <div class="content">
+                Dentro do painel de mentoria, existe um botão chamado <strong>"Limpar Chat"</strong> ou <strong>"Sair"</strong>. Ao clicar, todos os dados são removidos instantaneamente do seu navegador.
+            </div>
+        </details>
+
+        <details>
+            <summary>A ApexiA é paga?</summary>
+            <div class="content">
+                Atualmente a ApexiA V.1.0 está em fase de lançamento para inscritos do canal e o acesso às ferramentas básicas de mentoria é gratuito.
+            </div>
+        </details>
+
+        <footer>
+            <p>Dúvidas ou Suporte? <br>
+            <a href="mailto:contatoapexia@gmail.com">contatoapexia@gmail.com</a></p>
+            <p><a href="index.html">← Voltar para a ApexiA Hub</a></p>
+        </footer>
+    </div>
+
 </body>
 </html>
