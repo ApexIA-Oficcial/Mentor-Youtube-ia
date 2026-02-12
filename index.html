@@ -39,7 +39,7 @@
         .stat-card span { font-size: 0.9rem; font-weight: 900; color: var(--primary); }
 
         #chat-window { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
-        .msg { max-width: 85%; padding: 16px 20px; border-radius: 18px; line-height: 1.6; font-size: 0.95rem; }
+        .msg { max-width: 85%; padding: 14px 18px; border-radius: 18px; line-height: 1.6; font-size: 0.95rem; }
         .ai { align-self: flex-start; background: transparent; border-left: 3px solid var(--primary); border-radius: 0; white-space: pre-wrap; }
         .user { align-self: flex-end; background: var(--primary); color: #000; font-weight: 600; border-radius: 20px 20px 2px 20px; }
 
@@ -51,6 +51,8 @@
         #report-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 10000; align-items: center; justify-content: center; padding: 20px; }
         .modal-content { background: #111; border: 1px solid var(--primary); padding: 30px; border-radius: 24px; width: 100%; max-width: 500px; text-align: center; }
         textarea { width: 100%; height: 120px; background: #000; border: 1px solid var(--border); border-radius: 15px; color: #fff; padding: 15px; margin: 20px 0; outline: none; font-family: inherit; }
+
+        .video-select-btn { width: 100%; padding: 10px; background: rgba(0,255,0,0.1); border: 1px solid var(--primary); color: #fff; border-radius: 8px; margin-top: 5px; cursor: pointer; text-align: left; font-size: 0.8rem; }
         
         @media (max-width: 768px) { #sidebar { position: fixed; left: 0; top: 0; bottom: 0; transform: translateX(-100%); z-index: 9000; } #sidebar.open { transform: translateX(0); } #app-container { flex-direction: column; } }
         @media (min-width: 769px) { #app-container { display: flex; } #dashboard { grid-template-columns: repeat(4, 1fr); } }
@@ -64,7 +66,7 @@
 
     <div id="login-screen">
         <img src="canalapexia.png" class="logo-login" onerror="this.src='https://via.placeholder.com/150/00FF00/000000?text=ApexIA'">
-        <h1 style="font-size: 2.5rem; font-weight: 900; color: #fff;">Mentor ApexIA V.1.1</h1>
+        <h1 style="font-size: 2.5rem; font-weight: 900; color: #fff;">ApexiA Hub V.1.1</h1>
         <button onclick="iniciarLogin()" style="background:#fff; color:#000; padding:18px 45px; border-radius:50px; border:none; font-weight:900; cursor:pointer; margin-top:20px;">ACESSAR MENTORIA ELITE</button>
         <div style="margin-top:20px;"><a href="privacidade.html" style="color:#444; font-size:0.7rem;">Política de Privacidade</a></div>
     </div>
@@ -93,9 +95,12 @@
 
     <div id="app-container">
         <nav id="sidebar">
-            <div style="padding:20px; border-bottom:1px solid var(--border);"><button style="width:100%; padding:12px; border-radius:10px; background:rgba(0,255,0,0.1); color:var(--primary); border:1px solid var(--primary); font-weight:800; cursor:pointer;" onclick="novoChat()">+ NOVO COMANDO</button></div>
+            <div style="padding:20px; border-bottom:1px solid var(--border);">
+                <button style="width:100%; padding:12px; border-radius:10px; background:rgba(0,255,0,0.1); color:var(--primary); border:1px solid var(--primary); font-weight:800; cursor:pointer;" onclick="novoChat()">+ NOVO PROTOCOLO</button>
+            </div>
             <div id="history-list" style="flex:1; overflow-y:auto; padding:10px;"></div>
             <div style="padding:15px; border-top:1px solid var(--border);">
+                <button onclick="listarMeusVideos()" style="color:var(--primary); background:none; border:1px solid var(--primary); padding:10px; width:100%; border-radius:10px; font-size:0.7rem; font-weight:800; cursor:pointer; margin-bottom:15px;">🎬 AUDITAR UM VÍDEO</button>
                 <button onclick="abrirModalErro()" style="color:#ffaa00; background:none; border:none; font-size:0.7rem; font-weight:800; cursor:pointer; margin-bottom:15px; display:block;">⚠️ REPORTAR ERRO / FEEDBACK</button>
                 <button onclick="voltarAoHub()" style="color:var(--primary); background:none; border:none; font-size:0.75rem; font-weight:800; cursor:pointer; margin-bottom:10px; display:block;">← VOLTAR AO HUB</button>
                 <button onclick="logout()" style="color:#555; background:none; border:none; font-size:0.75rem; font-weight:800; cursor:pointer;">SAIR DO SISTEMA</button>
@@ -119,19 +124,17 @@
                 <div class="input-wrapper">
                     <button style="background:none; border:none; color:var(--primary); font-size:1.3rem; cursor:pointer;" onclick="document.getElementById('file-input').click()">📎</button>
                     <input type="file" id="file-input" style="display:none" accept="image/*" onchange="handleImage(this)">
-                    <input type="text" id="user-input" placeholder="Escreva aqui qualquer comando...">
+                    <input type="text" id="user-input" placeholder="Comando de Growth ou Link de Vídeo...">
                     <button class="send-btn" onclick="enviar()">→</button>
                 </div>
             </div>
         </main>
     </div>
 
-    <!-- MODAL DE ERRO -->
     <div id="report-modal">
         <div class="modal-content">
             <h2 style="color:var(--primary)">Reportar Problema</h2>
-            <p style="font-size:0.8rem; color:#888;">Descreva o erro ou dê sua sugestão técnica.</p>
-            <textarea id="error-text" placeholder="Ex: O chat não respondeu à minha imagem..."></textarea>
+            <textarea id="error-text" placeholder="Descreva o erro ou sugestão técnica."></textarea>
             <button onclick="enviarReporte()" style="background:var(--primary); color:#000; padding:12px 30px; border-radius:30px; border:none; font-weight:bold; cursor:pointer; width:100%;">ENVIAR FEEDBACK</button>
             <button onclick="fecharModalErro()" style="background:none; border:none; color:#555; margin-top:15px; cursor:pointer;">Cancelar</button>
         </div>
@@ -141,15 +144,7 @@
         const CLIENT_ID = "145100322345-70nlh619s577puk5c75u19trip13nkme.apps.googleusercontent.com";
         const BACKEND_URL = "https://apexia-backend.vercel.app/api/mentor";
         
-        // --- PROMPT SUPREMO FUNDIDO E COMPLETO ---
-        const mentorYouTubePrompt = `Você é o Mentor Supremo da ApexiA V.1.1, autoridade máxima em inteligência de Growth para YouTube. Seu papel é identificar, analisar e extrair tudo o que é essencial para o crescimento de um canal, com precisão técnica, visão estratégica e orientação humana. PROTOCOLOS DE ANÁLISE E OPERAÇÃO: 1. Você identifica automaticamente links do YouTube e realiza análise técnica completa de título, SEO, posicionamento e potencial de recomendação. 2. Você analisa profundamente qualquer imagem enviada. Se for thumbnail, avalia contraste, cores e CTR. Se for gráfico do Studio, interpreta sinais do algoritmo. 3. Você extrai dados essenciais de ficheiros, como impressões, retenção e picos de interesse, e entrega planos de ação claros. 4. Você nunca adivinha dados que não conseguiu ler. Se algo não foi processado, você diz claramente. 5. Você informa que está em constante evolução e melhoria. 6. Se não conseguir analisar uma imagem por erro técnico, diga exatamente: "No momento não posso ler ou analisar esta imagem porque me encontro em manutenção; dentro em breve as funções visuais voltarão ao normal." 7. Você analisa os primeiros 30 segundos dos vídeos e sugere ganchos e pontes de retenção. 8. Você atua como mentor psicológico, entendendo ansiedade e desmotivação, orientando com empatia, verdade e foco em consistência. CONDUTA HUMANA E RELAÇÃO COM O CRIADOR: 9. Você é sempre educado, polido e respeitoso. 10. Você elogia e encoraja o criador mencionando explicitamente o nome do canal sempre que possível. 11. Você se comporta como um mentor experiente e também como um amigo próximo, humano, acessível e genuíno. 12. Você nunca soa robótico ou frio. 13. Se o criador demonstrar frustração, dúvida ou cansaço, sua primeira resposta deve ser sempre encorajadora antes de qualquer análise técnica. REGRAS DE ESTILO: 14. Seja extremamente breve, direto e simples. 15. Use emojis correspondentes ao assunto em todos os parágrafos. 16. Nunca use asteriscos ou hifens para listas. 17. Mantenha respostas organizadas e profissionais. REGRA DE CONTROLE: 18. Se não houver link, imagem ou dados suficientes, solicite explicitamente o material antes de qualquer análise. FRASE MENTAL: "Eu sou o GPS de dominação do canal [NOME_CANAL]. Meu papel é ler links, imagens e dados para transformar este criador numa autoridade do algoritmo.Você é o Mentor Supremo da ApexiA V.1.1, especialista em crescimento de canais no YouTube, mas fala como um mentor humano de verdade, amigo próximo e conselheiro estratégico. 
-Seu objetivo é analisar links, imagens e dados para transformar criadores em autoridades do algoritmo. 
-Sempre encoraje, motive e reconheça conquistas, além de entregar análises precisas. 
-Se algo não estiver disponível ou não puder ser lido, diga claramente. 
-Use emojis relevantes, seja direto, claro e humano. 
-Se receber imagens, analise cores, contraste e elementos que aumentem CTR. 
-Se receber dados do YouTube, interprete impressões, retenção e engajamento, e ofereça planos de ação estratégicos.
-Não seja robótico, frio ou genérico; fale como mentor experiente, mas acessível e próximo do criador"`;
+        const mentorYouTubePrompt = `Você é o Mentor Supremo da ApexiA V.1.1, autoridade máxima em inteligência de Growth para YouTube. Seu papel é identificar, analisar e extrair tudo o que é essencial para o crescimento de um canal, com precisão técnica, visão estratégica e orientação humana. PROTOCOLOS DE ANÁLISE E OPERAÇÃO: 1. Você identifica automaticamente links do YouTube e realiza análise técnica completa de título, SEO, posicionamento e potencial de recomendação. 2. Você analisa profundamente qualquer imagem enviada. Se for thumbnail, avalia contraste, cores e CTR. Se for gráfico do Studio, interpreta sinais do algoritmo. 3. Você extrai dados essenciais de ficheiros, como impressões, retenção e picos de interesse, e entrega planos de ação claros. 4. Você nunca adivinha dados que não conseguiu ler. Se algo não foi processado, você diz claramente. 5. Você informa que está em constante evolução e melhoria. 6. Se não conseguir analisar uma imagem por erro técnico, diga exatamente: "No momento não posso ler ou analisar esta imagem porque me encontro em manutenção; dentro em breve as funções visuais voltarão ao normal." 7. Você analisa os primeiros 30 segundos dos vídeos e sugere ganchos e pontes de retenção. 8. Você atua como mentor psicológico, entendendo ansiedade e desmotivação, orientando com empatia, verdade e foco em consistência. CONDUTA HUMANA E RELAÇÃO COM O CRIADOR: 9. Você é sempre educado, polido e respeitoso. 10. Você elogia e encoraja o criador mencionando explicitamente o nome do canal sempre que possível. 11. Você se comporta como um mentor experiente e também como um amigo próximo, humano, acessível e genuíno. 12. Você nunca soa robótico ou frio. 13. Se o criador demonstrar frustração, dúvida ou cansaço, sua primeira resposta deve ser sempre encorajadora antes de qualquer análise técnica. REGRAS DE ESTILO: 14. Seja extremamente breve, direto e simples. 15. Use emojis correspondentes ao assunto em todos os parágrafos. 16. Nunca use asteriscos ou hifens para listas. 17. Mantenha respostas organizadas e profissionais. REGRA DE CONTROLE: 18. Se não houver link, imagem ou dados suficientes, solicite explicitamente o material antes de qualquer análise. FRASE MENTAL: "Eu sou o GPS de dominação do canal [NOME_CANAL]. Meu papel é ler links, imagens e dados para transformar este criador numa autoridade do algoritmo."`;
 
         let accessToken = localStorage.getItem('apexia_token');
         let tokenClient;
@@ -157,13 +152,20 @@ Não seja robótico, frio ou genérico; fale como mentor experiente, mas acessí
         let currentChatId = null;
         let pendingImage = null;
         let canalDataGlobal = "";
+        let selectedVideoId = null;
+        let usageCount = parseInt(localStorage.getItem('apexia_usage_count') || '0');
 
         window.onload = () => {
-            tokenClient = google.accounts.oauth2.initTokenClient({
-                client_id: CLIENT_ID,
-                scope: 'https://www.googleapis.com/auth/youtube.readonly https://www.googleapis.com/auth/yt-analytics.readonly',
-                callback: (res) => { if(res.access_token) handleAuth(res.access_token); }
-            });
+            const checkG = setInterval(() => {
+                if (typeof google !== 'undefined') {
+                    clearInterval(checkG);
+                    tokenClient = google.accounts.oauth2.initTokenClient({
+                        client_id: CLIENT_ID,
+                        scope: 'https://www.googleapis.com/auth/youtube.readonly https://www.googleapis.com/auth/yt-analytics.readonly',
+                        callback: (res) => { if(res.access_token) handleAuth(res.access_token); }
+                    });
+                }
+            }, 500);
             if (accessToken) handleAuth(accessToken, true);
         };
 
@@ -172,22 +174,15 @@ Não seja robótico, frio ou genérico; fale como mentor experiente, mas acessí
         function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
         function voltarAoHub() { document.getElementById('app-container').style.display='none'; document.getElementById('selection-menu').style.display='flex'; }
         function irParaMentoria() { document.getElementById('selection-menu').style.display='none'; document.getElementById('app-container').style.display='flex'; renderHistory(); if(!currentChatId) novoChat(); else selectChat(currentChatId); }
-
         function abrirModalErro() { document.getElementById('report-modal').style.display = 'flex'; }
         function fecharModalErro() { document.getElementById('report-modal').style.display = 'none'; }
-        function enviarReporte() {
-            const txt = document.getElementById('error-text').value;
-            if(txt) {
-                window.open(`https://wa.me/244953646352?text=${encodeURIComponent("ERRO APEXIA: " + txt)}`, '_blank');
-                fecharModalErro();
-            }
-        }
+        function enviarReporte() { const txt = document.getElementById('error-text').value; if(txt) { window.open(`https://wa.me/244953646352?text=${encodeURIComponent("ERRO APEXIA: " + txt)}`, '_blank'); fecharModalErro(); } }
 
-        async function handleAuth(token, auto = false) {
+        function handleAuth(token, auto = false) {
             accessToken = token; localStorage.setItem('apexia_token', token);
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('selection-menu').style.display = 'flex';
-            if(!auto) { confetti({ particleCount: 150, colors: ['#00FF00', '#FFFFFF'] }); }
+            if(!auto) confetti({ particleCount: 150, colors: ['#00FF00', '#FFFFFF'] });
             carregarCanal();
         }
 
@@ -204,19 +199,43 @@ Não seja robótico, frio ou genérico; fale como mentor experiente, mas acessí
             } catch (e) { console.error("Erro API"); }
         }
 
-        function novoChat() { currentChatId = 'chat_' + Date.now(); chats[currentChatId] = { title: "Comando Novo", messages: [] }; save(); selectChat(currentChatId); }
-        function selectChat(id) { currentChatId = id; renderChat(); renderHistory(); if(window.innerWidth < 769) document.getElementById('sidebar').classList.remove('open'); }
-        function save() { localStorage.setItem('apexia_history_final', JSON.stringify(chats)); }
+        async function listarMeusVideos() {
+            try {
+                addMsgToDOM('ai', "🚀 Protocolo de escaneamento ativo. Buscando seus vídeos mais recentes...");
+                const res = await fetch('https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=MINE&maxResults=8&order=date&type=video', {
+                    headers: { 'Authorization': `Bearer ${accessToken}` }
+                });
+                const data = await res.json();
+                if (data.items) {
+                    addMsgToDOM('ai', "Selecione um vídeo para auditoria:");
+                    data.items.forEach(v => {
+                        const btn = document.createElement('button');
+                        btn.className = 'video-select-btn';
+                        btn.innerText = "🎬 " + v.snippet.title;
+                        btn.onclick = () => setVideoForAnalysis(v.id.videoId, v.snippet.title);
+                        document.getElementById('chat-window').appendChild(btn);
+                    });
+                }
+            } catch (e) { addMsgToDOM('ai', "Erro ao listar vídeos."); }
+        }
 
-        async function enviar() {
+        function setVideoForAnalysis(id, title) {
+            selectedVideoId = id;
+            addMsgToDOM('user', `Auditar vídeo: ${title}`);
+            enviar(true);
+        }
+
+        async function enviar(isAudit = false) {
+            if (usageCount >= 5) {
+                addMsgToDOM('ai', "⚠️ PROTOCOLOS ESGOTADOS: O limite de processamento da ApexiA V.1.1 para sua sessão foi atingido. Temos muitos criadores na fila de dominação. Por favor, aguarde o reset do sistema ou tente novamente mais tarde.");
+                return;
+            }
+
             const input = document.getElementById('user-input');
             const text = input.value.trim();
-            if(!text && !pendingImage) return;
+            if(!text && !pendingImage && !isAudit) return;
 
-            chats[currentChatId].messages.push({ role: 'user', content: text, img: pendingImage });
-            if(chats[currentChatId].title === "Comando Novo") chats[currentChatId].title = text.substring(0, 18);
-            
-            renderChat();
+            if(!isAudit) addMsgToDOM('user', text);
             input.value = '';
             const imgToSend = pendingImage;
             pendingImage = null;
@@ -224,54 +243,43 @@ Não seja robótico, frio ou genérico; fale como mentor experiente, mas acessí
             const win = document.getElementById('chat-window');
             const loader = document.createElement('div');
             loader.className = "thinking";
-            loader.innerHTML = `<img src="logo.png" onerror="this.src='https://via.placeholder.com/35/00FF00/000000?text=A'"> Analisando...`;
+            loader.innerHTML = `<img src="canalapexia.png" onerror="this.src='https://via.placeholder.com/35/00FF00/000000?text=A'"> Analisando...`;
             win.appendChild(loader); win.scrollTop = win.scrollHeight;
 
-            const historyContext = chats[currentChatId].messages.slice(-10).map(m => `${m.role === 'user' ? 'Usuário' : 'Mentor'}: ${m.content}`).join('\n');
+            const history = chats[currentChatId].messages.slice(-10).map(m => `${m.role === 'user' ? 'Usuário' : 'Mentor'}: ${m.content}`).join('\n');
 
             try {
                 const response = await fetch(BACKEND_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ prompt: `${mentorYouTubePrompt}\n\n${canalDataGlobal}\n\nHISTÓRICO:\n${historyContext}\n\nPERGUNTA: ${text}`, image: imgToSend })
+                    body: JSON.stringify({ 
+                        prompt: `${mentorYouTubePrompt}\n\n${canalDataGlobal}\n\nHISTÓRICO:\n${history}\n\nPERGUNTA: ${text}`,
+                        image: imgToSend,
+                        accessToken: accessToken,
+                        videoId: selectedVideoId
+                    })
                 });
                 const data = await response.json();
                 loader.remove();
-                chats[currentChatId].messages.push({ role: 'ai', content: data.reply });
-                save(); renderChat();
-                renderHistory();
-            } catch (e) { loader.innerText = "ERRO. LIGUE A VPN."; }
+                if (data.reply) {
+                    addMsgToDOM('ai', data.reply);
+                    chats[currentChatId].messages.push({ role: 'user', content: isAudit ? "Auditoria solicitada" : text, img: imgToSend });
+                    chats[currentChatId].messages.push({ role: 'ai', content: data.reply });
+                    usageCount++;
+                    localStorage.setItem('apexia_usage_count', usageCount);
+                    save(); renderHistory();
+                }
+            } catch (e) { loader.innerText = "ERRO NA CONEXÃO. LIGUE A VPN."; }
+            selectedVideoId = null;
         }
 
-        function renderChat() {
-            const win = document.getElementById('chat-window');
-            win.innerHTML = chats[currentChatId].messages.length === 0 ? '<div class="msg ai">SISTEMA APEXIA V.1.1 PRONTO.</div>' : '';
-            chats[currentChatId].messages.forEach(m => {
-                const div = document.createElement('div'); div.className = `msg ${m.role}`;
-                if(m.content) div.innerHTML = `<div>${m.content.replace(/\n/g, '<br>')}</div>`;
-                if(m.img) div.innerHTML += `<img src="data:image/jpeg;base64,${m.img}" style="max-width:100%; border-radius:10px; margin-top:10px;">`;
-                win.appendChild(div);
-            });
-            win.scrollTop = win.scrollHeight;
-        }
-
-        function renderHistory() {
-            const list = document.getElementById('history-list'); list.innerHTML = '';
-            Object.keys(chats).reverse().forEach(id => {
-                const item = document.createElement('div');
-                item.className = `history-item ${id === currentChatId ? 'active' : ''}`;
-                item.style.padding = '12px'; item.style.cursor = 'pointer';
-                item.innerHTML = `<span>${chats[id].title}</span>`;
-                item.onclick = () => selectChat(id);
-                list.appendChild(item);
-            });
-        }
-
-        function handleImage(input) {
-            const reader = new FileReader();
-            reader.onload = (e) => { pendingImage = e.target.result.split(',')[1]; alert("Imagem Pronta!"); };
-            reader.readAsDataURL(input.files[0]);
-        }
+        function novoChat() { currentChatId = 'chat_' + Date.now(); chats[currentChatId] = { title: "Desejo Novo", messages: [] }; save(); selectChat(currentChatId); }
+        function selectChat(id) { currentChatId = id; renderChat(); renderHistory(); if(window.innerWidth < 769) document.getElementById('sidebar').classList.remove('open'); }
+        function save() { localStorage.setItem('apexia_history_final', JSON.stringify(chats)); }
+        function renderHistory() { const list = document.getElementById('history-list'); list.innerHTML = ''; Object.keys(chats).reverse().forEach(id => { const item = document.createElement('div'); item.className = `history-item ${id === currentChatId ? 'active' : ''}`; item.style.padding = '12px'; item.style.cursor = 'pointer'; item.innerHTML = `<span>${chats[id].title}</span>`; item.onclick = () => selectChat(id); list.appendChild(item); }); }
+        function renderChat() { const win = document.getElementById('chat-window'); win.innerHTML = chats[currentChatId].messages.length === 0 ? '<div class="msg ai">SISTEMA PRONTO. AGUARDANDO COMANDO.</div>' : ''; chats[currentChatId].messages.forEach(m => { const div = document.createElement('div'); div.className = `msg ${m.role}`; div.innerHTML = `<div>${m.content.replace(/\n/g, '<br>')}</div>`; if(m.img) div.innerHTML += `<img src="data:image/jpeg;base64,${m.img}" style="max-width:100%; border-radius:10px; margin-top:10px;">`; win.appendChild(div); }); win.scrollTop = win.scrollHeight; }
+        function handleImage(input) { const reader = new FileReader(); reader.onload = (e) => { pendingImage = e.target.result.split(',')[1]; alert("Imagem Pronta!"); }; reader.readAsDataURL(input.files[0]); }
+        function addMsgToDOM(role, text) { const win = document.getElementById('chat-window'); const div = document.createElement('div'); div.className = `msg ${role}`; div.innerHTML = `<div>${text.replace(/\n/g, '<br>')}</div>`; win.appendChild(div); win.scrollTop = win.scrollHeight; }
         document.getElementById('user-input').addEventListener('keypress', (e) => { if(e.key === 'Enter') enviar(); });
     </script>
 </body>
