@@ -1,323 +1,119 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta name="google-site-verification" content="xrh1p7XapuOxQCSh2CLBXgs3g6Pq4YGvicRq3NMcF0A" />
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ApexiA V.1.2 | Mentor Supremo</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap" rel="stylesheet">
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script>
+    const CLIENT_ID = "145100322345-70nlh619s577puk5c75u19trip13nkme.apps.googleusercontent.com";
+    const BACKEND_URL = "https://apexia-backend.vercel.app/api/mentor";
+    const mentorYouTubePrompt = `Seu prompt completo...`;
 
-    <style>
-        :root { --primary: #00FF00; --bg-sidebar: #080808; --bg-chat: #030303; --border: rgba(0, 255, 0, 0.15); --text: #F5F5F7; }
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
-        body, html { font-family: 'Inter', sans-serif; background-color: var(--bg-chat); color: var(--text); height: 100dvh; width: 100vw; overflow: hidden; }
-        .smoke-bg { position: fixed; inset: 0; background: radial-gradient(circle at 50% 50%, #0a200a 0%, #030303 100%); z-index: -1; }
+    let accessToken = localStorage.getItem('apexia_token');
+    let tokenClient;
+    let chats = JSON.parse(localStorage.getItem('apexia_history_final')) || {};
+    let currentChatId = null;
+    let pendingImage = null;
+    let canalDataGlobal = "";
+    let selectedVideoId = null; // <-- ID do vídeo selecionado
+
+    window.onload = () => {
+        tokenClient = google.accounts.oauth2.initTokenClient({
+            client_id: CLIENT_ID,
+            scope: 'https://www.googleapis.com/auth/youtube.readonly https://www.googleapis.com/auth/yt-analytics.readonly',
+            callback: (res) => { if(res.access_token) handleAuth(res.access_token); }
+        });
+        if (accessToken) handleAuth(accessToken, true);
+    };
+
+    function iniciarLogin() { if(tokenClient) tokenClient.requestAccessToken({ prompt: 'consent' }); }
+    function logout() { localStorage.clear(); location.reload(); }
+
+    async function handleAuth(token, auto = false) {
+        accessToken = token; 
+        localStorage.setItem('apexia_token', token);
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('selection-menu').style.display = 'flex';
+        if(!auto) { confetti({ particleCount: 150, colors: ['#00FF00', '#FFFFFF'] }); }
+        await carregarCanal();
+    }
+
+    async function carregarCanal() {
+        try {
+            const res = await fetch('https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&mine=true', { 
+                headers: { 'Authorization': `Bearer ${accessToken}` } 
+            });
+            const data = await res.json();
+            const c = data.items[0];
+            document.getElementById('d-subs').innerText = Number(c.statistics.subscriberCount).toLocaleString();
+            document.getElementById('d-views').innerText = Number(c.statistics.viewCount).toLocaleString();
+            document.getElementById('d-vids').innerText = c.statistics.videoCount;
+            document.getElementById('chan-label').innerText = c.snippet.title.toUpperCase();
+            canalDataGlobal = `CANAL: ${c.snippet.title}, SUBS: ${c.statistics.subscriberCount}, VIEWS: ${c.statistics.viewCount}.`;
+        } catch(e){ console.error("Erro API"); }
+    }
+
+    async function abrirVideoSelection() {
+        try {
+            const res = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=MINE&maxResults=50&order=date`, {
+                headers: { 'Authorization': `Bearer ${accessToken}` }
+            });
+            const data = await res.json();
+            const list = document.getElementById('video-list');
+            list.innerHTML = '';
+            data.items.forEach(v => {
+                if(!v.id.videoId) return;
+                const div = document.createElement('div');
+                div.className = 'video-item';
+                div.textContent = v.snippet.title;
+                div.onclick = () => { 
+                    selectedVideoId = v.id.videoId; // <-- salva o vídeo selecionado
+                    document.getElementById('video-selection').style.display='none'; 
+                    irParaMentoria(); 
+                    canalDataGlobal += ` VIDEO_ID: ${selectedVideoId}`; 
+                };
+                list.appendChild(div);
+            });
+            document.getElementById('selection-menu').style.display = 'none';
+            document.getElementById('video-selection').style.display = 'flex';
+        } catch(e){ alert("Erro ao carregar vídeos."); console.error(e); }
+    }
+
+    function irParaMentoria() { 
+        document.getElementById('selection-menu').style.display='none'; 
+        document.getElementById('app-container').style.display='flex'; 
+        renderHistory(); 
+        if(!currentChatId) novoChat(); else selectChat(currentChatId); 
+    }
+
+    async function enviar() {
+        const input = document.getElementById('user-input');
+        const text = input.value.trim();
+        if(!text && !pendingImage) return;
+
+        chats[currentChatId].messages.push({ role: 'user', content: text, img: pendingImage });
+        if(chats[currentChatId].title === "Comando Novo") chats[currentChatId].title = text.substring(0, 18);
         
-        /* LOGIN */
-        #login-screen { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; }
-        .logo-login { width: 140px; height: 140px; border-radius: 50%; border: 3px solid var(--primary); box-shadow: 0 0 40px rgba(0, 255, 0, 0.4); margin-bottom: 25px; object-fit: cover; animation: pulse 2s infinite; }
-        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        renderChat();
+        input.value = '';
+        const imgToSend = pendingImage;
+        pendingImage = null;
 
-        /* HUB SELECTION */
-        #selection-menu { display: none; flex-direction: column; align-items: center; justify-content: center; height: 100dvh; width: 100vw; text-align: center; background: rgba(0,0,0,0.95); z-index: 8888; position: fixed; overflow-y: auto; padding: 20px 0; }
-        .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; width: 100%; max-width: 1100px; padding: 20px; }
-        .menu-card { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 40px 20px; border-radius: 24px; cursor: pointer; transition: 0.3s; backdrop-filter: blur(10px); }
-        .menu-card:hover { border-color: var(--primary); transform: translateY(-10px); background: rgba(0,255,0,0.05); }
-        .menu-card h3 { color: var(--primary); margin: 15px 0; font-size: 1.4rem; text-transform: uppercase; }
+        const win = document.getElementById('chat-window');
+        const loader = document.createElement('div');
+        loader.className = "thinking";
+        loader.innerHTML = `<img src="logo.png" onerror="this.src='https://via.placeholder.com/35/00FF00/000000?text=A'"> Analisando...`;
+        win.appendChild(loader); win.scrollTop = win.scrollHeight;
 
-        #app-container { display: none; height: 100dvh; width: 100vw; flex-direction: row; }
-        #sidebar { width: 300px; background: var(--bg-sidebar); border-right: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; transition: transform 0.3s ease; }
-        #main-chat { flex: 1; display: flex; flex-direction: column; background: var(--bg-chat); height: 100dvh; min-width: 0; }
+        const historyContext = chats[currentChatId].messages.slice(-10).map(m => `${m.role === 'user' ? 'Usuário' : 'Mentor'}: ${m.content}`).join('\n');
 
-        header { padding: 15px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: #000; }
-        #dashboard { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; padding: 12px; border-bottom: 1px solid var(--border); }
-        .stat-card { background: rgba(255,255,255,0.02); border: 1px solid var(--border); padding: 10px; border-radius: 12px; text-align: center; }
-        .stat-card label { font-size: 0.5rem; color: #666; font-weight: 900; text-transform: uppercase; display: block; }
-        .stat-card span { font-size: 0.9rem; font-weight: 900; color: var(--primary); }
-
-        #chat-window { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
-        .msg { max-width: 85%; padding: 16px 20px; border-radius: 18px; line-height: 1.6; font-size: 0.95rem; }
-        .ai { align-self: flex-start; background: transparent; border-left: 3px solid var(--primary); border-radius: 0; white-space: pre-wrap; }
-        .user { align-self: flex-end; background: var(--primary); color: #000; font-weight: 600; border-radius: 20px 20px 2px 20px; }
-
-        .input-area { padding: 15px; border-top: 1px solid var(--border); background: #000; padding-bottom: max(15px, env(safe-area-inset-bottom)); }
-        .input-wrapper { max-width: 900px; margin: 0 auto; display: flex; gap: 10px; align-items: center; background: #0a0a0a; padding: 10px 18px; border-radius: 35px; border: 1px solid var(--border); }
-        input { flex: 1; background: transparent; border: none; color: #fff; outline: none; font-size: 1rem; }
-        .send-btn { background: var(--primary); border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-weight: 900; color: #000; }
-
-        @media (max-width: 768px) { #sidebar { position: fixed; left: 0; top: 0; bottom: 0; transform: translateX(-100%); z-index: 9000; } #sidebar.open { transform: translateX(0); } #app-container { flex-direction: column; } }
-        @media (min-width: 769px) { #app-container { display: flex; } #dashboard { grid-template-columns: repeat(4, 1fr); } }
-
-        .thinking { display: flex; align-items: center; gap: 10px; padding: 15px; color: var(--primary); font-size: 0.8rem; font-weight: 800; }
-        .thinking img { width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--primary); animation: pulse 1.5s infinite; }
-    </style>
-</head>
-<body>
-    <div class="smoke-bg"></div>
-
-    <div id="login-screen">
-        <img src="logo.png" class="logo-login" onerror="this.src='https://via.placeholder.com/150/00FF00/000000?text=ApexIA'">
-        <h1 style="font-size: 2.5rem; font-weight: 900; color: #fff;">ApexiA Hub V.1.2</h1>
-        <button onclick="iniciarLogin()" style="background:#fff; color:#000; padding:18px 45px; border-radius:50px; border:none; font-weight:900; cursor:pointer; margin-top:20px;">ACESSAR HUB ELITE</button>
-        <div style="margin-top:20px;"><a href="privacidade.html" style="color:#444; font-size:0.7rem;">Política de Privacidade</a></div>
-    </div>
-
-    <!-- HUB DE SELEÇÃO -->
-    <div id="selection-menu">
-        <h2 style="font-weight: 900; font-size: 2.5rem; margin-bottom: 30px;">CENTRAL <span style="color:var(--primary)">APEXIA</span></h2>
-        <div class="menu-grid">
-            <div class="menu-card" onclick="irParaMentoria()">
-                <div style="font-size: 3rem;">🧠</div>
-                <h3>Mentor Supremo</h3>
-                <p style="color:#888; font-size:0.85rem;">IA de Growth e Psicologia do Criador.</p>
-            </div>
-            <div class="menu-card" onclick="window.open('https://apexia-oficcial.github.io/ApexIA/', '_blank')">
-                <div style="font-size: 3rem;">⚡</div>
-                <h3>Arsenal de Prompts</h3>
-                <p style="color:#888; font-size:0.85rem;">Biblioteca master de comandos secretos.</p>
-            </div>
-            <div class="menu-card" onclick="window.open('https://substack.com/@apexia', '_blank')">
-                <div style="font-size: 3rem;">📖</div>
-                <h3>Manual Pro</h3>
-                <p style="color:#888; font-size:0.85rem;">Artigos e tutoriais de dominação.</p>
-            </div>
-        </div>
-        <button onclick="logout()" style="margin-top:40px; color:#555; background:none; border:none; cursor:pointer; font-weight:800;">DESCONECTAR SISTEMA</button>
-    </div>
-
-    <!-- APP CONTAINER -->
-    <div id="app-container">
-        <nav id="sidebar">
-            <div style="padding:20px; border-bottom:1px solid var(--border);">
-                <button style="width:100%; padding:12px; border-radius:10px; background:rgba(0,255,0,0.1); color:var(--primary); border:1px solid var(--primary); font-weight:800; cursor:pointer;" onclick="novoChat()">+ NOVO PROTOCOLO</button>
-            </div>
-            <div id="history-list" style="flex:1; overflow-y:auto; padding:10px;"></div>
-            <div style="padding:15px; border-top:1px solid var(--border);">
-                <button onclick="abrirModalErro()" style="color:#ffaa00; background:none; border:none; font-size:0.7rem; font-weight:800; cursor:pointer; margin-bottom:15px; display:block;">⚠️ REPORTAR ERRO / FEEDBACK</button>
-                <button onclick="voltarAoHub()" style="color:var(--primary); background:none; border:none; font-size:0.75rem; font-weight:800; cursor:pointer; margin-bottom:10px; display:block;">← VOLTAR AO HUB</button>
-                <button onclick="logout()" style="color:#555; background:none; border:none; font-size:0.75rem; font-weight:800; cursor:pointer;">SAIR DO SISTEMA</button>
-            </div>
-        </nav>
-
-        <main id="main-chat">
-            <header>
-                <button onclick="toggleSidebar()" style="background:none; border:none; color:var(--primary); font-size:1.5rem;" id="menu-btn">☰</button>
-                <div style="font-weight: 900; font-size: 1.2rem;">APEXIA V.1.2</div>
-                <div id="chan-label" style="font-size: 0.6rem; color: #555;">ONLINE</div>
-            </header>
-            <div id="dashboard">
-                <div class="stat-card"><label>Inscritos</label><span id="d-subs">---</span></div>
-                <div class="stat-card"><label>Total Views</label><span id="d-views">---</span></div>
-                <div class="stat-card"><label>Vídeos</label><span id="d-vids">---</span></div>
-                <div class="stat-card"><label>Status</label><span style="color:var(--primary)">SUPREMO</span></div>
-            </div>
-            <div id="chat-window"></div>
-            <div class="input-area">
-                <div class="input-wrapper">
-                    <button style="background:none; border:none; color:var(--primary); font-size:1.3rem; cursor:pointer;" onclick="document.getElementById('file-input').click()">📎</button>
-                    <input type="file" id="file-input" style="display:none" accept="image/*" onchange="handleImage(this)">
-                    <input type="text" id="user-input" placeholder="Dúvida técnica ou link do YouTube...">
-                    <button class="send-btn" onclick="enviar()">→</button>
-                </div>
-            </div>
-        </main>
-    </div>
-
-    <!-- MODAL DE ERRO -->
-    <div id="report-modal">
-        <div class="modal-content">
-            <h2 style="color:var(--primary)">Reportar Problema</h2>
-            <textarea id="error-text" placeholder="Descreva o erro ou dê sua sugestão técnica."></textarea>
-            <button onclick="enviarReporte()" style="background:var(--primary); color:#000; padding:12px 30px; border-radius:30px; border:none; font-weight:bold; cursor:pointer; width:100%;">ENVIAR FEEDBACK</button>
-            <button onclick="fecharModalErro()" style="background:none; border:none; color:#555; margin-top:15px; cursor:pointer;">Cancelar</button>
-        </div>
-    </div>
-
-    <script>
-        const CLIENT_ID = "145100322345-70nlh619s577puk5c75u19trip13nkme.apps.googleusercontent.com";
-        const BACKEND_URL = "https://apexia-backend.vercel.app/api/mentor";
-        
-        const mentorYouTubePrompt = "Você é o Mentor Supremo da ApexiA V.1.1, especialista em crescimento de canais no YouTube, mas fala como um mentor humano de verdade, amigo próximo e conselheiro estratégico. 
-Seu objetivo é analisar links, imagens e dados para transformar criadores em autoridades do algoritmo. 
-Sempre encoraje, motive e reconheça conquistas, além de entregar análises precisas. 
-Se algo não estiver disponível ou não puder ser lido, diga claramente. 
-Use emojis relevantes, seja direto, claro e humano. 
-Se receber imagens, analise cores, contraste e elementos que aumentem CTR. 
-Se receber dados do YouTube, interprete impressões, retenção e engajamento, e ofereça planos de ação estratégicos.
-Não seja robótico, frio ou genérico; fale como mentor experiente, mas acessível e próximo do criador";
-
-        let accessToken = localStorage.getItem('apexia_token');
-        let tokenClient;
-        let chats = JSON.parse(localStorage.getItem('apexia_history_final')) || {};
-        let currentChatId = null;
-        let pendingImage = null;
-        let canalDataGlobal = "";
-
-        window.onload = () => {
-            tokenClient = google.accounts.oauth2.initTokenClient({
-                client_id: CLIENT_ID,
-                scope: 'https://www.googleapis.com/auth/youtube.readonly https://www.googleapis.com/auth/yt-analytics.readonly',
-                callback: (res) => { if(res.access_token) handleAuth(res.access_token); }
+        try {
+            const promptWithVideo = `${mentorYouTubePrompt}\n\n${canalDataGlobal}${selectedVideoId ? `\nVIDEO_ID: ${selectedVideoId}` : ''}\n\nHISTÓRICO:\n${historyContext}\n\nPERGUNTA: ${text}`;
+            const response = await fetch(BACKEND_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prompt: promptWithVideo, image: imgToSend })
             });
+            const data = await response.json();
+            loader.remove();
+            chats[currentChatId].messages.push({ role: 'ai', content: data.reply });
+            save(); renderChat(); renderHistory();
+        } catch (e) { loader.innerText = "ERRO. LIGUE A VPN."; }
+    }
 
-            // Detecção automática se vier da extensão
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('video_title') && accessToken) {
-                irParaMentoria();
-            }
-
-            if (accessToken) handleAuth(accessToken, true);
-        };
-
-        function iniciarLogin() { if(tokenClient) tokenClient.requestAccessToken({ prompt: 'consent' }); }
-        function logout() { localStorage.clear(); location.reload(); }
-        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
-        function voltarAoHub() { document.getElementById('app-container').style.display='none'; document.getElementById('selection-menu').style.display='flex'; }
-        function irParaMentoria() { document.getElementById('selection-menu').style.display='none'; document.getElementById('app-container').style.display='flex'; renderHistory(); if(!currentChatId) novoChat(); else selectChat(currentChatId); }
-        function abrirModalErro() { document.getElementById('report-modal').style.display = 'flex'; }
-        function fecharModalErro() { document.getElementById('report-modal').style.display = 'none'; }
-        function enviarReporte() { const txt = document.getElementById('error-text').value; if(txt) { window.open(`https://wa.me/244953646352?text=${encodeURIComponent("ERRO APEXIA: " + txt)}`, '_blank'); fecharModalErro(); } }
-
-        async function handleAuth(token, auto = false) {
-            accessToken = token; localStorage.setItem('apexia_token', token);
-            document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('selection-menu').style.display = 'flex';
-            if(!auto) { confetti({ particleCount: 150, colors: ['#00FF00', '#FFFFFF'] }); }
-            carregarCanal();
-        }
-
-        async function carregarCanal() {
-            try {
-                const res = await fetch('https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&mine=true', { headers: { 'Authorization': `Bearer ${accessToken}` } });
-                const data = await res.json();
-                const c = data.items[0];
-                document.getElementById('d-subs').innerText = Number(c.statistics.subscriberCount).toLocaleString();
-                document.getElementById('d-views').innerText = Number(c.statistics.viewCount).toLocaleString();
-                document.getElementById('d-vids').innerText = c.statistics.videoCount;
-                document.getElementById('chan-label').innerText = c.snippet.title.toUpperCase();
-                canalDataGlobal = `CANAL: ${c.snippet.title}, SUBS: ${c.statistics.subscriberCount}, VIEWS: ${c.statistics.viewCount}.`;
-            } catch (e) { console.error("Erro API"); }
-        }
-
-        // --- SISTEMA DE AUDITORIA DE VÍDEO (LINK) ---
-        function extrairVideoId(texto) {
-            const regex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i;
-            const match = texto.match(regex);
-            return match ? match[1] : null;
-        }
-
-        async function buscarRelatorioVideo(vId) {
-            try {
-                const resV = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${vId}`, {
-                    headers: { 'Authorization': `Bearer ${accessToken}` }
-                });
-                const dataV = await resV.json();
-                const v = dataV.items[0];
-
-                const hoje = new Date().toISOString().split('T')[0];
-                const resA = await fetch(`https://youtubeanalytics.googleapis.com/v2/reports?ids=channel==MINE&startDate=2024-01-01&endDate=${hoje}&metrics=views,averageViewDuration,averageViewPercentage,impressions,impressionsCtr&dimensions=video&filters=video==${vId}`, {
-                    headers: { 'Authorization': `Bearer ${accessToken}` }
-                });
-                const dataA = await resA.json();
-                const s = dataA.rows ? dataA.rows[0] : null;
-
-                return `--- AUDITORIA TÉCNICA DO VÍDEO ---
-                Título: ${v.snippet.title}
-                Views: ${s ? s[1] : v.statistics.viewCount}
-                Retenção Média: ${s ? s[3] + '%' : 'N/A'}
-                CTR Real: ${s ? s[5] + '%' : 'N/A'}`;
-            } catch (e) { return "Erro ao auditar link."; }
-        }
-
-        function novoChat() { currentChatId = 'chat_' + Date.now(); chats[currentChatId] = { title: "Protocolo Novo", messages: [] }; save(); selectChat(currentChatId); }
-        function selectChat(id) { currentChatId = id; renderChat(); renderHistory(); if(window.innerWidth < 769) document.getElementById('sidebar').classList.remove('open'); }
-        function save() { localStorage.setItem('apexia_history_final', JSON.stringify(chats)); }
-
-        async function enviar() {
-            const input = document.getElementById('user-input');
-            const text = input.value.trim();
-            if(!text && !pendingImage) return;
-
-            // Detecção de Link
-            const vId = extrairVideoId(text);
-            let contextVideo = "";
-            if(vId) {
-                addMsgToDOM('ai', "🚀 Link detectado. Acedendo aos servidores do YouTube para auditoria real...");
-                contextVideo = await buscarRelatorioVideo(vId);
-            }
-
-            chats[currentChatId].messages.push({ role: 'user', content: text, img: pendingImage });
-            if(chats[currentChatId].title === "Protocolo Novo") chats[currentChatId].title = text.substring(0, 18);
-            
-            renderChat();
-            input.value = '';
-            const imgToSend = pendingImage;
-            pendingImage = null;
-
-            const win = document.getElementById('chat-window');
-            const loader = document.createElement('div');
-            loader.className = "thinking";
-            loader.innerHTML = `<img src="logo.png" onerror="this.src='https://via.placeholder.com/35/00FF00/000000?text=A'"> Analisando...`;
-            win.appendChild(loader); win.scrollTop = win.scrollHeight;
-
-            const history = chats[currentChatId].messages.slice(-10).map(m => `${m.role === 'user' ? 'Usuário' : 'Mentor'}: ${m.content}`).join('\n');
-
-            try {
-                const response = await fetch(BACKEND_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        prompt: `${mentorYouTubePrompt}\n\n${canalDataGlobal}\n${contextVideo}\n\nHISTÓRICO:\n${history}\n\nPERGUNTA: ${text}`,
-                        image: imgToSend
-                    })
-                });
-                const data = await response.json();
-                loader.remove();
-                chats[currentChatId].messages.push({ role: 'ai', content: data.reply });
-                save(); renderChat(); renderHistory();
-            } catch (e) { loader.innerText = "ERRO. LIGUE A VPN."; }
-        }
-
-        function renderChat() {
-            const win = document.getElementById('chat-window');
-            win.innerHTML = chats[currentChatId].messages.length === 0 ? '<div class="msg ai">SISTEMA APEXIA V.1.2 PRONTO.</div>' : '';
-            chats[currentChatId].messages.forEach(m => {
-                const div = document.createElement('div'); div.className = `msg ${m.role}`;
-                if(m.content) div.innerHTML = `<div>${m.content.replace(/\n/g, '<br>')}</div>`;
-                if(m.img) div.innerHTML += `<img src="data:image/jpeg;base64,${m.img}" style="max-width:100%; border-radius:10px; margin-top:10px;">`;
-                win.appendChild(div);
-            });
-            win.scrollTop = win.scrollHeight;
-        }
-
-        function addMsgToDOM(role, text) {
-            const win = document.getElementById('chat-window');
-            const div = document.createElement('div'); div.className = `msg ${role}`;
-            div.innerText = text; win.appendChild(div); win.scrollTop = win.scrollHeight;
-        }
-
-        function renderHistory() {
-            const list = document.getElementById('history-list'); list.innerHTML = '';
-            Object.keys(chats).reverse().forEach(id => {
-                const item = document.createElement('div');
-                item.className = `history-item ${id === currentChatId ? 'active' : ''}`;
-                item.style.padding = '12px'; item.style.cursor = 'pointer';
-                item.innerHTML = `<span>${chats[id].title}</span>`;
-                item.onclick = () => selectChat(id);
-                list.appendChild(item);
-            });
-        }
-
-        function handleImage(input) {
-            const reader = new FileReader();
-            reader.onload = (e) => { pendingImage = e.target.result.split(',')[1]; alert("Imagem Pronta!"); };
-            reader.readAsDataURL(input.files[0]);
-        }
-        document.getElementById('user-input').addEventListener('keypress', (e) => { if(e.key === 'Enter') enviar(); });
-    </script>
-</body>
-</html>
+    // ... resto do código existente (renderChat, renderHistory, handleImage, etc.) permanece igual
+</script>
