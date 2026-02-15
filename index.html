@@ -5,7 +5,7 @@
     <meta name="google-site-verification" content="xrh1p7XapuOxQCSh2CLBXgs3g6Pq4YGvicRq3NMcF0A" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ApexiA V.1.2 | Mentor Supremo</title>
+    <title>ApexiA V.1.0 | Mentor Supremo</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap" rel="stylesheet">
@@ -41,7 +41,7 @@
         .stat-card span { font-size: 0.9rem; font-weight: 900; color: var(--primary); }
 
         #chat-window { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
-        .msg { max-width: 85%; padding: 14px 18px; border-radius: 18px; line-height: 1.6; font-size: 0.95rem; }
+        .msg { max-width: 85%; padding: 16px 20px; border-radius: 18px; line-height: 1.6; font-size: 0.95rem; }
         .ai { align-self: flex-start; background: transparent; border-left: 3px solid var(--primary); border-radius: 0; white-space: pre-wrap; }
         .user { align-self: flex-end; background: var(--primary); color: #000; font-weight: 600; border-radius: 20px 20px 2px 20px; }
 
@@ -54,7 +54,7 @@
         .modal-content { background: #111; border: 1px solid var(--primary); padding: 30px; border-radius: 24px; width: 100%; max-width: 500px; text-align: center; }
         textarea { width: 100%; height: 120px; background: #000; border: 1px solid var(--border); border-radius: 15px; color: #fff; padding: 15px; margin: 20px 0; outline: none; font-family: inherit; }
 
-        .video-select-btn { width: 100%; padding: 10px; background: rgba(0,255,0,0.1); border: 1px solid var(--border); color: #fff; border-radius: 8px; margin-top: 5px; cursor: pointer; text-align: left; font-size: 0.8rem; }
+        .video-select-btn { width: 100%; padding: 10px; background: rgba(0,255,0,0.1); border: 1px solid var(--primary); color: #fff; border-radius: 8px; margin-top: 5px; cursor: pointer; text-align: left; font-size: 0.8rem; }
         
         #online-counter { background: rgba(0, 255, 0, 0.1); border: 1px solid var(--border); padding: 5px 10px; border-radius: 50px; font-size: 0.6rem; color: var(--primary); font-weight: 800; display: inline-flex; align-items: center; gap: 6px; }
         .online-dot { width: 6px; height: 6px; background: var(--primary); border-radius: 50%; animation: dotPulse 1.5s infinite; box-shadow: 0 0 8px var(--primary); }
@@ -89,7 +89,7 @@
     </div>
 
     <div id="selection-menu">
-        <h2 style="font-weight: 900; font-size: 2.5rem; margin-bottom: 30px;">CENTRAL <span style="color:var(--primary)">APEXIA</span></h2>
+        <h2 style="font-weight: 900; font-size: 2.5rem; margin-bottom: 30px;">HUB <span style="color:var(--primary)">APEXIA</span></h2>
         <div class="menu-grid">
             <div class="menu-card" onclick="irParaMentoria()">
                 <div style="font-size: 3rem;">🧠</div>
@@ -107,7 +107,7 @@
                 <p style="color:#888; font-size:0.85rem;">Artigos e tutoriais de dominação.</p>
             </div>
         </div>
-        <button onclick="logout()" style="margin-top:40px; color:#555; background:none; border:none; cursor:pointer; font-weight:800;">DESCONECTAR</button>
+        <button onclick="logout()" style="margin-top:40px; color:#555; background:none; border:none; cursor:pointer; font-weight:800;">DESCONECTAR SISTEMA</button>
     </div>
 
     <div id="app-container">
@@ -135,7 +135,6 @@
                 <div class="stat-card"><label>Status</label><span style="color:var(--primary)">SUPREMO</span></div>
             </div>
 
-            <!-- QUADRO DE PERFORMANCE AVANÇADA -->
             <div id="advanced-metrics-box">
                 <div class="adv-grid">
                     <div class="adv-card"><label>Views Totais</label><span id="adv-views">...</span></div>
