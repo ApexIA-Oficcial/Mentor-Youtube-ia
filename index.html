@@ -5,7 +5,7 @@
     <meta name="google-site-verification" content="xrh1p7XapuOxQCSh2CLBXgs3g6Pq4YGvicRq3NMcF0A" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ApexiA V.1.0 | Mentor Supremo</title>
+    <title>ApexiA Mentor Supremo | Growth & Analytics</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap" rel="stylesheet">
@@ -15,15 +15,36 @@
     <style>
         :root { --primary: #00FF00; --bg-sidebar: #080808; --bg-chat: #030303; --border: rgba(0, 255, 0, 0.15); --text: #F5F5F7; }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
-        body, html { font-family: 'Inter', sans-serif; background-color: var(--bg-chat); color: var(--text); height: 100dvh; width: 100vw; overflow: hidden; }
+        body, html { font-family: 'Inter', sans-serif; background-color: var(--bg-chat); color: var(--text); min-height: 100dvh; width: 100vw; overflow-x: hidden; }
         .smoke-bg { position: fixed; inset: 0; background: radial-gradient(circle at 50% 50%, #0a200a 0%, #030303 100%); z-index: -1; }
         .smoke-layer { position: absolute; width: 200%; height: 200%; background: radial-gradient(circle, rgba(0,255,0,0.05) 0%, transparent 70%); filter: blur(60px); animation: drift 20s linear infinite; }
         @keyframes drift { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         
-        #login-screen { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; }
-        .logo-login { width: 140px; height: 140px; border-radius: 50%; border: 3px solid var(--primary); box-shadow: 0 0 40px rgba(0, 255, 0, 0.4); margin-bottom: 25px; object-fit: cover; animation: pulse 2s infinite; }
+        /* --- TELA DE LOGIN EXPANDIDA PARA APROVAÇÃO DO GOOGLE --- */
+        #login-screen { 
+            position: fixed; inset: 0; background: #000; z-index: 9999; 
+            display: flex; flex-direction: column; align-items: center; justify-content: flex-start; 
+            text-align: center; padding: 40px 20px; overflow-y: auto;
+        }
+        .logo-login { width: 120px; height: 120px; border-radius: 50%; border: 3px solid var(--primary); box-shadow: 0 0 40px rgba(0, 255, 0, 0.4); margin-bottom: 20px; object-fit: cover; animation: pulse 2s infinite; }
         @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 
+        /* BOX DE DIVULGAÇÃO PÚBLICA (EXIGÊNCIA GOOGLE) */
+        .public-disclosure {
+            max-width: 700px; background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+            padding: 30px; border-radius: 24px; margin-bottom: 30px; text-align: left;
+        }
+        .public-disclosure h2 { color: var(--primary); font-size: 1.3rem; margin-bottom: 15px; text-transform: uppercase; }
+        .public-disclosure p { font-size: 0.95rem; color: #ccc; margin-bottom: 15px; line-height: 1.6; }
+        .scope-list { list-style: none; padding: 0; }
+        .scope-item { background: rgba(0,255,0,0.05); padding: 15px; border-radius: 12px; margin-bottom: 10px; border-left: 3px solid var(--primary); }
+        .scope-item b { color: var(--primary); display: block; margin-bottom: 5px; }
+        .scope-item span { font-size: 0.85rem; color: #aaa; }
+
+        .btn-login-main { background:#fff; color:#000; padding:20px 50px; border-radius:50px; border:none; font-weight:900; cursor:pointer; font-size: 1.1rem; transition: 0.3s; }
+        .btn-login-main:hover { transform: scale(1.05); box-shadow: 0 0 30px var(--primary); }
+
+        /* --- ESTILOS DO APP (MANTIDOS) --- */
         #selection-menu { display: none; flex-direction: column; align-items: center; justify-content: center; height: 100dvh; width: 100vw; text-align: center; background: rgba(0,0,0,0.95); z-index: 8888; position: fixed; overflow-y: auto; padding: 20px 0; }
         .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; width: 100%; max-width: 1100px; padding: 20px; }
         .menu-card { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 40px 20px; border-radius: 24px; cursor: pointer; transition: 0.3s; backdrop-filter: blur(10px); }
@@ -54,7 +75,7 @@
         .modal-content { background: #111; border: 1px solid var(--primary); padding: 30px; border-radius: 24px; width: 100%; max-width: 500px; text-align: center; }
         textarea { width: 100%; height: 120px; background: #000; border: 1px solid var(--border); border-radius: 15px; color: #fff; padding: 15px; margin: 20px 0; outline: none; font-family: inherit; }
 
-        .video-select-btn { width: 100%; padding: 10px; background: rgba(0,255,0,0.1); border: 1px solid var(--primary); color: #fff; border-radius: 8px; margin-top: 5px; cursor: pointer; text-align: left; font-size: 0.8rem; }
+        .video-select-btn { width: 100%; padding: 10px; background: rgba(0,255,0,0.1); border: 1px solid var(--border); color: #fff; border-radius: 8px; margin-top: 8px; cursor: pointer; text-align: left; font-size: 0.8rem; }
         
         #online-counter { background: rgba(0, 255, 0, 0.1); border: 1px solid var(--border); padding: 5px 10px; border-radius: 50px; font-size: 0.6rem; color: var(--primary); font-weight: 800; display: inline-flex; align-items: center; gap: 6px; }
         .online-dot { width: 6px; height: 6px; background: var(--primary); border-radius: 50%; animation: dotPulse 1.5s infinite; box-shadow: 0 0 8px var(--primary); }
@@ -80,16 +101,40 @@
 <body>
     <div class="smoke-bg"><div class="smoke-layer"></div></div>
 
+    <!-- TELA DE LOGIN (COM DIVULGAÇÃO PÚBLICA PARA O GOOGLE) -->
     <div id="login-screen">
         <div class="live-user-badge"><span class="pulse-icon"></span> <span id="home-online-count">---</span> ONLINE AGORA</div>
         <img src="canalapexia.png" class="logo-login" onerror="this.src='https://via.placeholder.com/150/00FF00/000000?text=ApexIA'">
-        <h1 style="font-size: 2.5rem; font-weight: 900; color: #fff;">ApexiA Hub V.1.2</h1>
-        <button onclick="iniciarLogin()" style="background:#fff; color:#000; padding:18px 45px; border-radius:50px; border:none; font-weight:900; cursor:pointer; margin-top:20px;">ACESSAR MENTORIA ELITE</button>
-        <div style="margin-top:20px;"><a href="privacidade.html" style="color:#444; font-size:0.7rem;">Política de Privacidade</a></div>
+        <h1 style="font-size: 2.5rem; font-weight: 900; color: #fff; margin-bottom: 20px;">ApexiA Hub V.1.3</h1>
+        
+        <div class="public-disclosure">
+            <h2>Sobre a Plataforma / Purpose</h2>
+            <p>O <b>ApexiA Mentor Supremo</b> é um ecossistema de inteligência artificial desenhado para impulsionar canais do YouTube através da análise de dados reais.</p>
+            
+            <h2>Uso de Dados / Data Usage</h2>
+            <div class="scope-list">
+                <div class="scope-item">
+                    <b>• YouTube Read-Only</b>
+                    <span>Utilizamos para identificar o nome do seu canal e o volume de inscritos para personalizar a mentoria.</span>
+                </div>
+                <div class="scope-item">
+                    <b>• YouTube Analytics API</b>
+                    <span>Utilizamos para extrair dados técnicos como CTR, Retenção e Impressões. Estes números são enviados para a nossa IA gerar o seu plano de crescimento.</span>
+                </div>
+            </div>
+            <p style="font-size: 0.8rem; margin-top: 15px; color: var(--primary);">Os seus dados são processados apenas durante a sua sessão e nunca são armazenados ou vendidos a terceiros.</p>
+        </div>
+
+        <button onclick="iniciarLogin()" class="btn-login-main">ACESSAR MENTORIA ELITE</button>
+        <div style="margin-top:20px; display: flex; gap: 15px;">
+            <a href="privacidade.html" style="color:#666; font-size:0.75rem; text-decoration: underline;">Política de Privacidade</a>
+            <a href="privacidade.html#termos" style="color:#666; font-size:0.75rem; text-decoration: underline;">Termos de Serviço</a>
+        </div>
     </div>
 
+    <!-- HUB DE SELEÇÃO -->
     <div id="selection-menu">
-        <h2 style="font-weight: 900; font-size: 2.5rem; margin-bottom: 30px;">HUB <span style="color:var(--primary)">APEXIA</span></h2>
+        <h2 style="font-weight: 900; font-size: 2.5rem; margin-bottom: 30px;">CENTRAL <span style="color:var(--primary)">APEXIA</span></h2>
         <div class="menu-grid">
             <div class="menu-card" onclick="irParaMentoria()">
                 <div style="font-size: 3rem;">🧠</div>
@@ -191,7 +236,7 @@
         function irParaMentoria() { document.getElementById('selection-menu').style.display='none'; document.getElementById('app-container').style.display='flex'; renderHistory(); if(!currentChatId) novoChat(); else selectChat(currentChatId); carregarPerformanceAvancada(); }
         function abrirModalErro() { document.getElementById('report-modal').style.display = 'flex'; }
         function fecharModalErro() { document.getElementById('report-modal').style.display = 'none'; }
-        function enviarReporte() { const txt = document.getElementById('error-text').value; if(txt) { window.open(`https://wa.me/244953646352?text=${encodeURIComponent("ERRO: " + txt)}`, '_blank'); fecharModalErro(); } }
+        function enviarReporte() { const txt = document.getElementById('error-text').value; if(txt) { window.open(`https://wa.me/244953646352?text=${encodeURIComponent("ERRO APEXIA: " + txt)}`, '_blank'); fecharModalErro(); } }
 
         function handleAuth(token, auto = false) {
             accessToken = token; localStorage.setItem('apexia_token', token);
