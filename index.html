@@ -15,36 +15,53 @@
     <style>
         :root { --primary: #00FF00; --bg-sidebar: #080808; --bg-chat: #030303; --border: rgba(0, 255, 0, 0.15); --text: #F5F5F7; }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
-        body, html { font-family: 'Inter', sans-serif; background-color: var(--bg-chat); color: var(--text); min-height: 100dvh; width: 100vw; overflow-x: hidden; }
-        .smoke-bg { position: fixed; inset: 0; background: radial-gradient(circle at 50% 50%, #0a200a 0%, #030303 100%); z-index: -1; }
-        .smoke-layer { position: absolute; width: 200%; height: 200%; background: radial-gradient(circle, rgba(0,255,0,0.05) 0%, transparent 70%); filter: blur(60px); animation: drift 20s linear infinite; }
-        @keyframes drift { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        
-        /* --- TELA DE LOGIN EXPANDIDA PARA APROVAÇÃO DO GOOGLE --- */
+        body, html { font-family: 'Inter', sans-serif; background-color: #000; color: var(--text); min-height: 100dvh; width: 100vw; overflow-x: hidden; }
+
+        /* --- FUNDO GALÁXIA ANIMADO --- */
+        .galaxy-bg { position: fixed; inset: 0; z-index: -1; background: radial-gradient(circle at center, #0a1a0a 0%, #000 100%); overflow: hidden; }
+        .star { position: absolute; background: white; border-radius: 50%; opacity: 0.5; animation: moveStar linear infinite; }
+        @keyframes moveStar { from { transform: translateY(0); } to { transform: translateY(-1000px); } }
+        .shooting-star { position: absolute; width: 2px; height: 50px; background: linear-gradient(to bottom, rgba(0,255,0,0.5), transparent); animation: shoot 5s linear infinite; opacity: 0; }
+        @keyframes shoot { 0% { transform: translateX(0) translateY(0) rotate(-45deg); opacity: 1; } 100% { transform: translateX(-1000px) translateY(1000px) rotate(-45deg); opacity: 0; } }
+
+        /* --- TELA DE LOGIN ESTILO LANDING PAGE --- */
         #login-screen { 
-            position: fixed; inset: 0; background: #000; z-index: 9999; 
-            display: flex; flex-direction: column; align-items: center; justify-content: flex-start; 
-            text-align: center; padding: 40px 20px; overflow-y: auto;
+            position: relative; width: 100%; min-height: 100vh;
+            display: flex; flex-direction: column; align-items: center;
+            padding-bottom: 100px; overflow-y: auto;
         }
-        .logo-login { width: 120px; height: 120px; border-radius: 50%; border: 3px solid var(--primary); box-shadow: 0 0 40px rgba(0, 255, 0, 0.4); margin-bottom: 20px; object-fit: cover; animation: pulse 2s infinite; }
+
+        .hero { text-align: center; padding: 60px 20px; max-width: 900px; z-index: 10; }
+        .logo-login { width: 110px; height: 110px; border-radius: 50%; border: 3px solid var(--primary); box-shadow: 0 0 30px rgba(0, 255, 0, 0.4); margin-bottom: 25px; object-fit: cover; animation: pulse 2s infinite; }
         @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 
-        /* BOX DE DIVULGAÇÃO PÚBLICA (EXIGÊNCIA GOOGLE) */
-        .public-disclosure {
-            max-width: 700px; background: rgba(255,255,255,0.03); border: 1px solid var(--border);
-            padding: 30px; border-radius: 24px; margin-bottom: 30px; text-align: left;
-        }
-        .public-disclosure h2 { color: var(--primary); font-size: 1.3rem; margin-bottom: 15px; text-transform: uppercase; }
-        .public-disclosure p { font-size: 0.95rem; color: #ccc; margin-bottom: 15px; line-height: 1.6; }
-        .scope-list { list-style: none; padding: 0; }
-        .scope-item { background: rgba(0,255,0,0.05); padding: 15px; border-radius: 12px; margin-bottom: 10px; border-left: 3px solid var(--primary); }
-        .scope-item b { color: var(--primary); display: block; margin-bottom: 5px; }
-        .scope-item span { font-size: 0.85rem; color: #aaa; }
+        .hero h1 { font-size: clamp(2.2rem, 7vw, 4rem); font-weight: 900; line-height: 1.1; margin-bottom: 20px; color: #fff; }
+        .hero h1 span { color: var(--primary); text-shadow: 0 0 20px rgba(0,255,0,0.5); }
+        .hero p { font-size: 1.1rem; color: #aaa; margin-bottom: 35px; max-width: 600px; margin-inline: auto; }
 
-        .btn-login-main { background:#fff; color:#000; padding:20px 50px; border-radius:50px; border:none; font-weight:900; cursor:pointer; font-size: 1.1rem; transition: 0.3s; }
+        /* Container do Vídeo */
+        .video-showcase { 
+            width: 90%; max-width: 800px; aspect-ratio: 16/9; 
+            background: rgba(0,0,0,0.5); border: 1px solid var(--border);
+            border-radius: 24px; overflow: hidden; backdrop-filter: blur(10px);
+            margin-bottom: 50px; box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+        }
+        .video-showcase iframe { width: 100%; height: 100%; border: none; }
+
+        .public-disclosure {
+            max-width: 800px; width: 90%; background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+            padding: 35px; border-radius: 28px; backdrop-filter: blur(15px); text-align: left;
+        }
+        .public-disclosure h2 { color: var(--primary); font-size: 1.3rem; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
+        .scope-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; }
+        .scope-item { background: rgba(0,255,0,0.05); padding: 20px; border-radius: 15px; border-left: 4px solid var(--primary); }
+        .scope-item b { color: var(--primary); display: block; margin-bottom: 5px; font-size: 1rem; }
+        .scope-item span { font-size: 0.85rem; color: #bbb; line-height: 1.4; }
+
+        .btn-login-main { background:#fff; color:#000; padding:20px 55px; border-radius:50px; border:none; font-weight:900; cursor:pointer; font-size: 1.1rem; transition: 0.3s; margin: 40px 0; }
         .btn-login-main:hover { transform: scale(1.05); box-shadow: 0 0 30px var(--primary); }
 
-        /* --- ESTILOS DO APP (MANTIDOS) --- */
+        /* --- ESTILOS DO APP (MANTIDOS ORIGINAIS) --- */
         #selection-menu { display: none; flex-direction: column; align-items: center; justify-content: center; height: 100dvh; width: 100vw; text-align: center; background: rgba(0,0,0,0.95); z-index: 8888; position: fixed; overflow-y: auto; padding: 20px 0; }
         .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; width: 100%; max-width: 1100px; padding: 20px; }
         .menu-card { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 40px 20px; border-radius: 24px; cursor: pointer; transition: 0.3s; backdrop-filter: blur(10px); }
@@ -99,36 +116,43 @@
     </style>
 </head>
 <body>
-    <div class="smoke-bg"><div class="smoke-layer"></div></div>
+    <div class="galaxy-bg" id="galaxy"></div>
 
-    <!-- TELA DE LOGIN (COM DIVULGAÇÃO PÚBLICA PARA O GOOGLE) -->
+    <!-- TELA DE LOGIN (ESTILO LANDING PAGE COM VÍDEO E GALAXY) -->
     <div id="login-screen">
         <div class="live-user-badge"><span class="pulse-icon"></span> <span id="home-online-count">---</span> ONLINE AGORA</div>
-        <img src="canalapexia.png" class="logo-login" onerror="this.src='https://via.placeholder.com/150/00FF00/000000?text=ApexIA'">
-        <h1 style="font-size: 2.5rem; font-weight: 900; color: #fff; margin-bottom: 20px;">ApexiA Hub V.1.3</h1>
+        
+        <div class="hero">
+            <img src="canalapexia.png" class="logo-login" onerror="this.src='https://via.placeholder.com/150/00FF00/000000?text=ApexIA'">
+            <h1>ApexiA Hub <span>V.1.3</span></h1>
+            <p>O ecossistema definitivo de Inteligência Artificial para criadores que buscam a dominação absoluta do algoritmo do YouTube.</p>
+            
+            <!-- SEÇÃO DE VÍDEO (ADICIONADA) -->
+            <div class="video-showcase">
+                <!-- SUBSTITUA O LINK ABAIXO PELO SEU VÍDEO REAL DE DEMONSTRAÇÃO -->
+                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=0&mute=1" title="Como funciona a ApexIA" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+
+            <button onclick="iniciarLogin()" class="btn-login-main">CONECTAR AO SISTEMA</button>
+        </div>
         
         <div class="public-disclosure">
-            <h2>Sobre a Plataforma / Purpose</h2>
-            <p>O <b>ApexiA Mentor Supremo</b> é um ecossistema de inteligência artificial desenhado para impulsionar canais do YouTube através da análise de dados reais.</p>
-            
-            <h2>Uso de Dados / Data Usage</h2>
+            <h2>Transparência & Uso de Dados</h2>
             <div class="scope-list">
                 <div class="scope-item">
-                    <b>• YouTube Read-Only</b>
-                    <span>Utilizamos para identificar o nome do seu canal e o volume de inscritos para personalizar a mentoria.</span>
+                    <b>• YouTube Analytics API</b>
+                    <span>Analisamos CTR, Retenção e Impressões em tempo real para gerar seus diagnósticos de crescimento.</span>
                 </div>
                 <div class="scope-item">
-                    <b>• YouTube Analytics API</b>
-                    <span>Utilizamos para extrair dados técnicos como CTR, Retenção e Impressões. Estes números são enviados para a nossa IA gerar o seu plano de crescimento.</span>
+                    <b>• YouTube Read-Only</b>
+                    <span>Acessamos apenas o nome e estatísticas públicas do canal para personalizar sua experiência de mentoria.</span>
                 </div>
             </div>
-            <p style="font-size: 0.8rem; margin-top: 15px; color: var(--primary);">Os seus dados são processados apenas durante a sua sessão e nunca são armazenados ou vendidos a terceiros.</p>
-        </div>
-
-        <button onclick="iniciarLogin()" class="btn-login-main">ACESSAR MENTORIA ELITE</button>
-        <div style="margin-top:20px; display: flex; gap: 15px;">
-            <a href="privacidade.html" style="color:#666; font-size:0.75rem; text-decoration: underline;">Política de Privacidade</a>
-            <a href="privacidade.html#termos" style="color:#666; font-size:0.75rem; text-decoration: underline;">Termos de Serviço</a>
+            <p style="font-size: 0.8rem; margin-top: 20px; color: #666; text-align: center;">
+                Seus dados são processados apenas durante a sessão e nunca são vendidos. 
+                <br>
+                <a href="privacidade.html" style="color:var(--primary); text-decoration: none;">Política de Privacidade</a> | <a href="privacidade.html#termos" style="color:var(--primary); text-decoration: none;">Termos de Uso</a>
+            </p>
         </div>
     </div>
 
@@ -170,7 +194,7 @@
         <main id="main-chat">
             <header>
                 <button onclick="toggleSidebar()" style="background:none; border:none; color:var(--primary); font-size:1.5rem;" id="menu-btn">☰</button>
-                <div style="font-weight: 900;">APEXIA V.1.2</div>
+                <div style="font-weight: 900;" id="chan-label">APEXIA V.1.2</div>
                 <div id="online-counter"><span class="online-dot"></span> <span id="online-val">...</span> ONLINE</div>
             </header>
             <div id="dashboard">
@@ -201,10 +225,35 @@
     <div id="report-modal"><div class="modal-content"><h2 style="color:var(--primary)">Reportar Problema</h2><textarea id="error-text" placeholder="Sugestão técnica..."></textarea><button onclick="enviarReporte()" style="background:var(--primary); color:#000; padding:12px 30px; border-radius:30px; border:none; font-weight:bold; cursor:pointer; width:100%;">ENVIAR FEEDBACK</button><button onclick="fecharModalErro()" style="background:none; border:none; color:#555; margin-top:15px; cursor:pointer;">Cancelar</button></div></div>
 
     <script>
+        // --- GERADOR DE ESTRELAS E GALAXY ---
+        function initGalaxy() {
+            const container = document.getElementById('galaxy');
+            for (let i = 0; i < 150; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                const size = Math.random() * 3 + 'px';
+                star.style.width = size; star.style.height = size;
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDuration = Math.random() * 50 + 50 + 's';
+                star.style.opacity = Math.random();
+                container.appendChild(star);
+            }
+            setInterval(() => {
+                const s = document.createElement('div');
+                s.className = 'shooting-star';
+                s.style.left = Math.random() * 100 + '%'; s.style.top = '0';
+                container.appendChild(s);
+                setTimeout(() => s.remove(), 5000);
+            }, 4000);
+        }
+        initGalaxy();
+
         const CLIENT_ID = "145100322345-70nlh619s577puk5c75u19trip13nkme.apps.googleusercontent.com";
         const BACKEND_URL = "https://apexia-backend.vercel.app/api/mentor";
         
-        const mentorYouTubePrompt = `Você é o Mentor Supremo da ApexiA V.1.1, autoridade máxima em inteligência de Growth para YouTube. Seu papel é identificar, analisar e extrair tudo o que é essencial para o crescimento de um canal, com precisão técnica, visão estratégica e orientação humana. PROTOCOLOS DE ANÁLISE E OPERAÇÃO: 1. Você identifica automaticamente links do YouTube e realiza análise técnica completa de título, SEO, posicionamento e potencial de recomendação. 2. Você analisa profundamente qualquer imagem enviada. Se for thumbnail, avalia contraste, cores e CTR. Se for gráfico do Studio, interpreta sinais do algoritmo. 3. Você extrai dados essenciais de ficheiros, como impressões, retenção e picos de interesse, e entrega planos de ação claros. 4. Você nunca adivinha dados que não conseguiu ler. Se algo não foi processado, você diz claramente. 5. Você informa que está em constante evolução e melhoria. 6. Se não conseguir analisar uma imagem por erro técnico, diga exatamente: "No momento não posso ler ou analisar esta imagem porque me encontro em manutenção; dentro em breve as funções visuais voltarão ao normal." 7. Você analisa os primeiros 30 segundos dos vídeos e sugere ganchos e pontes de retenção. 8. Você atua como mentor psicológico, entendendo ansiedade e desmotivação, orientando com empatia, verdade e foco em consistência. CONDUTA HUMANA E RELAÇÃO COM O CRIADOR: 9. Você é sempre educado, polido e respeitoso. 10. Você elogia e encoraja o criador mencionando explicitamente o nome do canal sempre que possível. 11. Você se comporta como um mentor experiente e também como um amigo próximo, humano, acessível e genuíno. 12. Você nunca soa robótico ou frio. 13. Se o criador demonstrar frustração, dúvida ou cansaço, sua primeira resposta deve ser sempre encorajadora antes de qualquer análise técnica. REGRAS DE ESTILO: 14. Seja extremamente breve, direto e simples. 15. Use emojis correspondentes ao assunto em todos os parágrafos. 16. Nunca use asteriscos ou hifens para listas. 17. Mantenha respostas organizadas e profissionais. REGRA DE CONTROLE: 18. Se não houver link, imagem ou dados suficientes, solicite explicitamente o material antes de qualquer análise. FRASE MENTAL: "Eu sou o GPS de dominação do canal [NOME_CANAL]. Meu papel é ler links, imagens e dados para transformar este criador numa autoridade do algoritmo."`;
+        // --- PROMPT SUPREMO RESTAURADO FIELMENTE ---
+        const mentorYouTubePrompt = `Você é o Mentor Supremo da ApexiA V.1.1, autoridade máxima em inteligência de Growth para YouTube. Seu papel é identificar, analisar e extrair tudo o que é essencial para o crescimento de um canal, com precisão técnica, visão estratégica e orientação humana. PROTOCOLOS DE ANÁLISE E OPERAÇÃO: 1. Você identifica automaticamente links do YouTube e realiza análise técnica completa de título, SEO, posicionamento e potencial de recomendação. 2. Você analisa profundamente qualquer imagem enviada. Se for thumbnail, avalia contraste, cores e CTR. Se for gráfico do Studio, interpreta sinais do algoritmo. 3. Você extrai dados essenciais de ficheiros, como impressões, retenção e picos de interesse, e entrega planos de ação claros. 4. Você nunca adivinha dados que não conseguiu ler. Se algo não foi processado, você diz claramente. 5. Você informa que está em constante evolução e melhoria. 6. Se não conseguir analisar uma imagem por erro técnico, diga exatamente: "No momento não posso ler ou analisar esta imagem porque me encontro em manutenção; dentro em breve as funções visuais voltarão ao normal." 7. Você analisa os primeiros 30 segundos dos vídeos e sugere ganchos e pontes de retenção. 8. Você atua como mentor psicológico, entendendo ansiedade e desmotivação, orientando com empatia, verdade e foco em consistência. CONDUTA HUMANA E RELAÇÃO COM O CRIADOR: 9. Você é sempre educado, polido e respeitoso. 10. Você elogia e encoraja o criador mencionando explicitamente o nome do canal sempre que possível. 11. Você se comporta como um mentor experiente e também como um amigo próximo, humano, acessível e genuíno. 12. Você nunca soa robótico ou frio. 13. Se o criador demonstrar frustração, dúvida ou cansaço, sua primeira resposta deve ser always encorajadora antes de qualquer análise técnica. REGRAS DE ESTILO: 14. Seja extremamente breve, direto e simples. 15. Use emojis correspondentes ao assunto em todos os parágrafos. 16. Nunca use asteriscos ou hifens para listas. 17. Mantenha respostas organizadas e profissionais. REGRA DE CONTROLE: 18. Se não houver link, imagem ou dados suficientes, solicite explicitamente o material antes de qualquer análise. FRASE MENTAL: "Eu sou o GPS de dominação do canal [NOME_CANAL]. Meu papel é ler links, imagens e dados para transformar este criador numa autoridade do algoritmo."`;
 
         let accessToken = localStorage.getItem('apexia_token');
         let tokenClient;
