@@ -37,7 +37,7 @@
         section { width: 100%; max-width: 1100px; padding: 100px 20px; text-align: center; }
 
         .hero { padding-top: 120px; }
-        .logo-main { width: 280px; height: 280px; border-radius: 50%; border: 4px solid var(--primary); box-shadow: 0 0 80px rgba(0, 255, 0, 0.4); margin-bottom: 30px; object-fit: cover; animation: float 6s ease-in-out infinite; }
+        .logo-main { width: 220px; height: 220px; border-radius: 50%; border: 4px solid var(--primary); box-shadow: 0 0 80px rgba(0, 255, 0, 0.4); margin-bottom: 30px; object-fit: cover; animation: float 6s ease-in-out infinite; }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
 
         h1 { font-size: clamp(2.5rem, 8vw, 5rem); font-weight: 900; line-height: 1; margin-bottom: 20px; }
@@ -47,19 +47,18 @@
         .btn-cta { background: var(--primary); color: #000; padding: 25px 60px; border-radius: 60px; border: none; font-weight: 900; font-size: 1.3rem; cursor: pointer; transition: 0.3s; box-shadow: 0 10px 40px rgba(0,255,0,0.3); }
         .btn-cta:hover { transform: scale(1.05); box-shadow: 0 0 60px var(--primary); }
 
-        /* Estilo dos Cards de Seção */
         .content-box { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 40px; padding: 50px; backdrop-filter: blur(20px); margin-bottom: 50px; text-align: left; }
         .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; align-items: center; }
         
         .section-tag { color: var(--primary); font-weight: 900; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 3px; display: block; margin-bottom: 20px; }
         h2 { font-size: 3rem; margin-bottom: 25px; font-weight: 900; line-height: 1.1; }
 
-        /* Slider de Thumbnails */
+        /* Slider de Thumbnails - FORMATO CORRIGIDO PARA DRIVE */
         .thumb-slider { display: flex; gap: 20px; overflow-x: auto; padding: 20px 0; scrollbar-width: none; }
         .thumb-slider::-webkit-scrollbar { display: none; }
         .thumb-card { min-width: 300px; height: 170px; background: #111; border-radius: 20px; border: 2px solid var(--border); overflow: hidden; position: relative; transition: 0.3s; }
         .thumb-card:hover { border-color: var(--primary); transform: scale(1.05); }
-        .thumb-card img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; }
+        .thumb-card img { width: 100%; height: 100%; object-fit: cover; }
         .thumb-badge { position: absolute; bottom: 10px; right: 10px; background: var(--primary); color: #000; font-weight: 900; font-size: 0.7rem; padding: 4px 10px; border-radius: 5px; }
 
         /* Vídeo Estilo Apple */
@@ -71,16 +70,11 @@
         }
         .apple-video-container iframe { width: 100%; aspect-ratio: 16/9; border-radius: 20px; border: none; display: block; }
 
-        /* Legal Section (Google Compliance) */
-        .legal-box { text-align: left; border-top: 1px solid var(--border); padding-top: 40px; }
-        .legal-box h3 { color: var(--primary); margin-bottom: 15px; font-size: 1.2rem; }
-        .legal-box p { font-size: 0.9rem; color: #888; line-height: 1.6; margin-bottom: 20px; }
-
         footer { width: 100%; padding: 80px 20px; border-top: 1px solid var(--border); background: rgba(0,0,0,0.9); text-align: center; }
         .footer-links { margin-bottom: 30px; display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; }
         .footer-links a { color: #fff; text-decoration: none; font-size: 1rem; font-weight: 600; }
 
-        /* APP CONTAINER (INTERFACE INTERNA - MANTIDA IGUAL) */
+        /* APP CONTAINER */
         #app-container { display: none; height: 100dvh; width: 100vw; flex-direction: row; background: #000; z-index: 9999; position: fixed; inset: 0; }
         #sidebar { width: 300px; background: var(--bg-sidebar); border-right: 1px solid var(--border); display: flex; flex-direction: column; }
         #main-chat { flex: 1; display: flex; flex-direction: column; background: var(--bg-chat); height: 100dvh; }
@@ -96,7 +90,7 @@
 
         @media (max-width: 768px) { 
             h2 { font-size: 2.2rem; }
-            .logo-main { width: 180px; height: 180px; }
+            .logo-main { width: 160px; height: 160px; }
             .content-box { padding: 30px; }
         }
     </style>
@@ -104,7 +98,7 @@
 <body>
     <div id="galaxy"></div>
 
-    <!-- TELA INICIAL (LANDING PAGE PARA APROVAÇÃO DO GOOGLE) -->
+    <!-- TELA INICIAL -->
     <div id="login-screen">
         <section class="hero">
             <img src="canalapexia.png" class="logo-main" alt="ApexiA Hub Logo">
@@ -113,64 +107,65 @@
             <button onclick="iniciarLogin()" class="btn-cta">CONECTAR AO SISTEMA</button>
         </section>
 
-        <!-- SEÇÃO: A DOR DO CRIADOR -->
+        <!-- SEÇÃO 1: A ARMADILHA DOS 90% (DOR REAL) -->
         <section>
             <div class="grid-2">
                 <div style="text-align: left;">
-                    <span class="section-tag">O Problema Real</span>
-                    <h2>Você não é um robô, mas o algoritmo é.</h2>
-                    <p style="color:#aaa; font-size: 1.1rem; line-height: 1.8;">Muitos criadores talentosos desistem porque se sentem perdidos em gráficos que não entendem. A sensação de "esforço vs resultado" gera frustração. A ApexiA nasceu para ser o seu sócio estratégico, filtrando apenas o que importa para o seu canal decolar.</p>
-                    <button onclick="iniciarLogin()" class="btn-cta" style="margin-top: 30px; padding: 15px 40px; font-size: 1rem;">COMEÇAR AGORA</button>
+                    <span class="section-tag">A Realidade Cruel</span>
+                    <h2>Por que 90% dos criadores desistem no primeiro ano?</h2>
+                    <p style="color:#aaa; font-size: 1.1rem; line-height: 1.8;">Não é por falta de talento. É por falta de <b>direcionamento</b>. Criadores iniciantes se perdem em métricas que não entendem, gastam fortunas em cursos de "gurus" que não funcionam e tentam adivinhar o que o algoritmo quer. A ApexiA foi criada para destruir essa barreira. Nós damos a mentoria que você não pode pagar em dinheiro, mas que o seu canal exige para sobreviver.</p>
+                    <button onclick="iniciarLogin()" class="btn-cta" style="margin-top: 30px; padding: 15px 40px; font-size: 1rem;">SAIR DA ESTATÍSTICA</button>
                 </div>
                 <div>
-                    <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?q=80&w=800&auto=format&fit=crop" class="thumb-card" style="width: 100%; height: 400px; filter: grayscale(1);" alt="Criador focado">
+                    <img src="https://images.unsplash.com/photo-1590086782792-42dd2350140d?q=80&w=800&auto=format&fit=crop" class="thumb-card" style="width: 100%; height: 400px; filter: grayscale(1);" alt="Criador frustrado">
                 </div>
             </div>
         </section>
 
-        <!-- SEÇÃO: ANÁLISE DE THUMBNAIL (COM SLIDER) -->
+        <!-- SEÇÃO 2: O FIM DOS CURSOS CAROS -->
+        <section>
+            <div class="content-box">
+                <span class="section-tag">Economia e Inteligência</span>
+                <h2>O Fim dos Cursos de Mil Reais</h2>
+                <p style="color:#aaa; margin-bottom: 25px;">Você não precisa de um curso de 12 parcelas para entender o YouTube. Você precisa de um <b>mentor</b> que olhe para os SEUS dados em tempo real. Enquanto outros cobram fortunas por teorias obsoletas, a ApexiA audita seu canal via API e diz exatamente onde você está errando hoje. É ciência, não palpite.</p>
+                <button onclick="iniciarLogin()" class="btn-cta">CONECTAR AGORA</button>
+            </div>
+        </section>
+
+        <!-- SEÇÃO: ANÁLISE DE THUMBNAIL -->
         <section>
             <span class="section-tag">Análise Visual Inteligente</span>
             <h2>Feedback de Capas em Tempo Real</h2>
             <p style="color:#888; margin-bottom: 40px;">Envie sua thumbnail e nossa IA analisará contraste, hierarquia visual e potencial de clique (CTR).</p>
             
             <div class="thumb-slider">
-                <div class="thumb-card"><img src="https://drive.google.com/uc?export=view&id=1SI5wU6ecuQx-5vxT2VxeGDl8As6nnlRg"><div class="thumb-badge">CTR 8.5%</div></div>
-                <div class="thumb-card"><img src="https://drive.google.com/uc?export=view&id=1glaMONwyHtM-aKtzkYzK5ul_EkxSTRP3"><div class="thumb-badge">CTR 12.1%</div></div>
-                <div class="thumb-card"><img src="https://drive.google.com/uc?export=view&id=1mwVOSivvQuSEHuopQFkC7POx9tO1RuWP"><div class="thumb-badge">CTR 5.9%</div></div>
-                <div class="thumb-card"><img src="https://drive.google.com/uc?export=view&id=1Uj87XBfIbQIfu9jNDJ3ONiHwf6xw1yym"><div class="thumb-badge">CTR 10.0%</div></div>
+                <!-- Links diretos corrigidos -->
+                <div class="thumb-card"><img src="https://lh3.googleusercontent.com/d/1SI5wU6ecuQx-5vxT2VxeGDl8As6nnlRg"><div class="thumb-badge">CTR 8.5%</div></div>
+                <div class="thumb-card"><img src="https://lh3.googleusercontent.com/d/1glaMONwyHtM-aKtzkYzK5ul_EkxSTRP3"><div class="thumb-badge">CTR 12.1%</div></div>
+                <div class="thumb-card"><img src="https://lh3.googleusercontent.com/d/1mwVOSivvQuSEHuopQFkC7POx9tO1RuWP"><div class="thumb-badge">CTR 5.9%</div></div>
+                <div class="thumb-card"><img src="https://lh3.googleusercontent.com/d/1Uj87XBfIbQIfu9jNDJ3ONiHwf6xw1yym"><div class="thumb-badge">CTR 10.0%</div></div>
             </div>
         </section>
 
-        <!-- SEÇÃO: AUDITORIA DE VÍDEO (ESTILO APPLE) -->
+        <!-- SEÇÃO: AUDITORIA DE VÍDEO -->
         <section>
             <span class="section-tag">Auditoria Técnica</span>
             <h2>Como o Sistema Escaneia seu Canal</h2>
             <p style="color:#888;">Conectamos via API Segura para auditar sua retenção e identificar onde o público está saindo dos seus vídeos.</p>
             
             <div class="apple-video-container">
-                <!-- VÍDEO DEMONSTRATIVO EM ESTILO APPLE/DESIGN -->
-                <iframe src="https://docs.google.com/videos/d/1RTBopftiKBB-me5P8nIlHDFv5qyUB8Dx5Yasw1O6N8g/edit?usp=sharing" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=0&mute=1" allowfullscreen></iframe>
             </div>
             
             <button onclick="iniciarLogin()" class="btn-cta" style="margin-top: 40px;">AUDITAR MEU CANAL</button>
         </section>
 
-        <!-- SEÇÃO: COMPLIANCE E TRANSPARÊNCIA (EXIGÊNCIA GOOGLE) -->
+        <!-- TRANSPARÊNCIA GOOGLE -->
         <section id="transparencia">
             <div class="content-box legal-box">
                 <span class="section-tag">Google OAuth Verification</span>
-                <h2>Uso de Dados e Finalidade do Aplicativo</h2>
-                
-                <h3>O que fazemos com seus dados?</h3>
-                <p>O <b>ApexiA Mentor Supremo</b> é uma ferramenta de análise de crescimento. Ao se conectar, nossa IA utiliza a <b>YouTube Analytics API</b> para ler métricas técnicas como Retenção, CTR e Impressões. Esses dados são enviados ao nosso motor de IA para gerar um diagnóstico personalizado para você.</p>
-                
-                <h3>Escopos de Acesso (Scopes)</h3>
-                <p><b>• youtube.readonly:</b> Usamos apenas para identificar o nome do seu canal e estatísticas públicas.<br>
-                   <b>• yt-analytics.readonly:</b> Usamos para analisar o desempenho interno dos seus vídeos e sugerir melhorias baseadas em dados reais.</p>
-                
-                <h3>Segurança e Privacidade</h3>
-                <p>Não armazenamos seus dados de vídeo de forma permanente. O processamento acontece durante a sua sessão de mentoria. Nunca vendemos ou compartilhamos seus dados com terceiros. Você pode revogar o acesso a qualquer momento através das configurações da sua conta Google.</p>
+                <h2>Uso de Dados e Finalidade</h2>
+                <p>O <b>ApexiA Mentor Supremo</b> utiliza a <b>YouTube Analytics API</b> para ler métricas como Retenção e CTR. Usamos o <b>YouTube Read-Only</b> para identificar o nome do canal e estatísticas públicas. Não armazenamos dados permanentemente nem compartilhamos com terceiros.</p>
             </div>
         </section>
 
@@ -180,29 +175,27 @@
                 <a href="privacidade.html" target="_blank">Política de Privacidade</a>
                 <a href="privacidade.html#termos" target="_blank">Termos de Serviço</a>
             </div>
-            <p style="color: #444; font-size: 0.9rem;">ApexiA Hub V.1.3 © 2026 - Desenvolvido para a elite do YouTube.</p>
+            <p style="color: #444; font-size: 0.9rem;">ApexiA Hub V.1.3 © 2026</p>
         </footer>
     </div>
 
-    <!-- HUB DE SELEÇÃO (INTERNO) -->
+    <!-- HUB INTERNO -->
     <div id="selection-menu" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.95); z-index:10000; flex-direction:column; align-items:center; justify-content:center;">
         <h2 style="font-weight: 900; font-size: 3rem; margin-bottom: 40px;">SISTEMA <span style="color:var(--primary)">ONLINE</span></h2>
         <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; width: 90%; max-width: 900px;">
             <div class="content-box" style="cursor:pointer; text-align:center; padding: 40px;" onclick="irParaMentoria()">
                 <div style="font-size: 4rem; margin-bottom: 20px;">🧠</div>
                 <h3>Mentor Supremo</h3>
-                <p style="font-size: 0.8rem; color: #888; margin-top: 10px;">IA de Growth e Psicologia.</p>
             </div>
             <div class="content-box" style="cursor:pointer; text-align:center; padding: 40px;" onclick="window.open('https://substack.com/@apexia', '_blank')">
                 <div style="font-size: 4rem; margin-bottom: 20px;">📖</div>
                 <h3>Manual Pro</h3>
-                <p style="font-size: 0.8rem; color: #888; margin-top: 10px;">Documentação e Dicas.</p>
             </div>
         </div>
-        <button onclick="logout()" style="margin-top:50px; color:#555; background:none; border:none; cursor:pointer; font-weight:800;">SAIR DO SISTEMA</button>
+        <button onclick="logout()" style="margin-top:50px; color:#555; background:none; border:none; cursor:pointer;">SAIR</button>
     </div>
 
-    <!-- APP CONTAINER (MANTIDO FIEL AO ORIGINAL) -->
+    <!-- CHAT APP -->
     <div id="app-container">
         <nav id="sidebar">
             <div style="padding:20px; border-bottom:1px solid var(--border);"><button style="width:100%; padding:12px; border-radius:10px; background:var(--primary); color:black; font-weight:800; cursor:pointer;" onclick="novoChat()">+ NOVO PROTOCOLO</button></div>
@@ -224,7 +217,6 @@
     </div>
 
     <script>
-        // --- GERADOR DE ESTRELAS ---
         function initGalaxy() {
             const container = document.getElementById('galaxy');
             for (let i = 0; i < 150; i++) {
@@ -243,8 +235,8 @@
         const CLIENT_ID = "145100322345-70nlh619s577puk5c75u19trip13nkme.apps.googleusercontent.com";
         const BACKEND_URL = "https://apexia-backend.vercel.app/api/mentor";
         
-        // PROMPT SUPREMO (RESTAURADO E FIEL)
-        const mentorYouTubePrompt = `Você é o Mentor Supremo da ApexiA V.1.1, autoridade máxima em inteligência de Growth para YouTube. Seu papel é identificar, analisar e extrair tudo o que é essencial para o crescimento de um canal, com precisão técnica, visão estratégica e orientação humana... (Você é o Mentor Supremo da ApexiA V.1.1, autoridade máxima em inteligência de Growth para YouTube. Seu papel é identificar, analisar e extrair tudo o que é essencial para o crescimento de um canal, com precisão técnica, visão estratégica e orientação humana. PROTOCOLOS DE ANÁLISE E OPERAÇÃO: 1. Você identifica automaticamente links do YouTube e realiza análise técnica completa de título, SEO, posicionamento e potencial de recomendação. 2. Você analisa profundamente qualquer imagem enviada. Se for thumbnail, avalia contraste, cores e CTR. Se for gráfico do Studio, interpreta sinais do algoritmo. 3. Você extrai dados essenciais de ficheiros, como impressões, retenção e picos de interesse, e entrega planos de ação claros. 4. Você nunca adivinha dados que não conseguiu ler. Se algo não foi processado, você diz claramente. 5. Você informa que está em constante evolução e melhoria. 6. Se não conseguir analisar uma imagem por erro técnico, diga exatamente: "No momento não posso ler ou analisar esta imagem porque me encontro em manutenção; dentro em breve as funções visuais voltarão ao normal." 7. Você analisa os primeiros 30 segundos dos vídeos e sugere ganchos e pontes de retenção. 8. Você atua como mentor psicológico, entendendo ansiedade e desmotivação, orientando com empatia, verdade e foco em consistência. CONDUTA HUMANA E RELAÇÃO COM O CRIADOR: 9. Você é sempre educado, polido e respeitoso. 10. Você elogia e encoraja o criador mencionando explicitamente o nome do canal sempre que possível. 11. Você se comporta como um mentor experiente e também como um amigo próximo, humano, acessível e genuíno. 12. Você nunca soa robótico ou frio. 13. Se o criador demonstrar frustração, dúvida ou cansaço, sua primeira resposta deve ser sempre encorajadora antes de qualquer análise técnica. REGRAS DE ESTILO: 14. Seja extremamente breve, direto e simples. 15. Use emojis correspondentes ao assunto em todos os parágrafos. 16. Nunca use asteriscos ou hifens para listas. 17. Mantenha respostas organizadas e profissionais. REGRA DE CONTROLE: 18. Se não houver link, imagem ou dados suficientes, solicite explicitamente o material antes de qualquer análise. FRASE MENTAL: "Eu sou o GPS de dominação do canal [NOME_CANAL]. Meu papel é ler links, imagens e dados para transformar este criador numa autoridade do algoritmo.)`;
+        // --- PROMPT SUPREMO FIEL AO ORIGINAL ---
+        const mentorYouTubePrompt = `Você é o Mentor Supremo da ApexiA V.1.1, autoridade máxima em inteligência de Growth para YouTube. Seu papel é identificar, analisar e extrair tudo o que é essencial para o crescimento de um canal, com precisão técnica, visão estratégica e orientação humana. PROTOCOLOS DE ANÁLISE E OPERAÇÃO: 1. Você identifica automaticamente links do YouTube e realiza análise técnica completa de título, SEO, posicionamento e potencial de recomendação. 2. Você analisa profundamente qualquer imagem enviada. Se for thumbnail, avalia contraste, cores e CTR. Se for gráfico do Studio, interpreta sinais do algoritmo. 3. Você extrai dados essenciais de ficheiros, como impressões, retenção e picos de interesse, e entrega planos de ação claros. 4. Você nunca adivinha dados que não conseguiu ler. Se algo não foi processado, você diz claramente. 5. Você informa que está em constante evolução e melhoria. 6. Se não conseguir analisar uma imagem por erro técnico, diga exatamente: "No momento não posso ler ou analisar esta imagem porque me encontro em manutenção; dentro em breve as funções visuais voltarão ao normal." 7. Você analisa os primeiros 30 segundos dos vídeos e sugere ganchos e pontes de retenção. 8. Você atua como mentor psicológico, entendendo ansiedade e desmotivação, orientando com empatia, verdade e foco em consistência. CONDUTA HUMANA E RELAÇÃO COM O CRIADOR: 9. Você é sempre educado, polido e respeitoso. 10. Você elogia e encoraja o criador mencionando explicitamente o nome do canal sempre que possível. 11. Você se comporta como um mentor experiente e também como um amigo próximo, humano, acessível e genuíno. 12. Você nunca soa robótico ou frio. 13. Se o criador demonstrar frustração, dúvida ou cansaço, sua primeira resposta deve ser sempre encorajadora antes de qualquer análise técnica. REGRAS DE ESTILO: 14. Seja extremamente breve, direto e simples. 15. Use emojis correspondentes ao assunto em todos os parágrafos. 16. Nunca use asteriscos ou hifens para listas. 17. Mantenha respostas organizadas e profissionais. REGRA DE CONTROLE: 18. Se não houver link, imagem ou dados suficientes, solicite explicitamente o material antes de qualquer análise. FRASE MENTAL: "Eu sou o GPS de dominação do canal [NOME_CANAL]. Meu papel é ler links, imagens e dados para transformar este criador numa autoridade do algoritmo."`;
 
         let accessToken = localStorage.getItem('apexia_token');
         let tokenClient;
@@ -277,6 +269,16 @@
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('selection-menu').style.display = 'flex';
             if(!auto) confetti({ particleCount: 150, colors: ['#00FF00', '#FFFFFF'] });
+            carregarCanal();
+        }
+
+        async function carregarCanal() {
+            try {
+                const res = await fetch('https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&mine=true', { headers: { 'Authorization': `Bearer ${accessToken}` } });
+                const data = await res.json();
+                const c = data.items[0];
+                canalDataGlobal = `CANAL: ${c.snippet.title}, SUBS: ${c.statistics.subscriberCount}`;
+            } catch (e) { console.error("Erro API"); }
         }
 
         async function enviar() {
@@ -285,19 +287,18 @@
             if(!text) return;
             addMsgToDOM('user', text);
             input.value = '';
-            
             try {
                 const response = await fetch(BACKEND_URL, {
                     method: 'POST', headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ prompt: `${mentorYouTubePrompt}\n\nPERGUNTA: ${text}`, accessToken: accessToken })
+                    body: JSON.stringify({ prompt: `${mentorYouTubePrompt.replace('[NOME_CANAL]', canalDataGlobal)}\n\nPERGUNTA: ${text}`, accessToken: accessToken })
                 });
                 const data = await response.json();
                 if (data.reply) addMsgToDOM('ai', data.reply);
             } catch (e) { console.error(e); }
         }
 
-        function novoChat() { currentChatId = 'chat_' + Date.now(); chats[currentChatId] = { title: "Novo Comando", messages: [] }; renderChat(); }
-        function renderHistory() { /* Lógica de histórico */ }
+        function novoChat() { currentChatId = 'chat_' + Date.now(); chats[currentChatId] = { title: "Novo Protocolo", messages: [] }; renderChat(); }
+        function renderHistory() { /* Histórico básico */ }
         function renderChat() { document.getElementById('chat-window').innerHTML = ''; }
         function addMsgToDOM(role, text) { const win = document.getElementById('chat-window'); const div = document.createElement('div'); div.className = `msg ${role}`; div.innerText = text; win.appendChild(div); win.scrollTop = win.scrollHeight; }
     </script>
