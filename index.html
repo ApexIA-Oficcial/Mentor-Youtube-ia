@@ -31,38 +31,47 @@
         .star { position: absolute; background: white; border-radius: 50%; opacity: 0.5; animation: moveStar linear infinite; }
         @keyframes moveStar { from { transform: translateY(0); } to { transform: translateY(-1000px); } }
 
-        /* --- LANDING PAGE RESPONSIVA (MANTIDA MILIMETRICAMENTE) --- */
+        /* --- LANDING PAGE RESPONSIVA --- */
         #login-screen { width: 100%; display: flex; flex-direction: column; align-items: center; }
         section { width: 100%; max-width: 1100px; padding: clamp(40px, 10vw, 80px) 20px; text-align: center; }
+
         .hero { padding-top: clamp(60px, 15vw, 100px); }
         .logo-main { width: clamp(140px, 30vw, 220px); height: auto; border-radius: 50%; border: 4px solid var(--primary); box-shadow: 0 0 80px rgba(0, 255, 0, 0.4); margin-bottom: 30px; object-fit: cover; animation: float 6s ease-in-out infinite; }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+
         h1 { font-size: clamp(2.2rem, 8vw, 5rem); font-weight: 900; line-height: 1.1; margin-bottom: 20px; }
         h1 span { color: var(--primary); text-shadow: 0 0 30px rgba(0, 255, 0, 0.5); }
         .hero p { font-size: clamp(1rem, 4vw, 1.4rem); color: #ccc; max-width: 800px; margin: 0 auto 40px; }
+
         .btn-cta { background: var(--primary); color: #000; padding: clamp(15px, 2vw, 25px) clamp(30px, 5vw, 60px); border-radius: 60px; border: none; font-weight: 900; font-size: clamp(0.9rem, 3vw, 1.3rem); cursor: pointer; transition: 0.3s; box-shadow: 0 10px 40px rgba(0,255,0,0.3); }
         .btn-cta:hover { transform: scale(1.05); box-shadow: 0 0 60px var(--primary); }
+
         .content-box { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 30px; padding: clamp(25px, 5vw, 50px); backdrop-filter: blur(20px); margin-bottom: 40px; text-align: left; width: 100%; }
         .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; align-items: center; }
+        
         .section-tag { color: var(--primary); font-weight: 900; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 3px; display: block; margin-bottom: 20px; }
         h2 { font-size: clamp(1.8rem, 5vw, 3rem); margin-bottom: 25px; font-weight: 900; line-height: 1.1; }
+
         .thumb-slider { display: flex; gap: 20px; overflow-x: auto; padding: 20px 0; scrollbar-width: none; -ms-overflow-style: none; }
         .thumb-slider::-webkit-scrollbar { display: none; }
         .thumb-card { min-width: clamp(250px, 70vw, 300px); height: 170px; background: #111; border-radius: 20px; border: 2px solid var(--border); overflow: hidden; position: relative; }
         .thumb-card img { width: 100%; height: 100%; object-fit: cover; }
         .thumb-badge { position: absolute; bottom: 10px; right: 10px; background: var(--primary); color: #000; font-weight: 900; font-size: 0.7rem; padding: 4px 10px; border-radius: 5px; }
+
         .apple-video-container { width: 100%; max-width: 950px; margin: 0 auto; background: #000; border-radius: 30px; padding: clamp(5px, 2vw, 10px); border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 30px 100px rgba(0,0,0,0.8); position: relative; overflow: hidden; }
         .apple-video-container iframe { width: 100%; aspect-ratio: 16/9; border-radius: 20px; border: none; display: block; }
+
         .faq-grid { display: grid; gap: 20px; text-align: left; }
         .faq-item { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 20px; padding: 30px; }
         .faq-item h3 { color: var(--primary); font-size: 1.2rem; margin-bottom: 15px; font-weight: 900; }
         .faq-item p { font-size: 1rem; color: #aaa; line-height: 1.6; }
+
         footer { width: 100%; padding: 60px 20px; border-top: 1px solid var(--border); background: rgba(0,0,0,0.9); text-align: center; }
         .footer-links { margin-bottom: 30px; display: flex; justify-content: center; gap: clamp(15px, 5vw, 40px); flex-wrap: wrap; }
         .footer-links a { color: #fff; text-decoration: none; font-size: 0.95rem; font-weight: 600; }
 
         /* --- HUB SELECTION --- */
-        #selection-menu { display: none; flex-direction: column; align-items: center; justify-content: center; height: 100dvh; width: 100vw; text-align: center; background: rgba(0,0,0,0.95); z-index: 8888; position: fixed; inset: 0; overflow-y: auto; padding: 40px 0; }
+        #selection-menu { display: none; flex-direction: column; align-items: center; justify-content: center; height: 100dvh; width: 100vw; text-align: center; background: rgba(0,0,0,0.95); z-index: 8888; position: fixed; overflow-y: auto; padding: 20px 0; }
         .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; width: 90%; max-width: 1100px; padding: 20px; }
         .menu-card { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 40px 20px; border-radius: 24px; cursor: pointer; transition: 0.3s; backdrop-filter: blur(10px); }
         .menu-card:hover { border-color: var(--primary); transform: translateY(-10px); background: rgba(0,255,0,0.05); }
@@ -111,16 +120,15 @@
 
         #online-counter { background: rgba(0, 255, 0, 0.1); border: 1px solid var(--border); padding: 5px 10px; border-radius: 50px; font-size: 0.65rem; color: var(--primary); font-weight: 800; display: inline-flex; align-items: center; gap: 6px; }
         .online-dot { width: 6px; height: 6px; background: var(--primary); border-radius: 50%; animation: dotPulse 1.5s infinite; }
-        
-        #report-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 10000; align-items: center; justify-content: center; padding: 20px; }
-        .modal-content { background: #111; border: 1px solid var(--primary); padding: 30px; border-radius: 24px; width: 100%; max-width: 500px; text-align: center; }
-        textarea { width: 100%; height: 120px; background: #000; border: 1px solid var(--border); border-radius: 15px; color: #fff; padding: 15px; margin: 20px 0; outline: none; font-family: inherit; }
+        @keyframes dotPulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
         @media (max-width: 768px) { 
             #sidebar { position: fixed; transform: translateX(-100%); z-index: 10001; top: 0; bottom: 0; left: 0; }
             #sidebar.open { transform: translateX(0); }
             #dashboard { grid-template-columns: repeat(2, 1fr); }
+            .msg { max-width: 95%; }
             section { padding: 40px 15px; }
+            .hero { padding-top: 60px; }
         }
         #hamburger-btn { background: none; border: none; color: var(--primary); font-size: 1.5rem; cursor: pointer; display: none; }
         @media (max-width: 768px) { #hamburger-btn { display: block; } }
@@ -148,7 +156,7 @@
                     <button onclick="iniciarLogin()" class="btn-cta" style="margin-top: 30px; padding: 15px 40px; font-size: 1rem;">DESTAQUE-SE DA MAIORIA</button>
                 </div>
                 <div>
-                    <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?q=80&w=800&auto=format&fit=crop" class="thumb-card" style="width: 100%; height: auto; border-radius: 20px; filter: grayscale(1); border: 1px solid var(--border);" alt="Jovem exausto">
+                    <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?q=80&w=800&auto=format&fit=crop" class="thumb-card" style="width: 100%; height: 400px; filter: grayscale(1); object-fit: cover;" alt="Jovem exausto">
                 </div>
             </div>
         </section>
@@ -193,22 +201,24 @@
             <div class="content-box">
                 <h2 style="color: var(--primary); font-size: clamp(1.5rem, 5vw, 2rem);">Sobre a Plataforma / Application Purpose</h2>
                 <p style="color:#ccc; line-height: 1.8; margin-bottom: 25px;">
-                    O <b>ApexiA Hub</b> é uma plataforma de análise estratégica e mentoria técnica para criadores do YouTube. O propósito central é fornecer diagnósticos baseados em dados reais para otimizar o desempenho orgânico.
+                    O <b>ApexiA Hub</b> é uma plataforma de análise estratégica e mentoria técnica para criadores do YouTube. O propósito central é fornecer diagnósticos baseados em dados reais para otimizar o desempenho orgânico. 
+                    Diferente de ferramentas de automação, nossa solução foca na **interpretação de métricas técnicas** via APIs oficiais.
                 </p>
-                <div class="grid-2">
+                <div class="grid-2" style="align-items: start;">
                     <div style="background: rgba(0,255,0,0.05); padding: 25px; border-radius: 20px; border-left: 4px solid var(--primary);">
-                        <b style="color:var(--primary)">YouTube Analytics API</b>
-                        <p style="font-size: 0.9rem; color:#888;">Utilizada exclusivamente para ler métricas de Retenção, CTR e Impressões para gerar planos estratégicos.</p>
+                        <b style="color:var(--primary); font-size: 1.1rem; display: block; margin-bottom: 10px;">YouTube Analytics API</b>
+                        <p style="font-size: 0.9rem; color:#888;">Utilizada exclusivamente para ler métricas de Retenção (Retention Curves), Taxa de Clique (CTR) e Impressões. Estes dados são enviados para nossa IA gerar relatórios de melhoria.</p>
                     </div>
                     <div style="background: rgba(0,255,0,0.05); padding: 25px; border-radius: 20px; border-left: 4px solid var(--primary);">
-                        <b style="color:var(--primary)">YouTube Data API (ReadOnly)</b>
-                        <p style="font-size: 0.9rem; color:#888;">Acessamos informações básicas como o nome do canal e contagem de inscritos para personalizar a interface.</p>
+                        <b style="color:var(--primary); font-size: 1.1rem; display: block; margin-bottom: 10px;">YouTube Data API (ReadOnly)</b>
+                        <p style="font-size: 0.9rem; color:#888;">Acessamos informações básicas como o nome do canal e contagem de inscritos para personalizar a interface da mentoria e validar a identidade do criador.</p>
                     </div>
                 </div>
+                <p style="font-size: 0.85rem; margin-top: 25px; color: #666;">Seus dados são processados de forma volátil durante a sessão e **não são armazenados em banco de dados permanente**. O ApexiA Mentor Supremo atua como um intermediário de inteligência seguro.</p>
             </div>
         </section>
 
-        <!-- FAQ -->
+        <!-- FAQ (EXPANDIDA E CLARA) -->
         <section id="faq">
             <span class="section-tag">Dúvidas Frequentes</span>
             <h2>Perguntas Frequentes</h2>
@@ -219,20 +229,25 @@
                 </div>
                 <div class="faq-item">
                     <h3>O sistema armazena meus vídeos ou dados?</h3>
-                    <p>Não. Não mantemos cópias dos seus vídeos ou dados analíticos. Nossa IA processa a informação em tempo real para te dar o conselho estratégico e descarta os dados brutos em seguida.</p>
+                    <p>Não. Não mantemos cópias dos seus vídeos ou dados analíticos. Assim que você encerra a sessão ou desconecta o sistema, o acesso é interrompido. Nossa IA processa a informação em tempo real para te dar o conselho estratégico e descarta os dados brutos em seguida. Você tem controle total sobre o acesso.</p>
                 </div>
                 <div class="faq-item">
-                    <h3>Como posso revogar o acesso?</h3>
-                    <p>Você tem controle total. Pode revogar as permissões do ApexiA Hub a qualquer momento diretamente na sua conta Google, em "Segurança" > "Acessos de terceiros".</p>
+                    <h3>Como a mentoria funciona na prática?</h3>
+                    <p>Ao conectar seu canal, nossa IA "lê" o desempenho dos seus últimos vídeos. Ela identifica padrões de queda de retenção e sugere ganchos psicológicos, melhoriorias no roteiro ou ajustes na thumbnail para aumentar o CTR.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Como posso revogar o acesso do aplicativo?</h3>
+                    <p>Você é dono dos seus dados. Pode revogar as permissões do ApexiA Hub a qualquer momento diretamente na sua conta Google, em "Segurança" > "Acessos de terceiros".</p>
                 </div>
             </div>
+            <button onclick="iniciarLogin()" class="btn-cta" style="margin-top: 40px;">ACESSAR AGORA</button>
         </section>
 
         <footer>
             <div class="footer-links">
                 <a href="#login-screen">Início</a>
-                <a href="privacidade.html" target="_blank">Privacidade</a>
-                <a href="privacidade.html#termos" target="_blank">Termos</a>
+                <a href="privacidade.html" target="_blank">Política de Privacidade</a>
+                <a href="privacidade.html#termos" target="_blank">Termos de Serviço</a>
             </div>
             <p style="color: #444; font-size: 0.9rem;">ApexiA Hub V.1.3 © 2026</p>
         </footer>
@@ -241,51 +256,38 @@
     <!-- HUB DE SELEÇÃO -->
     <div id="selection-menu">
         <h2 style="font-weight: 900; font-size: 2.5rem; margin-bottom: 40px;">HUB <span style="color:var(--primary)">APEXIA</span></h2>
-       <div class="menu-grid">
-            <!-- Card 1: Mentor -->
+        <div class="menu-grid">
             <div class="menu-card" onclick="irParaMentoria()">
                 <span class="menu-icon">🧠</span>
                 <h3>Mentor Supremo</h3>
                 <p style="color:#888; font-size:0.85rem;">IA de Growth e Psicologia.</p>
             </div>
-
-            <!-- Card 2: Arsenal -->
             <div class="menu-card" onclick="window.open('https://apexia-oficcial.github.io/ApexIA/', '_blank')">
                 <span class="menu-icon">⚡</span>
                 <h3>Arsenal de Prompts</h3>
-                <p style="color:#888; font-size:0.85rem;">Comandos mestres secretos.</p>
+                <p style="color:#888; font-size:0.85rem;">Biblioteca master de comandos.</p>
             </div>
-
-            <!-- Card 3: Manual -->
             <div class="menu-card" onclick="window.open('https://substack.com/@apexia', '_blank')">
                 <span class="menu-icon">📖</span>
                 <h3>Manual Pro</h3>
                 <p style="color:#888; font-size:0.85rem;">Artigos e tutoriais avançados.</p>
             </div>
-
-            <!-- CARD NOVO: COMUNIDADE APEXIA -->
-            <div class="menu-card" onclick="window.open('https://apexia-oficcial.github.io/comunidade-apexia/', '_blank')" style="border-color: var(--primary);">
-                <span class="menu-icon">💬</span>
-                <h3>Comunidade APX</h3>
-                <p style="color:#888; font-size:0.85rem;">Converse em tempo real com o grupo.</p>
-            </div>
-        </div>
         </div>
         <button onclick="logout()" style="margin-top:40px; color:#555; background:none; border:none; cursor:pointer; font-weight:800;">DESCONECTAR SISTEMA</button>
     </div>
 
-    <!-- APP CONTAINER -->
+    <!-- APP CONTAINER (CHATS COM HISTÓRICO E ANEXO) -->
     <div id="app-container">
         <nav id="sidebar">
             <div style="padding:20px; border-bottom:1px solid var(--border);">
                 <button style="width:100%; padding:12px; border-radius:10px; background:var(--primary); color:black; font-weight:800; cursor:pointer;" onclick="novoChat()">+ NOVO PROTOCOLO</button>
             </div>
-            <div id="history-list" style="flex:1; overflow-y:auto; padding-top:10px;"></div>
+            <div id="history-list" style="flex:1; overflow-y:auto; padding:10px;"></div>
             <div style="padding:15px; border-top:1px solid var(--border);">
                 <button onclick="listarMeusVideos()" style="color:var(--primary); background:none; border:1px solid var(--primary); padding:10px; width:100%; border-radius:10px; font-size:0.7rem; font-weight:800; cursor:pointer; margin-bottom:15px;">🎬 AUDITAR UM VÍDEO</button>
-                <!-- BOTÃO FEEDBACK RESTAURADO -->
                 <button onclick="abrirModalErro()" style="color:#ffaa00; background:none; border:none; font-size:0.7rem; font-weight:800; cursor:pointer; margin-bottom:15px; display:block;">⚠️ REPORTAR FEEDBACK</button>
                 <button onclick="voltarAoHub()" style="color:#888; background:none; border:none; font-size:0.75rem; cursor:pointer; width: 100%;">← VOLTAR AO HUB</button>
+                <button onclick="logout()" style="color:#555; background:none; border:none; font-size:0.75rem; font-weight:800; cursor:pointer; width: 100%; text-align: left;">SAIR DO SISTEMA</button>
             </div>
         </nav>
         <main id="main-chat">
@@ -303,8 +305,10 @@
             <div id="chat-window"></div>
             <div class="input-area">
                 <div class="input-wrapper">
+                    <!-- BOTÃO DE ANEXAR ARQUIVO -->
                     <button style="background:none; border:none; color:var(--primary); font-size:1.3rem; cursor:pointer;" onclick="document.getElementById('file-input').click()">📎</button>
                     <input type="file" id="file-input" style="display:none" accept="image/*" onchange="handleImage(this)">
+                    
                     <input type="text" id="user-input" placeholder="Comando de Growth ou Link...">
                     <button class="send-btn" onclick="enviar()">→</button>
                 </div>
@@ -334,6 +338,7 @@
         const CLIENT_ID = "145100322345-70nlh619s577puk5c75u19trip13nkme.apps.googleusercontent.com";
         const BACKEND_URL = "https://apexia-backend.vercel.app/api/mentor";
         
+        // PROMPT SUPREMO (RESTAURADO E FIEL)
         const mentorYouTubePrompt = `Você é o Mentor Supremo da ApexiA V.1.1, autoridade máxima em inteligência de Growth para YouTube. Seu papel é identificar, analisar e extrair tudo o que é essencial para o crescimento de um canal, com precisão técnica, visão estratégica e orientação humana. PROTOCOLOS DE ANÁLISE E OPERAÇÃO: 1. Você identifica automaticamente links do YouTube e realiza análise técnica completa de título, SEO, posicionamento e potencial de recomendação. 2. Você analisa profundamente qualquer imagem enviada. Se for thumbnail, avalia contraste, cores e CTR. Se for gráfico do Studio, interpreta sinais do algoritmo. 3. Você extrai dados essenciais de ficheiros, como impressões, retenção e picos de interesse, e entrega planos de ação claros. 4. Você nunca adivinha dados que não conseguiu ler. Se algo não foi processado, você diz claramente. 5. Você informa que está em constante evolução e melhoria. 6. Se não conseguir analisar uma imagem por erro técnico, diga exatamente: "No momento não posso ler ou analisar esta imagem porque me encontro em manutenção; dentro em breve as funções visuais voltarão ao normal." 7. Você analisa os primeiros 30 segundos dos vídeos e sugere ganchos e pontes de retenção. 8. Você atua como mentor psicológico, entendendo ansiedade e desmotivação, orientando com empatia, verdade e foco em consistência. CONDUTA HUMANA E RELAÇÃO COM O CRIADOR: 9. Você é sempre educado, polido e respeitoso. 10. Você elogia e encoraja o criador mencionando explicitamente o nome do canal sempre que possível. 11. Você se comporta como um mentor experiente e também como um amigo próximo, humano, accessible e genuíno. 12. Você nunca soa robótico ou frio. 13. Se o criador demonstrar frustração, dúvida ou cansaço, sua primeira resposta deve ser sempre encorajadora antes de qualquer análise técnica. REGRAS DE ESTILO: 14. Seja extremamente breve, direto e simples. 15. Use emojis correspondentes ao assunto em todos os parágrafos. 16. Nunca use asteriscos ou hifens para listas. 17. Mantenha respostas organizadas e profissionais. REGRA DE CONTROLE: 18. Se não houver link, imagem ou dados suficientes, solicite explicitamente o material antes de qualquer análise. FRASE MENTAL: "Eu sou o GPS de dominação do canal [NOME_CANAL]. Meu papel é ler links, imagens e dados para transformar este criador numa autoridade do algoritmo."`;
 
         let accessToken = localStorage.getItem('apexia_token');
@@ -371,7 +376,7 @@
             accessToken = token; localStorage.setItem('apexia_token', token);
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('selection-menu').style.display = 'flex';
-            if(!auto) confetti({ particleCount: 150 }); // --- FESTINS ADICIONADOS ---
+            if(!auto) confetti({ particleCount: 150 });
             carregarCanal();
         }
 
@@ -393,7 +398,6 @@
             const text = input.value.trim();
             if(!text && !pendingImage) return;
             
-            // --- PROJEÇÃO IMEDIATA DO USER NO CHAT ---
             addMsgToDOM('user', text, pendingImage);
             input.value = '';
             const imgToSend = pendingImage;
